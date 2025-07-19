@@ -1,5 +1,5 @@
 """
-AirScout-Analytics  watchkido
+006_Umweltkontrollsystem  watchkido
 preprocessing.py
 Funktionen zur Datenbereinigung und Vorverarbeitung.
 Hier werden Funktionen zur Bereinigung, Transformation und Vorbereitung der Daten definiert.

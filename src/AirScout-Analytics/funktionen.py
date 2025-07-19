@@ -15,7 +15,7 @@ def projekt_anlegen(projekt: str, nutzer: str, privat: bool, basis_pfad: str) ->
         return "Ordner existiert bereits."
     erstelle_struktur(projekt, nutzer, privat, basis_pfad)
     initialisiere_git_und_push(projekt, nutzer, privat, basis_pfad)
-    return f"Projekt 'AirScout-Analytics' wurde erfolgreich erstellt!"
+    return f"Projekt '006_Umweltkontrollsystem' wurde erfolgreich erstellt!"
 
 def skript_ausführen(skript_pfad: str):
     """

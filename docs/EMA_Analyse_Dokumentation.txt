@@ -1,0 +1,92 @@
+======================================================================
+ERWEITERTE SENSORWERTE-ANALYSE - DOKUMENTATION
+======================================================================
+Script: glaetten_der_sensorwerte.py
+Output-Suffix: "_ema.csv"
+
+IMPLEMENTIERTE FEATURES:
+========================
+
+1. EXPONENTIAL MOVING AVERAGE (EMA):
+   - Span: 5 (konfigurierbar)
+   - Glättet alle MQ-Sensoren und Umweltsensoren
+   - Ersetzt ursprüngliche Werte mit geglätteten Werten
+   - Reduziert Rauschen bei Erhaltung von Trends
+
+2. Z-SCORE-ANALYSE:
+   - Schwellenwert: 2.5 (konfigurierbar)
+   - Neue Spalten: {Sensor}_zscore, {Sensor}_outlier
+   - Identifiziert statistische Ausreißer
+   - Beispiel: MQ2_zscore, MQ2_outlier
+
+3. GAS-EREIGNIS-ERKENNUNG:
+   - Moving Average + Thresholding
+   - Schwellenwert: 1.5x Baseline (konfigurierbar)
+   - Neue Spalten: {Sensor}_event, {Sensor}_intensity
+   - Erkennt signifikante Gas-Emissionen
+   - Beispiel: MQ2_event (0/1), MQ2_intensity (0.0-X.X)
+
+4. ML-ANOMALIEERKENNUNG:
+   - Algorithmus: Isolation Forest
+   - Contamination: 10% (konfigurierbar)
+   - Neue Spalten: ml_anomaly, ml_anomaly_score
+   - Erkennt multivariate Anomalien über alle Sensoren
+
+NEUE SPALTEN PRO DATEI:
+=======================
+Original Sensoren: 13 (9 MQ + 4 Umwelt)
+Neue Spalten: 58
+Gesamtspalten: ~71
+
+Aufschlüsselung:
+- Z-Score: 26 Spalten (13 _zscore + 13 _outlier)
+- Gas-Events: 18 Spalten (9 _event + 9 _intensity)
+- ML-Anomalien: 2 Spalten (ml_anomaly + ml_anomaly_score)
+- EMA: In ursprünglichen Spalten ersetzt
+
+ANALYSIERTE DATEN:
+==================
+Beispiel: Home-LOG2025-07-12-2258_ema.csv
+- Datensätze: 4,496
+- Z-Score-Ausreißer: 705 (15.7%)
+- Gas-Ereignisse: 0 (ruhige Umgebung)
+- ML-Anomalien: 450 (10.0%)
+
+INTERPRETATIONS-HILFE:
+======================
+
+Z-Score-Ausreißer (_outlier = 1):
+→ Statistisch ungewöhnliche Werte (>2.5 Standardabweichungen)
+
+Gas-Ereignisse (_event = 1):
+→ Signifikante Erhöhung über Baseline-Niveau
+→ Intensität zeigt, wie stark die Erhöhung ist
+
+ML-Anomalien (ml_anomaly = 1):
+→ Multivariate Anomalien über alle Sensoren
+→ Score zeigt Anomalie-Stärke (negativer = anomaler)
+
+ANWENDUNGSFÄLLE:
+================
+✓ Qualitätskontrolle der Sensordaten
+✓ Erkennung von Mess-Artefakten
+✓ Identifikation von echten Gas-Emissionen
+✓ Vorbereitung für weitere Analysen
+✓ Datenbereinigung und Validierung
+
+KONFIGURATION:
+==============
+EMA_SPAN = 5                    # EMA-Glättungsparameter
+ZSCORE_THRESHOLD = 2.5          # Z-Score-Schwellenwert
+GAS_THRESHOLD_MULTIPLIER = 1.5  # Gas-Ereignis-Multiplikator
+ANOMALY_CONTAMINATION = 0.1     # ML-Anomalie-Anteil
+
+NÄCHSTE SCHRITTE:
+=================
+1. Analysieren Sie die _outlier Spalten für Datenqualität
+2. Untersuchen Sie _event Spalten für Gas-Emissionen
+3. Korrelieren Sie ml_anomaly mit realen Ereignissen
+4. Nutzen Sie EMA-geglättete Daten für weitere Analysen
+5. Adjustieren Sie Schwellenwerte basierend auf Eichfahrt
+
+======================================================================

@@ -23,7 +23,7 @@ def erstelle_projekt():
         return
     erstelle_struktur(projekt, nutzer, privat, basis_pfad)  # basis_pfad ggf. anpassen, siehe Hinweis unten
     initialisiere_git_und_push(projekt, nutzer, privat, basis_pfad)  # basis_pfad ggf. anpassen
-    messagebox.showinfo("Fertig", f"Projekt 'AirScout-Analytics' wurde erfolgreich erstellt!")
+    messagebox.showinfo("Fertig", f"Projekt '006_Umweltkontrollsystem' wurde erfolgreich erstellt!")
 
 def on_run_script():
     global listbox, available_scripts, output

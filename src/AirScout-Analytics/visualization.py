@@ -1,5 +1,5 @@
 """
-AirScout-Analytics  watchkido
+006_Umweltkontrollsystem  watchkido
 visualization.py
 Funktionen zur Visualisierung von Daten.
 Hier werden Plots und Diagramme erstellt.

@@ -1,19 +1,59 @@
-# Python Projekt Generator
+# 🌍 AirScout-Analytics
 
-Dieses Projekt ist ein flexibler Generator für Python-Projektstrukturen mit integriertem GitHub-Setup und nützlichen Automatisierungen. Es richtet sich an Entwickler, die schnell und standardisiert neue Python-Projekte anlegen möchten – inklusive Best-Practices, Vorlagen und Werkzeugen für einen reibungslosen Start.
+## Umweltkontrollsystem – Sensordatenanalyse & Dashboard
 
-## Features
+Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kaggle.com/datasets/avitarus/hyperlocal-urban-environmental-monitoring-dataset) aus Neustadt an der Weinstrasse (Juli 2025), die von einem [Arduino Mega 2560](https://github.com/Watchkido/AirScout-Firmware) über eine Vielzahl von Sensoren gesammelt werden. Ziel ist ein interaktives Dashboard mit Zeitreihen-, Filter- und Kartendarstellungen zur Visualisierung und Analyse der Messdaten.
 
-- **Automatische Erstellung einer vollständigen Projektstruktur** (src, tests, notebooks, scripts, data, prompts usw.)
-- **Vorlagen für wichtige Dateien** wie `README.md`, `.gitignore`, `requirements.txt`, Lizenz, Beispielmodule und Tests
-- **Git-Initialisierung und optionaler GitHub-Repository-Upload**
-- **GUI zur einfachen Bedienung**
-- **Skriptstarter für vorhandene Python-Skripte**
-- **Projektanalyse-Tools** (z. B. Import-Check, Flake8-Prüfung)
-- **Konfigurierbar über zentrale `config.py`**
+![AirScout-One](img/airscoutone.jpg)
+
+## 📊 Projektziele
+
+- **Erfassung** von Umweltparametern mit bis zu 100 kHz Abtastrate
+- **Zeitreihenanalyse** für Temperatur, Gase, Licht, Geräusche, Strahlung usw.
+- **GPS-gestützte Kartendarstellung** der Sensorwerte
+- **Filtern & Segmentieren** der Daten nach Ort, Zeit, Messwerten
+- **Visualisierung** mit interaktiven Diagrammen (Heatmaps, Scatterplots, Verlaufslinien)
+- **Erweiterbares Dashboard** zur Echtzeit- oder nachträglichen Analyse
+
+---
+
+## ⚙️ Tech Stack
+
+- **Python 3.x**
+- **Pandas & Numpy** – Datenverarbeitung
+- **Matplotlib & Seaborn** – Standardplots
+- **Plotly & Dash** oder **Streamlit** – Interaktive Dashboards
+- **Geopandas & Folium** – Kartendarstellungen
+- **Jupyter Notebooks** – Prototyping & Analyse
+- **Git & GitHub** – Versionskontrolle
+- **Arduino** – Datenlogger-Hardware
+
+---
 
 ## Schnellstart
 
 1. Repository klonen:
 
-   git clone https://github.com/Watchkido/python_projekt_generator.git
+   git clone https://github.com/Watchkido/AirScout-Analytics.git
+
+2. Daten selber erstellen:
+
+   https://github.com/Watchkido/AirScout-Firmware
+
+## 🗃 Projektstruktur
+
+```plaintext
+Umweltkontrollsystem/
+│
+├── data/                # CSV-Dateien mit Messdaten
+├── notebooks/           # Jupyter-Analysen zur Datenexploration
+├── dashboard/           # Streamlit- oder Dash-App zur Visualisierung
+├── scripts/             # Hilfsskripte für Preprocessing, Datenreinigung, Export
+├── assets/              # Kartenmaterial, Bilder, Icons
+├── requirements.txt     # Python-Abhängigkeiten
+├── .gitignore           # Ausschlussregeln (z. B. .venv, *.pyc)
+├── README.md            # Diese Dokumentation
+└── .venv/               # Virtuelle Umgebung (nicht ins Git aufnehmen)
+
+
+```

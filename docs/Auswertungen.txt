@@ -1,0 +1,216 @@
+IMPLEMENTIERT ✓:
+
+✓ Exponential Moving Average (EMA) - Glättung der Sensorwerte
+✓ Z-Score-Analyse - Statistische Ausreißer-Erkennung  
+✓ Moving Average + Thresholding - Gas-Ereignis-Warnungen
+✓ ML-Anomalieerkennung mit Isolation Forest
+✓ Rechne µg/m³ in AQI-Werte um (nach US EPA Norm)
+
+VERFÜGBARE SCRIPTS:
+===================
+1. Umrechnung_wert_ppm_ygm3.py → Umrechnung + AQI-Berechnung
+2. glaetten_der_sensorwerte.py → EMA + Z-Score + Gas-Events + ML-Anomalien
+
+TODO:
+
+# 1. Gascluster erkennen & automatisch klassifizieren
+Hitze-Karte: Gaskonzentration über GPS-Ort gelegt
+Cluster-Zonen: Welche Gebiete haben ähnliche Luftqualität?
+Tagesverlaufanalyse: Gibt es "Rush Hour"-Emissionen?
+Kombination von Z-Score + GPS: → Heatmap für Gasanomalien
+„CO₂-Konzentration entlang eines Schulwegs“
+„NO₂-Spitzen an Ampeln oder Tunneln“
+Analyse: Gibt es morgens mehr CO₂? Abends mehr LPG?
+
+
+✅ Was du bereits machst (sehr sinnvoll):
+Umrechnung der Sensorwerte in ppm und µg/m³
+
+Glättung über Zeit (z. B. 10-Sekunden-Fenster wegen Sensorantwortzeit)
+
+Clustering gleicher Gase/Sensoren, um Korrelationen zu erkennen
+
+🚀 Erweiterte Auswertungen & Ideen
+🔬 1. Gascluster erkennen & automatisch klassifizieren
+Nutze Korrelationen zwischen Sensoren (z. B. MQ2, MQ4, MQ5 → Methangruppe)
+
+Ziel: automatische Erkennung, ob ein Gasausbruch eher brennbar, giftig, flüchtig etc. war
+
+Methode: Principal Component Analysis (PCA) oder hierarchisches Clustering
+
+🗺️ 2. Raum-Zeit-Analyse (Spatio-temporal Mapping)
+Gasverteilung nach Ort und Zeit → z. B. mit GPS-Hitze-Karten oder Linien auf OpenStreetMap
+
+Heatmaps über Google Maps / Leaflet / Folium / Plotly
+
+Beispielprojekte:
+
+„CO₂-Konzentration entlang eines Schulwegs“
+
+„Alkoholdämpfe am Samstagabend in der Innenstadt“
+
+„NO₂-Spitzen an Ampeln oder Tunneln“
+
+📈 3. Anomalie-Erkennung
+Detektiere plötzliches Auftreten ungewöhnlicher Gaskonzentrationen
+
+Nutze z. B. Moving Average + Thresholding, Z-Score, oder ML mit Isolation Forest
+
+⏰ 4. Tageszeitliche Trends (Zeitreihenanalyse)
+Analyse: Gibt es morgens mehr CO₂? Abends mehr LPG?
+
+Erkenne Muster in Temperatur, Luftqualität, Lärm
+
+🌍 5. Vergleich mit offiziellen Stationen
+Korrigiere Sensorwerte (z. B. MQ135) durch Vergleich mit amtlichen Messstationen
+
+Kalibriere deine Sensoren auf der Basis eines gemeinsamen Zeitfensters
+
+📊 6. Luftqualitätsindex (AQI) berechnen
+Rechne µg/m³ in AQI-Werte um (nach US EPA oder EU-Norm)
+
+Visualisiere als Ampel: Grün / Gelb / Rot / Lila → einfach verständlich
+
+🔊 7. Lärm und Luft koppeln
+Hohe dB-Werte + Abgase → Verkehr?
+
+Lärm bei niedriger Luftverschmutzung → Party?
+
+Berechne Korrelation: Mik1 + MQ2/MQ7 = Fahrzeuge?
+
+☢️ 8. Radioaktivitätsereignisse detektieren
+Detektiere „Spikes“ in Radiation_CPS (Counts Per Second)
+
+Kopple das mit GPS-Daten → Alarm bei lokal begrenzten Anstiegen
+
+📦 9. Export & Dashboard
+Erstelle ein Dashboard mit:
+
+Live-Karte mit Gaswerten
+
+Diagramme über Zeit
+
+Warnsystem bei Schwellenüberschreitungen
+
+Tools: Plotly Dash, Grafana, Streamlit, Matplotlib + Folium
+
+💡 Bonus-Idee: Sensorprofil-DNA
+Jeder Gasvorfall hat eine charakteristische Signatur (z. B. MQ2↑ MQ135↑ MQ3↔ → LPG-Verdampfer)
+
+Trainiere ein Modell zur Erkennung typischer Gasmuster
+
+Ziel: automatische Ereignisklassifikation z. B. „Abgas“, „Küche“, „Tankstelle“, „Feuer“, „Verschmutzung“
+
+🛠 Tools & Libraries für Umsetzung
+Pandas – für Zeitreihen- & Datenanalyse
+
+Scikit-learn – Clustering, PCA, Anomalieerkennung
+
+Folium / Plotly – Geo-Visualisierung
+
+Seaborn – Korrelationen & Heatmaps
+
+Statsmodels – Zeitreihenanalyse (z. B. Trends, ARIMA)
+
+Streamlit / Dash – Web-Dashboards
+
+
+ 1. PCA (Principal Component Analysis)
+✅ Gut für:
+
+Reduktion der Sensor-Dimensionen (MQ2–MQ135 → 2 oder 3 Achsen)
+
+Visualisierung von Mustern und Sensor-Korrelationen
+
+Erkennen von gemeinsamen Reaktionen (z. B. LPG-Ereignisse beeinflussen MQ2, MQ5, MQ6…)
+
+⚠️ Wichtig:
+
+PCA ist nicht für Klassifizierung oder Zeitverläufe gedacht
+
+Eher für Exploration + Feature Selection
+
+Beispielnutzen:
+
+"Welche Sensoren reagieren oft gleichzeitig?"
+→ z. B. LPG-Ereignis: MQ2 + MQ5 + MQ6 → 1 PCA-Komponente
+
+🧬 2. Hierarchisches Clustering
+✅ Gut für:
+
+Gruppierung ähnlicher Zeitfenster oder Sensoren
+
+Erkennung von Ähnlichkeitsmustern (z. B. gleiche Luftbelastung an unterschiedlichen Orten)
+
+Beispielnutzen:
+
+"Welche Zeitbereiche oder Orte zeigen ähnliche Gasmuster?"
+→ Cluster mit hohem Methan = Industriegebiet
+
+⚠️ Einschränkung:
+
+braucht Vorverarbeitung (z. B. PCA oder Normalisierung)
+
+eher für Offline-Analyse, nicht für Echtzeit
+
+📈 3. Moving Average + Thresholding
+✅ Gut für:
+
+Echtzeit-Detektion von Gasereignissen
+
+Definieren eines "Alarms" bei Überschreiten eines Durchschnitts
+
+Beispiel:
+
+python
+Kopieren
+Bearbeiten
+if MQ2_ema > mean(MQ2) + 2*std(MQ2):
+    print("Gas-Ereignis!")
+Sehr nützlich für:
+
+Detektion von Spitzen, Live-Auswertungen, Alarmierung
+
+📊 4. Z-Score Analyse
+✅ Gut für:
+
+Erkennung von Ausreißern (z. B. plötzlicher Gasausbruch)
+
+Normiert die Sensorwerte → gut für Sensorvergleich
+
+Beispiel:
+
+python
+Kopieren
+Bearbeiten
+z = (wert - mittelwert) / standardabweichung
+Z > 3 → ungewöhnlich hoher Wert
+
+Z < -3 → ungewöhnlich niedriger Wert
+
+🤖 5. ML – Isolation Forest
+✅ Gut für:
+
+Anomalieerkennung mit vielen Features (z. B. alle MQs + Ort + Zeit)
+
+funktioniert auch ohne Labeldaten
+
+gut für seltene Ereignisse (Gaslecks, Industrieemissionen)
+
+⚠️ Aufwendig:
+
+braucht viele Datenpunkte
+
+nicht erklärbar wie Z-Score (black-box)
+
+gut als Zusatzmethode
+
+✅ Fazit: Was ist praktisch & sinnvoll für deine Stadtfahrt?
+Methode	Bewertung für Gassensor-Auswertung
+PCA	✅ Gut zur Visualisierung & Korrelationen
+Hierarchisches Clustering	✅ Gut zur Gruppierung ähnlicher Orte/Zustände
+Moving Average + Threshold	✅ Ideal für Echtzeit + Glättung
+Z-Score	✅ Simpel & effektiv für Anomalien
+Isolation Forest	✅ Gut für komplexe Anomalien ohne Schwellenwerte
+Gleitender Durchschnitt (MA/EMA)	🟢 Immer sinnvoll als Grundglättung
+
