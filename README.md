@@ -1,16 +1,47 @@
-# Python Projekt Generator
+# 🌍 Umweltkontrollsystem – Sensordatenanalyse & Dashboard
 
-Dieses Projekt ist ein flexibler Generator für Python-Projektstrukturen mit integriertem GitHub-Setup und nützlichen Automatisierungen. Es richtet sich an Entwickler, die schnell und standardisiert neue Python-Projekte anlegen möchten – inklusive Best-Practices, Vorlagen und Werkzeugen für einen reibungslosen Start.
+Dieses Projekt erfasst und analysiert umfangreiche Umweltdaten, die von einem Arduino Mega 2560 über eine Vielzahl von Sensoren gesammelt werden. Ziel ist ein interaktives Dashboard mit Zeitreihen-, Filter- und Kartendarstellungen zur Visualisierung und Analyse der Messdaten.
 
-## Features
+---
 
-- **Automatische Erstellung einer vollständigen Projektstruktur** (src, tests, notebooks, scripts, data, prompts usw.)
-- **Vorlagen für wichtige Dateien** wie `README.md`, `.gitignore`, `requirements.txt`, Lizenz, Beispielmodule und Tests
-- **Git-Initialisierung und optionaler GitHub-Repository-Upload**
-- **GUI zur einfachen Bedienung**
-- **Skriptstarter für vorhandene Python-Skripte**
-- **Projektanalyse-Tools** (z. B. Import-Check, Flake8-Prüfung)
-- **Konfigurierbar über zentrale `config.py`**
+## 📊 Projektziele
+
+- **Erfassung** von Umweltparametern mit bis zu 100 kHz Abtastrate
+- **Zeitreihenanalyse** für Temperatur, Gase, Licht, Geräusche, Strahlung usw.
+- **GPS-gestützte Kartendarstellung** der Sensorwerte
+- **Filtern & Segmentieren** der Daten nach Ort, Zeit, Messwerten
+- **Visualisierung** mit interaktiven Diagrammen (Heatmaps, Scatterplots, Verlaufslinien)
+- **Erweiterbares Dashboard** zur Echtzeit- oder nachträglichen Analyse
+
+---
+
+## ⚙️ Tech Stack
+
+- **Python 3.x**
+- **Pandas & Numpy** – Datenverarbeitung
+- **Matplotlib & Seaborn** – Standardplots
+- **Plotly & Dash** oder **Streamlit** – Interaktive Dashboards
+- **Geopandas & Folium** – Kartendarstellungen
+- **Jupyter Notebooks** – Prototyping & Analyse
+- **Git & GitHub** – Versionskontrolle
+- **Arduino** – Datenlogger-Hardware
+
+---
+
+## 🗃 Projektstruktur
+
+```plaintext
+Umweltkontrollsystem/
+│
+├── data/                # CSV-Dateien mit Messdaten
+├── notebooks/           # Jupyter-Analysen zur Datenexploration
+├── dashboard/           # Streamlit- oder Dash-App zur Visualisierung
+├── scripts/             # Hilfsskripte für Preprocessing, Datenreinigung, Export
+├── assets/              # Kartenmaterial, Bilder, Icons
+├── requirements.txt     # Python-Abhängigkeiten
+├── .gitignore           # Ausschlussregeln (z. B. .venv, *.pyc)
+├── README.md            # Diese Dokumentation
+└── .venv/               # Virtuelle Umgebung (nicht ins Git aufnehmen)
 
 ## Schnellstart
 
