@@ -34,26 +34,4 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 
 1. Repository klonen:
 
-   git clone https://github.com/Watchkido/AirScout-Analytics.git
-
-2. Daten selber erstellen:
-
-   https://github.com/Watchkido/AirScout-Firmware
-
-## 🗃 Projektstruktur
-
-```plaintext
-Umweltkontrollsystem/
-│
-├── data/                # CSV-Dateien mit Messdaten
-├── notebooks/           # Jupyter-Analysen zur Datenexploration
-├── dashboard/           # Streamlit- oder Dash-App zur Visualisierung
-├── scripts/             # Hilfsskripte für Preprocessing, Datenreinigung, Export
-├── assets/              # Kartenmaterial, Bilder, Icons
-├── requirements.txt     # Python-Abhängigkeiten
-├── .gitignore           # Ausschlussregeln (z. B. .venv, *.pyc)
-├── README.md            # Diese Dokumentation
-└── .venv/               # Virtuelle Umgebung (nicht ins Git aufnehmen)
-
-
-```
+   git clone https://github.com/Watchkido/python_projekt_generator.git
