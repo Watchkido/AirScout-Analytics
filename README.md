@@ -30,6 +30,65 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 
 ---
 
+## 🧠 Kernfunktionen
+### 1. Automatisierte Datenpipeline
+```mermaid
+graph TD
+    A[CSV-Rohdaten] --> B(Data Cleaning)
+    B --> C{Analyse-Modus}
+    C -->|Standard| D[Grafische Auswertung]
+    C -->|Expert| E[Machine Learning]
+    D --> F[PDF-Report]
+    E --> F
+```
+
+### 2. Wichtige Skripte
+| Skript | Beschreibung | Output |
+|--------|-------------|--------|
+| `csv_analyser.py` | Hauptpipeline (Datenanalyse + Visuals) | HTML/PDF |
+| `geo_mapper.py` | Interaktive Pollution-Maps | GeoJSON |
+| `report_generator.py` | Autom. Report-Erstellung | PDF |
+
+---
+
+
+### 📈 Visualisierung
+![Dashboard](images/dashboard_preview.png)
+
+---
+
+## 📝 Prüfungsrelevante Aspekte
+1. **Software-Engineering**:
+   - MVC-Architektur
+   - Unit-Tests (pytest)
+   - CI/CD (GitHub Actions)
+
+2. **Data Science**:
+   - Zeitreihenanalyse
+   - Geospatiale Visualisierung
+   - Signalverarbeitung (Audio)
+
+---
+
+## 🧪 Testprotokoll
+```bash
+pytest tests/ --cov=src/ --cov-report=html
+```
+| Modul | Abdeckung | Status |
+|-------|-----------|--------|
+| Datenbereinigung | 0% | ❌ |
+| Geo-Mapping | 0% | ❌ |
+| Report-Gen | 0% | ❌ |
+
+---
+
+## 📜 Lizenz & Danksagung
+**MIT License** - Speziell entwickelt für die Python-Prüfung 2025.  
+*Betreut durch [Institut/Professor]*  
+
+**Kontakt:**  
+Frank Albrecht | [airscout@watchkido.de](mailto:airscout@watchkido.de)  
+
 ## Schnellstart
 
 1. Repository klonen:
