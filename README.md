@@ -1,6 +1,8 @@
-# 🌍 Umweltkontrollsystem – Sensordatenanalyse & Dashboard
+# 🌍 AirScout-Analytics
 
-Dieses Projekt erfasst und analysiert umfangreiche Umweltdaten, die von einem Arduino Mega 2560 über eine Vielzahl von Sensoren gesammelt werden. Ziel ist ein interaktives Dashboard mit Zeitreihen-, Filter- und Kartendarstellungen zur Visualisierung und Analyse der Messdaten.
+## 🌍 Umweltkontrollsystem – Sensordatenanalyse & Dashboard
+
+Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kaggle.com/datasets/avitarus/hyperlocal-urban-environmental-monitoring-dataset), die von einem [Arduino Mega 2560](https://github.com/Watchkido/AirScout-Firmware) über eine Vielzahl von Sensoren gesammelt werden. Ziel ist ein interaktives Dashboard mit Zeitreihen-, Filter- und Kartendarstellungen zur Visualisierung und Analyse der Messdaten.
 
 ---
 
@@ -28,6 +30,16 @@ Dieses Projekt erfasst und analysiert umfangreiche Umweltdaten, die von einem Ar
 
 ---
 
+## Schnellstart
+
+1. Repository klonen:
+
+   git clone https://github.com/Watchkido/AirScout-Analytics.git
+
+2. Daten selber erstellen:
+
+   https://github.com/Watchkido/AirScout-Firmware
+
 ## 🗃 Projektstruktur
 
 ```plaintext
@@ -43,8 +55,4 @@ Umweltkontrollsystem/
 ├── README.md            # Diese Dokumentation
 └── .venv/               # Virtuelle Umgebung (nicht ins Git aufnehmen)
 
-## Schnellstart
 
-1. Repository klonen:
-
-   git clone https://github.com/Watchkido/AirScout-Analytics.git
