@@ -1,0 +1,48 @@
+# Virtuelle Umgebungen
+venv/
+.env/
+*.env
+
+# Python-Caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Editor-Dateien (VS Code, PyCharm etc.)
+.vscode/
+.idea/
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Logs und temporäre Dateien
+*.log
+*.tmp
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Kompilierte Dateien
+*.so
+*.dll
+*.o
+*.a
+
+# Test-Ausgaben und Coverage
+htmlcov/
+.coverage
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Build-Verzeichnisse
+build/
+dist/
+*.egg-info/
+
+
+# DATEN
+data/
