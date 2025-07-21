@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 warnings.filterwarnings('ignore')
-
+from config import CONFIG
 
 def csv_info_extractor(csv_filepath):
     """

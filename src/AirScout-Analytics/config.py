@@ -28,6 +28,11 @@ CONFIG = SimpleNamespace(
     PROJEKT_KATEGORIE="Softwareentwicklung",
     PROJEKT_SCHLAGWORTE=["Python", "Gassensoren", "Datenanalyse", "IoT"],
     PROJEKT_ZIELGRUPPE="Entwickler für Umweltmessungen",
+    DATEN_PFAD = "daten/umweltlog.csv"
+    BILD_GENERATOR_BEFEHL = "python3 local_generate_image.py --prompt '{prompt}' --output '{output_path}'"
+"
+
+
     EMAIL=f"script-{aktuelle_version()}@watchkido.de",
     AUTOR="Frank Albrecht",
     VERSION=aktuelle_version(),

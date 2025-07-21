@@ -3,6 +3,8 @@ IMPLEMENTIERT ✓:
 ✓ Exponential Moving Average (EMA) - Glättung der Sensorwerte
 ✓ Z-Score-Analyse - Statistische Ausreißer-Erkennung  
 ✓ Moving Average + Thresholding - Gas-Ereignis-Warnungen
+ANOVA T-TESTS
+b morans 1, LSTM
 ✓ ML-Anomalieerkennung mit Isolation Forest
 ✓ Rechne µg/m³ in AQI-Werte um (nach US EPA Norm)
 

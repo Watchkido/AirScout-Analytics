@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
-
+from config import CONFIG
 # Import der Konfiguration
 from config import CONFIG
 
