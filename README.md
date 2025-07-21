@@ -4,6 +4,8 @@
 
 Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kaggle.com/datasets/avitarus/hyperlocal-urban-environmental-monitoring-dataset) aus Neustadt an der Weinstrasse (Juli 2025), die von einem [Arduino Mega 2560](https://github.com/Watchkido/AirScout-Firmware) über eine Vielzahl von Sensoren gesammelt werden. Ziel ist ein interaktives Dashboard mit Zeitreihen-, Filter- und Kartendarstellungen zur Visualisierung und Analyse der Messdaten.
 
+[Komoot Tour anzeigen](https://www.komoot.com/de-de/tour/2413578613?share_token=apHyFIhrf2YKNJ2b1SoPXXkasVKoAAOQN9jk74EsBOb3qIL1sM&profile=1)
+
 ![AirScout-One](img/airscoutone.jpg)
 
 ## 📊 Projektziele
