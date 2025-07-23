@@ -17,6 +17,11 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 - **Visualisierung** mit interaktiven Diagrammen (Heatmaps, Scatterplots, Verlaufslinien)
 - **Erweiterbares Dashboard** zur Echtzeit- oder nachträglichen Analyse
 
+
+---
+## Kaggle Datensatz
+[Hyperlocal Urban Environmental Monitoring Dataset](https://www.kaggle.com/datasets/avitarus/hyperlocal-urban-environmental-monitoring-dataset)
+
 ---
 
 ## ⚙️ Tech Stack
