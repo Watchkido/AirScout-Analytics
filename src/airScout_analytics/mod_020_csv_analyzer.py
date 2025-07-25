@@ -269,10 +269,11 @@ def csv_info_extractor(csv_filepath):
             
             # Höchste Korrelationen finden
             high_corr_pairs = []
+            korrelationsschwelle = CONFIG.get('KORRELATIONSSCHWELLE_HOCH', 0.7)
             for i in range(len(corr_matrix.columns)):
                 for j in range(i+1, len(corr_matrix.columns)):
                     corr_val = corr_matrix.iloc[i, j]
-                    if abs(corr_val) > 0.7:  # Hohe Korrelation
+                    if abs(corr_val) > korrelationsschwelle:  # Hohe Korrelation (Schwelle aus config)
                         col1, col2 = corr_matrix.columns[i], corr_matrix.columns[j]
                         high_corr_pairs.append(f"{col1} ↔ {col2}: {corr_val:.3f}")
             
@@ -362,14 +363,40 @@ def csv_info_extractor(csv_filepath):
                 for emp in empfehlungen:
                     info_content.append(f"   • {emp}")
         
-        # In Datei schreiben
-        with open(info_filename, 'w', encoding='utf-8') as f:
+
+        # Speichern nur noch in den beiden Zielorten im ergebnisse-Ordner
+        # (Kein Speichern mehr im Originalpfad)
+
+        # 1. Kopie im Ordner ergebnisse mit info_txt_{alter dateiname}
+        ergebnisse_ordner = r"E:/dev/projekt_python_venv/airscout-analytics/data/ergebnisse"
+        os.makedirs(ergebnisse_ordner, exist_ok=True)
+        alt_dateiname = os.path.basename(csv_filepath)
+        info_txt_name = f"info_txt_{alt_dateiname}"
+        info_txt_path = os.path.join(ergebnisse_ordner, info_txt_name)
+        with open(info_txt_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(info_content))
-        
+
+        # 2. Kopie im Unterordner yyyy_mm_dd_hh_mm mit {alter dateiname}_info.txt
+        # Extrahiere Zeitstempel aus Dateinamen (Format: yyyy_mm_dd_hh_mm)
+        import re
+        match = re.search(r'(\d{4})_(\d{2})(\d{2})(\d{2})(\d{2})', alt_dateiname)
+        if match:
+            yyyy_mm_dd_hh_mm = f"{match.group(1)}_{match.group(2)}_{match.group(3)}_{match.group(4)}_{match.group(5)}"
+        else:
+            yyyy_mm_dd_hh_mm = os.path.splitext(alt_dateiname)[0]
+        unterordner = os.path.join(ergebnisse_ordner, yyyy_mm_dd_hh_mm)
+        os.makedirs(unterordner, exist_ok=True)
+        info_unterordner_name = f"{os.path.splitext(alt_dateiname)[0]}_info.txt"
+        info_unterordner_path = os.path.join(unterordner, info_unterordner_name)
+        with open(info_unterordner_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(info_content))
+
         print("✅ Analyse abgeschlossen!")
         print(f"📁 Info-Datei erstellt: {info_filename}")
+        print(f"📁 Kopie gespeichert als: {info_txt_path}")
+        print(f"📁 Kopie gespeichert als: {info_unterordner_path}")
         print(f"📊 {len(info_content)} Zeilen Analyse-Information gespeichert")
-        
+
         return info_filename
         
     except FileNotFoundError:
@@ -563,8 +590,9 @@ def hauptkomponenten_analyse(df: pd.DataFrame, numerische_spalten: list, output_
     scaler = StandardScaler()
     daten_standardisiert = scaler.fit_transform(sensor_daten)
     
-    # PCA auf 3 Komponenten reduzieren
-    komponenten_anzahl = min(3, len(numerische_spalten))
+    # PCA auf konfigurierbare Anzahl Komponenten reduzieren
+    pca_komponenten_anzahl = CONFIG.get('PCA_KOMPONENTEN_ANZAHL', 3)
+    komponenten_anzahl = min(pca_komponenten_anzahl, len(numerische_spalten))
     pca = PCA(n_components=komponenten_anzahl)
     hauptkomponenten = pca.fit_transform(daten_standardisiert)
     
@@ -657,8 +685,9 @@ def zeitreihen_veraenderungs_analyse(df: pd.DataFrame, numerische_spalten: list,
         print(f"   {sensor}: Variabilität={var:.3f}, Trend={trend}")
     
     # Signifikante Veränderungen identifizieren
+    variabilitaetsfaktor = CONFIG.get('VARIABILITAETSFAKTOR', 1.5)
     signifikante_sensoren = [sensor for sensor, var in variabilitaet.items() 
-                           if var > np.mean(list(variabilitaet.values())) * 1.5]
+                           if var > np.mean(list(variabilitaet.values())) * variabilitaetsfaktor]
     
     print(f"\n🔥 {len(signifikante_sensoren)} Sensoren mit hoher Variabilität:")
     for sensor in signifikante_sensoren:
@@ -704,10 +733,11 @@ def unabhaengige_sensoren_waehlen(df: pd.DataFrame, numerische_spalten: list, ou
     
     # Hoch korrelierte Sensor-Paare finden
     hohe_korrelationen = []
+    korrelationsschwelle_sehr_hoch = CONFIG.get('KORRELATIONSSCHWELLE_SEHR_HOCH', 0.8)
     for i in range(len(korrelations_matrix.columns)):
         for j in range(i+1, len(korrelations_matrix.columns)):
             korr_wert = korrelations_matrix.iloc[i, j]
-            if abs(korr_wert) > 0.8:  # Sehr hohe Korrelation
+            if abs(korr_wert) > korrelationsschwelle_sehr_hoch:  # Sehr hohe Korrelation (Schwelle aus config)
                 sensor1 = korrelations_matrix.columns[i]
                 sensor2 = korrelations_matrix.columns[j]
                 hohe_korrelationen.append((sensor1, sensor2, korr_wert))

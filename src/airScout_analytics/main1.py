@@ -6,7 +6,9 @@ from projektstruktur import erstelle_struktur
 from git_tools import initialisiere_git_und_push
 from skript_tools import finde_scripts, run_python_script
 from config import CONFIG
-    
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=Warning)
 
 def erstelle_projekt():
     projekt = entry_name.get()
