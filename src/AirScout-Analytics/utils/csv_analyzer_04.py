@@ -325,71 +325,69 @@ def csv_info_extractor(csv_filepath):
     und speichert sie in eine _info.txt-Datei und erstellt zusätzlich eine PDF-Auswertung.
     """
     try:
-        # CSV-Datei robuster laden mit verschiedenen Methoden
+        # Spaltennamen bereinigen (entfernt führende/nachgestellte Leerzeichen)
+        # (Wird nach dem Einlesen der CSV weiter unten ausgeführt)
+        # Robustes Einlesen: verschiedene Trennzeichen und Encodings testen
         df = None
-        
-        # Methode 1: Standard CSV-Laden (Komma-separiert)
-        try:
-            df = pd.read_csv(csv_filepath, sep=',')
-            print("✅ CSV mit Komma-Trennung geladen")
-        except pd.errors.ParserError:
-            print("⚠️ Komma-Parser fehlgeschlagen, versuche alternative Methoden...")
-            
-            # Methode 2: Standard ohne explizites Trennzeichen
-            try:
-                df = pd.read_csv(csv_filepath)
-                print("✅ CSV mit Standard-Einstellungen geladen")
-            except pd.errors.ParserError:
-                
-                # Methode 3: Mit Semikolon als Trennzeichen
+        encodings = ["utf-8", "latin1", "cp1252"]
+        separators = [';', ',', '\t']
+        for enc in encodings:
+            for sep in separators:
                 try:
-                    df = pd.read_csv(csv_filepath, sep=';')
-                    print("✅ CSV mit Semikolon-Trennung geladen")
-                except pd.errors.ParserError:
-                    
-                    # Methode 4: Automatische Trennzeichen-Erkennung
-                    try:
-                        df = pd.read_csv(csv_filepath, sep=None, engine='python')
-                        print("✅ CSV mit automatischer Trennzeichen-Erkennung geladen")
-                    except pd.errors.ParserError:
-                        
-                        # Methode 5: Mit error_bad_lines=False (ignoriert problematische Zeilen)
-                        try:
-                            df = pd.read_csv(csv_filepath, on_bad_lines='skip')
-                            print("✅ CSV geladen (problematische Zeilen übersprungen)")
-                        except pd.errors.ParserError:
-                            
-                            # Methode 6: Als Text einlesen und erste Zeilen analysieren
-                            print("🔍 Analysiere Datei-Struktur manuell...")
-                            with open(csv_filepath, 'r', encoding='utf-8') as f:
-                                lines = f.readlines()[:10]  # Erste 10 Zeilen
-                            
-                            print("📋 Erste 10 Zeilen der Datei:")
-                            for i, line in enumerate(lines):
-                                print(f"  {i+1:2d}: {line.strip()}")
-                            
-                            # Häufigste Trennzeichen ermitteln
-                            separators = [',', ';', '\t', '|', ' ']
-                            sep_counts = {}
-                            for sep in separators:
-                                count = sum(line.count(sep) for line in lines)
-                                if count > 0:
-                                    sep_counts[sep] = count
-                            
-                            if sep_counts:
-                                best_sep = max(sep_counts, key=sep_counts.get)
-                                print(f"🎯 Erkanntes Trennzeichen: '{best_sep}' ({sep_counts[best_sep]} Vorkommen)")
-                                
-                                try:
-                                    df = pd.read_csv(csv_filepath, sep=best_sep, on_bad_lines='skip')
-                                    print("✅ CSV mit erkanntem Trennzeichen geladen")
-                                except:
-                                    raise Exception("Alle CSV-Parsing-Methoden fehlgeschlagen")
-                            else:
-                                raise Exception("Kein gültiges Trennzeichen erkannt")
-        
+                    if sep == ';':
+                        df = pd.read_csv(csv_filepath, sep=sep, encoding=enc, decimal=',')
+                    else:
+                        df = pd.read_csv(csv_filepath, sep=sep, encoding=enc)
+                    print(f"✅ CSV geladen (Trennzeichen: '{sep}', Encoding: {enc})")
+                    break
+                except Exception:
+                    df = None
+            if df is not None:
+                break
         if df is None:
-            raise Exception("CSV-Datei konnte nicht geladen werden")
+            # Fallback: automatische Trennzeichenerkennung
+            for enc in encodings:
+                try:
+                    df = pd.read_csv(csv_filepath, sep=None, engine='python', encoding=enc)
+                    print(f"✅ CSV mit automatischer Trennzeichen-Erkennung geladen (Encoding: {enc})")
+                    break
+                except Exception:
+                    df = None
+        if df is None:
+            # Fallback: problematische Zeilen überspringen
+            for enc in encodings:
+                try:
+                    df = pd.read_csv(csv_filepath, on_bad_lines='skip', encoding=enc)
+                    print(f"✅ CSV geladen (problematische Zeilen übersprungen, Encoding: {enc})")
+                    break
+                except Exception:
+                    df = None
+        if df is None:
+            raise Exception("CSV-Datei konnte nicht geladen werden – alle Trennzeichen und Encodings fehlgeschlagen.")
+
+        # Spaltennamen bereinigen (entfernt führende/nachgestellte Leerzeichen)
+        df.columns = df.columns.str.strip()
+        # Entferne automatisch alle "Unnamed"-Spalten (z.B. durch zu viele Trennzeichen)
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        # Prüfe auf inkonsistente Spaltenanzahl
+        if hasattr(df, 'columns') and hasattr(df, 'shape'):
+            expected_cols = len(df.columns)
+            zeilen_mit_falscher_anzahl = []
+            with open(csv_filepath, encoding='utf-8', errors='ignore') as f:
+                for i, line in enumerate(f):
+                    if i == 0:
+                        continue  # Kopfzeile
+                    if line.count(';')+1 != expected_cols:
+                        zeilen_mit_falscher_anzahl.append(i+1)
+            if zeilen_mit_falscher_anzahl:
+                print(f"⚠️ Warnung: {len(zeilen_mit_falscher_anzahl)} Zeilen mit inkonsistenter Spaltenanzahl (siehe Zeilen: {zeilen_mit_falscher_anzahl[:5]})")
+        # Automatische Typkonvertierung: Versuche alle Spalten, die wie Zahlen aussehen, numerisch zu machen
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                # Ersetze Komma durch Punkt (für deutsche Dezimalzahlen)
+                df[col] = df[col].str.replace(',', '.', regex=False)
+                # Versuche Konvertierung (alles, was geht, wird float)
+                df[col] = pd.to_numeric(df[col], errors='coerce')
         
         # Output-Dateiname erstellen
         base_name = os.path.splitext(csv_filepath)[0]
@@ -641,12 +639,26 @@ def erstelle_auswertungsdiagramme(csv_path: str) -> str:
     Erstellt mehrere Diagramme aus einer beliebigen CSV-Datei und speichert sie als PDF.
     Die Funktion ist robust gegenüber unterschiedlichen CSV-Strukturen.
     """
-    # CSV einlesen (Datumsspalte wird, falls vorhanden, als datetime geparst)
+    # CSV einlesen (robust für neue Spaltennamen und deutsche Zahlen)
+    # 1. Versuche Semikolon und Komma als Dezimaltrennzeichen
     try:
-        df = pd.read_csv(csv_path, parse_dates=["datetime"])
+        df = pd.read_csv(csv_path, sep=';', encoding='utf-8', decimal=',')
     except Exception:
-        df = pd.read_csv(csv_path)
-    
+        try:
+            df = pd.read_csv(csv_path, sep=';', encoding='cp1252', decimal=',')
+        except Exception:
+            df = pd.read_csv(csv_path)
+
+    # Spaltennamen bereinigen (entfernt führende/nachgestellte Leerzeichen)
+    df.columns = df.columns.str.strip()
+    # Automatische Typkonvertierung: Versuche alle Spalten, die wie Zahlen aussehen, numerisch zu machen
+    for col in df.columns:
+        if df[col].dtype == 'object':
+            # Ersetze Komma durch Punkt (für deutsche Dezimalzahlen)
+            df[col] = df[col].str.replace(',', '.', regex=False)
+            # Versuche Konvertierung (alles, was geht, wird float)
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+
     pdf_path = os.path.splitext(csv_path)[0] + "_grafik.pdf"
     print("PDF wird gespeichert unter:", pdf_path)
     with PdfPages(pdf_path) as pdf:
@@ -725,15 +737,19 @@ def erstelle_auswertungsdiagramme(csv_path: str) -> str:
                 print(f"Balkendiagramm für {col} konnte nicht erstellt werden: {e}")
             finally:
                 plt.close()
-        # ========== 4. Tages-Plot: Anzahl Stunden pro Tag ===========
-        if "datetime" in df.columns:
+
+        # ========== 5. Tages-Plot: Anzahl Stunden pro Tag ===========
+        # Suche nach Zeitspalte (DateTime_MESZ oder DateTime_UTC)
+        zeitspalten = [c for c in df.columns if c.lower().startswith('datetime') or 'zeit' in c.lower()]
+        if zeitspalten:
+            zeit_col = zeitspalten[0]
             try:
-                df["date"] = pd.to_datetime(df["datetime"]).dt.date
+                df["date"] = pd.to_datetime(df[zeit_col], errors='coerce').dt.date
                 daily_counts = df.groupby("date").size()
                 plt.figure(figsize=(15,5))
                 daily_counts.plot()
-                plt.title("Anzahl Stunden pro Tag (Soll: 24)")
-                plt.ylabel("Stunden-Datensätze")
+                plt.title(f"Anzahl Einträge pro Tag ({zeit_col})")
+                plt.ylabel("Datensätze")
                 plt.xlabel("Datum")
                 plt.grid(True)
                 pdf.savefig()

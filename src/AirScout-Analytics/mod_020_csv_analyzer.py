@@ -29,40 +29,33 @@ def csv_info_extractor(csv_filepath):
             print("✅ CSV mit Komma-Trennung geladen")
         except pd.errors.ParserError:
             print("⚠️ Komma-Parser fehlgeschlagen, versuche alternative Methoden...")
-            
             # Methode 2: Standard ohne explizites Trennzeichen
             try:
                 df = pd.read_csv(csv_filepath)
                 print("✅ CSV mit Standard-Einstellungen geladen")
             except pd.errors.ParserError:
-                
                 # Methode 3: Mit Semikolon als Trennzeichen
                 try:
                     df = pd.read_csv(csv_filepath, sep=';')
                     print("✅ CSV mit Semikolon-Trennung geladen")
                 except pd.errors.ParserError:
-                    
                     # Methode 4: Automatische Trennzeichen-Erkennung
                     try:
                         df = pd.read_csv(csv_filepath, sep=None, engine='python')
                         print("✅ CSV mit automatischer Trennzeichen-Erkennung geladen")
                     except pd.errors.ParserError:
-                        
                         # Methode 5: Mit error_bad_lines=False (ignoriert problematische Zeilen)
                         try:
                             df = pd.read_csv(csv_filepath, on_bad_lines='skip')
                             print("✅ CSV geladen (problematische Zeilen übersprungen)")
                         except pd.errors.ParserError:
-                            
                             # Methode 6: Als Text einlesen und erste Zeilen analysieren
                             print("🔍 Analysiere Datei-Struktur manuell...")
                         with open(csv_filepath, 'r', encoding='utf-8') as f:
                             lines = f.readlines()[:10]  # Erste 10 Zeilen
-                        
                         print("📋 Erste 10 Zeilen der Datei:")
                         for i, line in enumerate(lines):
                             print(f"  {i+1:2d}: {line.strip()}")
-                        
                         # Häufigste Trennzeichen ermitteln
                         separators = [',', ';', '\t', '|', ' ']
                         sep_counts = {}
@@ -70,11 +63,9 @@ def csv_info_extractor(csv_filepath):
                             count = sum(line.count(sep) for line in lines)
                             if count > 0:
                                 sep_counts[sep] = count
-                        
                         if sep_counts:
                             best_sep = max(sep_counts, key=sep_counts.get)
                             print(f"🎯 Erkanntes Trennzeichen: '{best_sep}' ({sep_counts[best_sep]} Vorkommen)")
-                            
                             try:
                                 df = pd.read_csv(csv_filepath, sep=best_sep, on_bad_lines='skip')
                                 print("✅ CSV mit erkanntem Trennzeichen geladen")
@@ -82,6 +73,12 @@ def csv_info_extractor(csv_filepath):
                                 raise Exception("Alle CSV-Parsing-Methoden fehlgeschlagen")
                         else:
                             raise Exception("Kein gültiges Trennzeichen erkannt")
+
+        # Nach erfolgreichem Laden: DateTime und GPS_DateTime in datetime konvertieren
+        if df is not None:
+            for spalte in ['DateTime', 'GPS_DateTime']:
+                if spalte in df.columns:
+                    df[spalte] = pd.to_datetime(df[spalte], errors='coerce')
         
         if df is None:
             raise Exception("CSV-Datei konnte nicht geladen werden")
@@ -391,40 +388,29 @@ def csv_info_extractor(csv_filepath):
 
 # 🚀 SCRIPT VERWENDUNG:
 if __name__ == "__main__":
+
     print("🚀 CSV INFO EXTRACTOR")
     print("="*50)
-    
-    # Automatische Datei-Erkennung oder manuelle Eingabe
+
+    # Automatische Suche nach erster CSV in data/bearbeitet0
+    import glob
     import sys
-    
-    if len(sys.argv) > 1:
-        # Datei als Kommandozeilenargument
-        csv_file = sys.argv[1]
+    csv_ordner = r"E:/dev/projekt_python_venv/airscout-analytics/data/bearbeitet0"
+    csv_files = glob.glob(os.path.join(csv_ordner, "*.csv"))
+    if csv_files:
+        csv_file = csv_files[0]
+        print(f"📂 Automatisch gefundene Datei: {csv_file}")
     else:
-        # Interaktive Eingabe des Dateinamens
-        print("📂 Standard-Ordner: C:/Users/Frank/Downloads/")
-        print("📝 Geben Sie den Namen der CSV-Datei ein (ohne Pfad):")
-        
-        filename = input("Dateiname (z.B. SalesData.csv): ").strip()
-        
-        if not filename:
-            print("❌ Kein Dateiname eingegeben!")
-            sys.exit(1)
-        
-        # Dateiendung hinzufügen falls vergessen
-        if not filename.lower().endswith('.csv'):
-            filename += '.csv'
-        
-        # Vollständigen Pfad erstellen
-        csv_file = f"C:/Users/Frank/Downloads/{filename}"
-    
+        print(f"❌ Keine CSV-Datei in {csv_ordner} gefunden!")
+        sys.exit(1)
+
     # Script ausführen
     result = csv_info_extractor(csv_file)
-    
+
     if result:
         print(f"\n🎯 Fertig! Alle Informationen wurden in '{result}' gespeichert.")
         print("\n💡 Das Script kann für jede CSV-Datei verwendet werden:")
-        print("   python csv_analyzer_02.py C:/Users/Frank/Downloads/datei.csv")
+        print("   python csv_analyzer_02.py <pfad/zur/datei.csv>")
     else:
         print("\n❌ Analyse konnte nicht abgeschlossen werden.")
 

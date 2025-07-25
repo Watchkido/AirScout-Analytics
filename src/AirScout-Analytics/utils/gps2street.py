@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # Starte das Reverse-Geocoding für die Datei GPS2Street.CSV
     reverse_geocode_gpsdatei(
         eingabedatei="e:/dev/projekt_python_venv/airscout-analytics/data/roh/GPS2Street.CSV",
-        ausgabedatei="e:/dev/projekt_python_venv/airscout-analytics/data/roh/GPS2Street_mit_Strasse6.csv",
+        ausgabedatei="e:/dev/projekt_python_venv/airscout-analytics/data/roh/GPS2Street_mit_Strasse_test.csv",
         max_dauer_sek=270,
         pause_sek=1.0
     )
