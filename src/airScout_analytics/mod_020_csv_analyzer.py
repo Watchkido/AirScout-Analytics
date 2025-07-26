@@ -269,7 +269,7 @@ def csv_info_extractor(csv_filepath):
             
             # Höchste Korrelationen finden
             high_corr_pairs = []
-            korrelationsschwelle = CONFIG.get('KORRELATIONSSCHWELLE_HOCH', 0.7)
+            korrelationsschwelle = getattr(CONFIG, 'KORRELATIONSSCHWELLE_HOCH', 0.7)
             for i in range(len(corr_matrix.columns)):
                 for j in range(i+1, len(corr_matrix.columns)):
                     corr_val = corr_matrix.iloc[i, j]
@@ -591,7 +591,7 @@ def hauptkomponenten_analyse(df: pd.DataFrame, numerische_spalten: list, output_
     daten_standardisiert = scaler.fit_transform(sensor_daten)
     
     # PCA auf konfigurierbare Anzahl Komponenten reduzieren
-    pca_komponenten_anzahl = CONFIG.get('PCA_KOMPONENTEN_ANZAHL', 3)
+    pca_komponenten_anzahl = getattr(CONFIG, 'PCA_KOMPONENTEN_ANZAHL', 3)
     komponenten_anzahl = min(pca_komponenten_anzahl, len(numerische_spalten))
     pca = PCA(n_components=komponenten_anzahl)
     hauptkomponenten = pca.fit_transform(daten_standardisiert)
@@ -685,7 +685,7 @@ def zeitreihen_veraenderungs_analyse(df: pd.DataFrame, numerische_spalten: list,
         print(f"   {sensor}: Variabilität={var:.3f}, Trend={trend}")
     
     # Signifikante Veränderungen identifizieren
-    variabilitaetsfaktor = CONFIG.get('VARIABILITAETSFAKTOR', 1.5)
+    variabilitaetsfaktor = getattr(CONFIG, 'VARIABILITAETSFAKTOR', 1.5)
     signifikante_sensoren = [sensor for sensor, var in variabilitaet.items() 
                            if var > np.mean(list(variabilitaet.values())) * variabilitaetsfaktor]
     
@@ -733,7 +733,7 @@ def unabhaengige_sensoren_waehlen(df: pd.DataFrame, numerische_spalten: list, ou
     
     # Hoch korrelierte Sensor-Paare finden
     hohe_korrelationen = []
-    korrelationsschwelle_sehr_hoch = CONFIG.get('KORRELATIONSSCHWELLE_SEHR_HOCH', 0.8)
+    korrelationsschwelle_sehr_hoch = getattr(CONFIG, 'KORRELATIONSSCHWELLE_SEHR_HOCH', 0.8)
     for i in range(len(korrelations_matrix.columns)):
         for j in range(i+1, len(korrelations_matrix.columns)):
             korr_wert = korrelations_matrix.iloc[i, j]

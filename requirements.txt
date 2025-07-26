@@ -2,3 +2,13 @@ flake8
 pytest
 gitpython
 requests
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+scipy
+python-dotenv
+configparser
+jupyter
+notebook

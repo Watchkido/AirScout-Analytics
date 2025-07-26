@@ -1,24 +1,82 @@
+
 [project]
-name = "python_projekt_generator"
-version = "0.1.0"
-description = "Generator für Python-Projektstrukturen mit GitHub-Setup"
-authors = ["Frank Albrecht <projekt_generator@watchkido.de>"]
+name = "airscout-analytics"
+version = "0.2.0"
+description = "Umweltkontrollsystem für Gassensor-Datenanalyse und Dashboard"
+authors = ["Frank Albrecht <airscout@watchkido.de>"]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+keywords = ["Datenanalyse", "Gassensor", "Umwelt", "IoT", "Dashboard"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+
+[project.urls]
+Homepage = "https://github.com/Watchkido/AirScout-Analytics"
+Repository = "https://github.com/Watchkido/AirScout-Analytics"
+Issues = "https://github.com/Watchkido/AirScout-Analytics/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
 [tool.black]
 line-length = 88
+target-version = ['py39']
+skip-string-normalization = false
+
 
 [tool.isort]
 profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [".git", "__pycache__", "build", "dist", "venv", ".venv"]
+[tool.mypy]
+python_version = 3.9
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unused_configs = true
+[tool.coverage.run]
+branch = true
+source = ["src"]
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug",
+    "if __name__ == .__main__.:"
+]
+
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
+addopts = "-ra -q --tb=short --strict-markers"
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning"
 ]
+[tool.jupyter]
+kernel_name = "python3"
+notebook_dir = "notebooks"
