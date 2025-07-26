@@ -83,7 +83,7 @@ def csv_info_extractor(csv_filepath):
         if df is None:
             raise Exception("CSV-Datei konnte nicht geladen werden")
         
-        # Output-Dateiname erstellen
+        # Output-Dateiname erstellen (immer .txt-Endung!)
         base_name = os.path.splitext(csv_filepath)[0]
         info_filename = f"{base_name}_info.txt"
         
@@ -371,7 +371,7 @@ def csv_info_extractor(csv_filepath):
         ergebnisse_ordner = r"E:/dev/projekt_python_venv/airscout-analytics/data/ergebnisse"
         os.makedirs(ergebnisse_ordner, exist_ok=True)
         alt_dateiname = os.path.basename(csv_filepath)
-        info_txt_name = f"info_txt_{alt_dateiname}"
+        info_txt_name = f"info_txt_{alt_dateiname}".replace('.csv', '.txt')
         info_txt_path = os.path.join(ergebnisse_ordner, info_txt_name)
         with open(info_txt_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(info_content))
@@ -392,12 +392,12 @@ def csv_info_extractor(csv_filepath):
             f.write('\n'.join(info_content))
 
         print("✅ Analyse abgeschlossen!")
-        print(f"📁 Info-Datei erstellt: {info_filename}")
-        print(f"📁 Kopie gespeichert als: {info_txt_path}")
+        print(f"📁 Info-Datei erstellt: {info_txt_path}")
         print(f"📁 Kopie gespeichert als: {info_unterordner_path}")
         print(f"📊 {len(info_content)} Zeilen Analyse-Information gespeichert")
 
-        return info_filename
+        # Rückgabe: immer .txt-Endung, nicht .csv
+        return info_txt_path
         
     except FileNotFoundError:
         print(f"❌ Datei nicht gefunden: {csv_filepath}")

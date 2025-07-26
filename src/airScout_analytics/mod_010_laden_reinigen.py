@@ -70,17 +70,35 @@ def laden_und_reinigen():
                     return x
             df_tmp['GPS_Course'] = df_tmp['GPS_Course'].apply(kurs_korrigieren)
 
+
+        # Entferne alle Zeilen, in denen GPS_Lon < 8 ist
+        if 'GPS_Lon' in df_tmp.columns:
+            # Versuche, GPS_Lon in float zu konvertieren, nicht konvertierbare Werte werden zu NaN
+            df_tmp['GPS_Lon'] = pd.to_numeric(df_tmp['GPS_Lon'], errors='coerce')
+            vorher = len(df_tmp)
+            df_tmp = df_tmp[df_tmp['GPS_Lon'] >= 8]
+            nachher = len(df_tmp)
+            # "Wer östlich von 8° lebt, darf bleiben! Alle anderen werden gnadenlos entfernt."
+            print(f"Gefiltert: {vorher - nachher} Zeilen mit GPS_Lon < 8 entfernt.")
+
+
         # Schreibe die gefilterten Daten zurück in daten_lines (ohne doppelte Zeilenumbrüche)
         daten_lines = [','.join(df_tmp.columns) + '\n']
-        daten_lines += [zeile + '\n' for zeile in df_tmp.to_csv(index=False, header=False, lineterminator='\n').split('\n') if zeile.strip() != '']
+        daten_lines += [
+            zeile + '\n'
+            for zeile in df_tmp.to_csv(index=False, header=False, lineterminator='\n').split('\n')
+            if zeile.strip() != ''
+        ]
+
+        # Entferne die letzte Zeile vor dem Abspeichern (z.B. fehlerhafte Messungen am Dateiende)
+        if len(daten_lines) > 3:
+            daten_lines = daten_lines[:-1]
 
 
 
-# 1. verwandle die spalte DateTime und GPS_DateTime von objekt in eindatetime format
 
 
-
-
+    # ------------------------------------------------------------------------------
     # Zielordner und neuen Dateinamen bestimmen
     zielordner = os.path.join(projekt_root, "data", "bearbeitet0")
     os.makedirs(zielordner, exist_ok=True)

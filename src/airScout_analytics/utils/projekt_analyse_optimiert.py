@@ -36,6 +36,9 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple, Optional, Any
 from datetime import datetime
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from config import CONFIG
 
 
