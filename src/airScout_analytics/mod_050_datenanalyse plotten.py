@@ -14,16 +14,19 @@ import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import folium
+import plotly.graph_objects as go
 from selenium import webdriver
 from PIL import Image
 from folium.plugins import TimestampedGeoJson
 from folium.plugins import MarkerCluster
 from matplotlib.backends.backend_pdf import PdfPages
+# Für Bodenfläche im 3D-Plot
+import numpy as np
 # === Projektkontext vorbereiten ===
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import airScout_analytics.context as context
 from config import CONFIG
-
+from pyproj import Transformer
 
 # === Plot-Funktionen ===
 
@@ -501,6 +504,215 @@ def plot_zeitslider(df, ergebnisse_dir, unterordner, filename_ohne_ext):
     out_path = os.path.join(unterordner, f"{filename_ohne_ext}_zeitslider.html")
     m.save(out_path)
 
+
+# === Platzhalterfunktion ===
+
+    """
+    Erstellt einen interaktiven 3D-Scatterplot mit Plotly (Longitude, Latitude, Höhe, Temperatur).
+    """
+    # Spaltennamen anpassen, falls nötig
+    x_col = 'GPS_Lon' if 'GPS_Lon' in df.columns else 'lon'
+    y_col = 'GPS_Lat' if 'GPS_Lat' in df.columns else 'lat'
+    z_col = 'Höhe' if 'Höhe' in df.columns else ('hoehe' if 'hoehe' in df.columns else 'z')
+    color_col = 'Temperature_DHT_C' if 'Temperature_DHT_C' in df.columns else ('temperatur' if 'temperatur' in df.columns else None)
+
+    if not all(col in df.columns for col in [x_col, y_col, z_col]) or color_col is None:
+        print("⚠️ 3D-Plot: Benötigte Spalten nicht gefunden. Überspringe plot_3d.")
+        return
+
+    fig = go.Figure(data=[go.Scatter3d(
+        x=df[x_col],
+        y=df[y_col],
+        z=df[z_col],
+        mode='markers',
+        marker=dict(
+            size=4,
+            color=df[color_col],  # Farbcodierung nach Temperatur
+            colorscale='Viridis',
+            opacity=0.8
+        )
+    )])
+
+    fig.update_layout(scene=dict(
+        xaxis_title=x_col,
+        yaxis_title=y_col,
+        zaxis_title=z_col
+    ))
+
+    # Optional: Plot als HTML speichern
+    html_path = os.path.join(unterordner, f"{filename_ohne_ext}_3dplot.html")
+    fig.write_html(html_path)
+    print(f"✅ 3D-Plot gespeichert: {html_path}")
+    # fig.show()  # Nur für interaktive Sessions
+
+def plot_sensoren_zeitverlauf(df, ergebnisse_dir, unterordner, filename_ohne_ext):
+    """
+    Erstellt ein Liniendiagramm für den Verlauf mehrerer Sensoren.
+    - Sensorskala passt sich Datenbereich an
+    - Rechts Skala für Temperatur (0-100°C) und Luftfeuchtigkeit (0-100%)
+    - Radiation als vertikale Linien (in Legende gekennzeichnet)
+    - Gasnamen in Legende ergänzt
+    """
+    plt.figure(figsize=(14, 6))
+    
+    # Zeitachse aus DateTime-Spalte erstellen
+    zeit = pd.to_datetime(df['DateTime'])
+    
+    # Hauptachsen für Sensoren
+    ax1 = plt.gca()
+    
+    # Gas-Sensoren mit ihren gemessenen Gasen
+    gas_sensoren = {
+        'MQ2': 'Kombi (H2,LPG,CH4,CO,Alkohol)',
+        'MQ3': 'Alkohol',
+        'MQ4': 'Methan/CNG',
+        'MQ5': 'Kombi (LPG,Erdgas,Stadtgas)',
+        'MQ6': 'LPG/Propan/Butan',
+        'MQ7': 'Kohlenmonoxid (CO)',
+        'MQ8': 'Wasserstoff (H2)',
+        'MQ9': 'Kombi (CO,brennbare Gase)',
+        'MQ135': 'Kombi (NH3,NOx,Alkohol,Benzin,CO2)'
+    }
+    
+    # Alle Gassensoren plotten (dünn und halbtransparent)
+    min_val, max_val = float('inf'), -float('inf')
+    for sensor, gasname in gas_sensoren.items():
+        ax1.plot(zeit, df[sensor], label=f"{sensor} ({gasname})", linewidth=1, alpha=0.5)
+        min_val = min(min_val, df[sensor].min())
+        max_val = max(max_val, df[sensor].max())
+    
+    # Temperatur und Luftfeuchtigkeit auf rechter Achse
+    ax2 = ax1.twinx()
+    ax2.plot(zeit, df['Temperature_DHT_C'], label='Temperatur (°C)', 
+             linewidth=3, color='red')
+    ax2.plot(zeit, df['Humidity_RH'], label='Luftfeuchtigkeit (%)', 
+             linewidth=3, color='blue')
+    ax2.set_ylim(0, 80, 5)  # Fixe Skala 0-80 für beide Werte
+    ax2.set_ylabel('Temperatur (°C) / Luftfeuchtigkeit (%)')
+    
+    # Radiation_CPS als senkrechte Linien plotten (auf Hauptachse)
+    rad_lines = []
+    for t, rad in zip(zeit, df['Radiation_CPS']):
+        if rad > 0:
+            line = ax1.plot([t, t], [min_val, min_val + 0.1*(max_val-min_val)], 
+                          color='green', linewidth=1, alpha=0.7)
+            if not rad_lines:  # Nur erste Linie für Legende
+                rad_lines = line
+    
+    # Achsen anpassen
+    ax1.set_xlabel('Zeit')
+    ax1.set_ylabel('Gassensorwerte (ppm/relative Werte)')
+    ax1.set_title('Sensorverlauf über die Zeit')
+    ax1.grid(True)
+    
+    # Formatierung der Zeitachse
+    plt.gcf().autofmt_xdate()
+    
+    # Kombinierte Legende
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    if rad_lines:
+        lines1.extend(rad_lines)
+        labels1.append('Radiation (CPS)')
+    
+    ax1.legend(lines1 + lines2, labels1 + labels2, 
+              bbox_to_anchor=(1.25, 1), loc='upper left')
+    
+    plt.tight_layout()
+    
+    # Speichern der Grafik
+    pfad1a = os.path.join(ergebnisse_dir, f"sensorverlauf_{filename_ohne_ext}.png")
+    pfad1b = os.path.join(unterordner, f"{filename_ohne_ext}_sensorverlauf.png")
+    plt.savefig(pfad1a, dpi=300, bbox_inches='tight')
+    plt.savefig(pfad1b, dpi=300, bbox_inches='tight')
+    plt.close()
+
+
+
+def plot_3d(df, ergebnisse_dir, unterordner, filename_ohne_ext):
+    """
+    Erstellt einen realitätsnah skalierten 3D-Plot (Longitude, Latitude → Meter) mit Höhe und Temperatur.
+    Speichert als HTML-Datei.
+    """
+    # Spaltennamen trimmen
+    df.columns = df.columns.str.strip()
+
+    # Spalten erkennen
+    x_col = 'GPS_Lon' if 'GPS_Lon' in df.columns else 'lon'
+    y_col = 'GPS_Lat' if 'GPS_Lat' in df.columns else 'lat'
+    z_col = 'GPS_Alt' if 'GPS_Alt' in df.columns else ('Höhe' if 'Höhe' in df.columns else ('hoehe' if 'hoehe' in df.columns else 'z'))
+    color_col = 'Temperature_DHT_C' if 'Temperature_DHT_C' in df.columns else ('temperatur' if 'temperatur' in df.columns else None)
+
+    if not all(col in df.columns for col in [x_col, y_col, z_col]) or color_col is None:
+        print("⚠️ 3D-Plot: Benötigte Spalten nicht gefunden. Überspringe plot_3d.")
+        return
+
+    # Mittelwert der Längengrade → UTM-Zone berechnen
+    mean_lon = df[x_col].mean()
+    utm_zone = int((mean_lon + 180) / 6) + 1
+    utm_crs = f"EPSG:{32600 + utm_zone}"  # Nur Nordhalbkugel – für Südhalbkugel ggf. anpassen
+
+    # Transformation vorbereiten
+    transformer = Transformer.from_crs("EPSG:4326", utm_crs, always_xy=True)
+    df['x_m'], df['y_m'] = transformer.transform(df[x_col].values, df[y_col].values)
+
+    # Plotly 3D-Scatterplot mit dunkelgrüner Bodenfläche
+    scatter = go.Scatter3d(
+        x=df['x_m'],
+        y=df['y_m'],
+        z=df[z_col],
+        mode='markers',
+        marker=dict(
+            size=4,
+            color=df[color_col],
+            colorscale='RdBu_r',  # Rot = warm, Blau = kalt
+            cmin=0,
+            cmax=40,
+            opacity=0.8,
+            colorbar=dict(title=f"{color_col} (°C)", tickvals=[0,10,20,30,40], ticktext=["0°C (kalt)","10°C","20°C","30°C","40°C (heiß)"])
+        ),
+        name='Messpunkte'
+    )
+
+    # Bodenfläche berechnen (rechteckig über Bereich der Messpunkte)
+    x_min, x_max = df['x_m'].min(), df['x_m'].max()
+    y_min, y_max = df['y_m'].min(), df['y_m'].max()
+    z_floor = df[z_col].min()
+    # Gitter für Bodenfläche
+    x_floor = [x_min, x_max]
+    y_floor = [y_min, y_max]
+    X, Y = np.meshgrid(x_floor, y_floor)
+    Z = np.full_like(X, z_floor)
+
+    surface = go.Surface(
+        x=X,
+        y=Y,
+        z=Z,
+        showscale=False,
+        opacity=0.7,
+        colorscale=[[0, 'darkgreen'], [1, 'darkgreen']],
+        name='Boden (dunkelgrün)'
+    )
+
+    fig = go.Figure(data=[surface, scatter])
+
+    # Layout mit realistischer Skalierung
+    fig.update_layout(
+        scene=dict(
+            xaxis_title="Easting (m)",
+            yaxis_title="Northing (m)",
+            zaxis_title=z_col,
+            aspectmode='data'  # Skaliert alles proportional zu realen Datenbereichen
+        ),
+        legend=dict(x=0.8, y=0.9)
+    )
+
+    # HTML speichern
+    os.makedirs(unterordner, exist_ok=True)
+    out_path = os.path.join(unterordner, f"{filename_ohne_ext}_3dplot.html")
+    fig.write_html(out_path)
+    print(f"✅ 3D-Plot gespeichert: {out_path}")
+
 # === Platzhalterfunktion ===
 def plot_beispiel_3(df, ergebnisse_dir, unterordner, filename_ohne_ext):
     """
@@ -526,7 +738,8 @@ def erstelle_plots(df, filename_ohne_ext):
         plot_sensorverläufe_mit_pdf,
         plot_zeitslider_radioaktiv,
         plot_zeitslider_lautstaerke,
-        # plot_beispiel_3,
+        plot_3d,
+        plot_sensoren_zeitverlauf,
         # ... bis zu 40 weitere Plotfunktionen ...
     ]
 

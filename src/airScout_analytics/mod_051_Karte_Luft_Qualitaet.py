@@ -74,3 +74,12 @@ pfad2 = os.path.join(unterordner, f"{filename_ohne_ext}_karte_mq135.png")
 plt.savefig(pfad1)
 plt.savefig(pfad2)
 plt.show()
+# === Einstiegspunkt ===
+def main():
+    """
+    Pipeline-kompatibler Einstiegspunkt: Führt main_plotting() aus.
+    """
+    return main_plotting()
+
+
+if __name__ == "__main__":
