@@ -10,7 +10,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.backends.backend_pdf import PdfPages
-from csv_analyser.config import CONFIG 
+from config import CONFIG
 missing_libs = []
 ADVANCED_LIBS_AVAILABLE = True
 

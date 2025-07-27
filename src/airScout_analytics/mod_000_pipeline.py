@@ -1,12 +1,18 @@
 """
-Damit der Code einer Datei (z.B. mod_010_laden_reinigen.py) von der Pipeline ausgeführt wird, muss folgendes erfüllt sein:
+AirScout-Analytics Pipeline-Steuerung
+-------------------------------------
 
-Die Datei muss im gleichen Verzeichnis wie die Pipeline liegen und mit mod_ beginnen sowie auf .py enden.
-Die Datei darf nicht mod_000_pipeline.py heißen (diese wird übersprungen).
-Die Datei muss eine Funktion mit dem Namen main enthalten (def main(): ...).
-Die main()-Funktion darf keine Argumente erwarten (sie wird ohne Parameter aufgerufen).
-Nur wenn diese Bedingungen erfüllt sind, wird die Datei importiert und ihre main()-Funktion ausgeführt. Gibt es keine main()-Funktion, wird das Modul übersprungen. Bei einem Fehler im Modul wird die Pipeline abgebrochen.
-Konkret werden – Stand 2025-07-26 – folgende Module nacheinander aufgerufen:
+Dieses Skript steuert die Ausführung aller Pipeline-Module im Projekt.
+Damit ein Modul automatisch ausgeführt wird, müssen folgende Bedingungen erfüllt sein:
+
+- Die Datei liegt im gleichen Verzeichnis wie diese Pipeline und beginnt mit 'mod_' und endet auf '.py'.
+- Die Datei darf nicht 'mod_000_pipeline.py' heißen (diese wird übersprungen).
+- Das Modul muss eine Funktion 'main' enthalten (def main(): ...), die keine Argumente erwartet.
+- Nur dann wird das Modul importiert und seine main()-Funktion ausgeführt.
+- Gibt es keine main()-Funktion, wird das Modul übersprungen.
+- Bei einem Fehler im Modul wird die Pipeline abgebrochen.
+
+Aktuelle Reihenfolge der Module (Stand: 2025-07-26):
 
 mod_010_laden_reinigen.py
 mod_020_csv_analyzer.py
@@ -25,7 +31,8 @@ mod_090_bild_generieren.py
 mod_100_upload_wordpress.py
 mod_110_auswertung_gesamt.py
 
-
+Jedes Modul ist für einen klar abgegrenzten Verarbeitungsschritt zuständig (Laden, Analyse, Feature Engineering, Visualisierung, Reporting etc.).
+Die Pipeline ist so konzipiert, dass sie leicht um weitere Module erweitert werden kann.
 """
 
 

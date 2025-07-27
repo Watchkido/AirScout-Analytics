@@ -72,5 +72,4 @@ constraints:
 - "Maximal 2 Verschachtelungsebenen"
 - "Funktionen < 30 Zeilen"
 - "Module < 500 Zeilen"
-
-## SensorAgent
+- "nutze die Konfiguration aus config.py mit diesem format: DEFAULT_CSV_FOLDER = CONFIG.DEFAULT_CSV_FOLDER"

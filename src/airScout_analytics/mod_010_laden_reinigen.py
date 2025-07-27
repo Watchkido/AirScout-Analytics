@@ -1,11 +1,32 @@
+def main():
+    """
+    Pipeline-kompatibler Einstiegspunkt: Führt laden_und_reinigen() aus und gibt das DataFrame zurück.
+    """
+    return laden_und_reinigen()
+"""mod_010_laden_reinigen.py
+Lädt die erste CSV aus 'data/bearbeitet', bereinigt sie und speichert das Ergebnis in 'data/bearbeitet0'.
+Gibt das bereinigte DataFrame zurück.   
+"""
+
+
+
 
 import re
 import io
 import os
 import glob
 import pandas as pd
-import matplotlib.pyplot as plt
+
+# Kompatibler Import für Direktaufruf und als Modul
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config import CONFIG
+import matplotlib.pyplot as plt
+import airScout_analytics.context as context
+
+
+
+
 
 def laden_und_reinigen():
     """
@@ -19,6 +40,9 @@ def laden_und_reinigen():
     if not csv_files:
         raise FileNotFoundError(f"Keine CSV-Datei in {bearbeitet_ordner} gefunden!")
     csv_path = csv_files[0]
+    basename = os.path.basename(csv_path)
+
+
 
     # 2. Finde die Headerzeile explizit, überspringe Schritt wenn nicht vorhanden
     header_name = "SecSinceMidnight-MS,Temperature_DHT_C,Humidity_RH,Light_Level,Light_Percent,GPS_Lat,GPS_Lon,GPS_Alt,GPS_Speed,GPS_Course,GPS_Sats,MQ2,MQ3,MQ4,MQ5,MQ6,MQ7,MQ8,MQ9,MQ135,Mic1,Mic2,Radiation_CPS,DateTime,GPS_DateTime"
@@ -44,59 +68,50 @@ def laden_und_reinigen():
         zeile = zeile.replace(' UTC', '')
         daten_lines.append(zeile)
 
-    # Filtere die ersten X Minuten (aus config) direkt aus den Datenzeilen, bevor gespeichert wird
+    # Lese die Daten direkt in ein DataFrame ein
     tmp_csv = io.StringIO(''.join(daten_lines))
-    df_tmp = pd.read_csv(tmp_csv)
-    if 'DateTime' in df_tmp.columns:
-        df_tmp['DateTime'] = pd.to_datetime(df_tmp['DateTime'], errors='coerce')
-        min_zeit = df_tmp['DateTime'].min()
+    df = pd.read_csv(tmp_csv)
+
+    # Spalten DateTime und GPS_DateTime in datetime konvertieren (früh, damit Filter funktionieren)
+    for spalte in ['DateTime', 'GPS_DateTime']:
+        if spalte in df.columns:
+            df[spalte] = pd.to_datetime(df[spalte], errors='coerce')
+
+    # Filtere die ersten X Minuten (aus config) direkt aus dem DataFrame
+    if 'DateTime' in df.columns:
+        min_zeit = df['DateTime'].min()
         grenze = min_zeit + pd.Timedelta(minutes=CONFIG.FILTER_MINUTEN_ERSTER_BLOCK)
-        df_tmp = df_tmp[df_tmp['DateTime'] > grenze]
-        # Entferne Zeilen ohne GPS-Daten (GPS_Lat, GPS_Lon, GPS_Alt == '--' oder leer)
-        gps_spalten = ['GPS_Lat', 'GPS_Lon', 'GPS_Alt']
-        for spalte in gps_spalten:
-            if spalte in df_tmp.columns:
-                df_tmp = df_tmp[~df_tmp[spalte].astype(str).isin(['--', '', 'nan', 'NaN'])]
+        df = df[df['DateTime'] > grenze]
 
-        # Werte in der Spalte 'GPS_Course' mit mehr als 3 Ziffern auf 0 setzen
-        if 'GPS_Course' in df_tmp.columns:
-            def kurs_korrigieren(x):
-                try:
-                    # Prüfe, ob Wert eine Zahl ist und mehr als 3 Ziffern hat
-                    if pd.notna(x) and str(x).isdigit() and len(str(int(float(x)))) > 3:
-                        return 0
-                    return x
-                except Exception:
-                    return x
-            df_tmp['GPS_Course'] = df_tmp['GPS_Course'].apply(kurs_korrigieren)
+    # Entferne Zeilen ohne GPS-Daten (GPS_Lat, GPS_Lon, GPS_Alt == '--' oder leer)
+    gps_spalten = ['GPS_Lat', 'GPS_Lon', 'GPS_Alt']
+    for spalte in gps_spalten:
+        if spalte in df.columns:
+            df = df[~df[spalte].astype(str).isin(['--', '', 'nan', 'NaN'])]
 
+    # Werte in der Spalte 'GPS_Course' mit mehr als 3 Ziffern auf 0 setzen
+    if 'GPS_Course' in df.columns:
+        def kurs_korrigieren(x):
+            try:
+                # Prüfe, ob Wert eine Zahl ist und mehr als 3 Ziffern hat
+                if pd.notna(x) and str(x).isdigit() and len(str(int(float(x)))) > 3:
+                    return 0
+                return x
+            except Exception:
+                return x
+        df['GPS_Course'] = df['GPS_Course'].apply(kurs_korrigieren)
 
-        # Entferne alle Zeilen, in denen GPS_Lon < 8 ist
-        if 'GPS_Lon' in df_tmp.columns:
-            # Versuche, GPS_Lon in float zu konvertieren, nicht konvertierbare Werte werden zu NaN
-            df_tmp['GPS_Lon'] = pd.to_numeric(df_tmp['GPS_Lon'], errors='coerce')
-            vorher = len(df_tmp)
-            df_tmp = df_tmp[df_tmp['GPS_Lon'] >= 8]
-            nachher = len(df_tmp)
-            # "Wer östlich von 8° lebt, darf bleiben! Alle anderen werden gnadenlos entfernt."
-            print(f"Gefiltert: {vorher - nachher} Zeilen mit GPS_Lon < 8 entfernt.")
+    # Entferne alle Zeilen, in denen GPS_Lon < 8 ist
+    if 'GPS_Lon' in df.columns:
+        df['GPS_Lon'] = pd.to_numeric(df['GPS_Lon'], errors='coerce')
+        vorher = len(df)
+        df = df[df['GPS_Lon'] >= 8]
+        nachher = len(df)
+        print(f"Gefiltert: {vorher - nachher} Zeilen mit GPS_Lon < 8 entfernt.")
 
-
-        # Schreibe die gefilterten Daten zurück in daten_lines (ohne doppelte Zeilenumbrüche)
-        daten_lines = [','.join(df_tmp.columns) + '\n']
-        daten_lines += [
-            zeile + '\n'
-            for zeile in df_tmp.to_csv(index=False, header=False, lineterminator='\n').split('\n')
-            if zeile.strip() != ''
-        ]
-
-        # Entferne die letzte Zeile vor dem Abspeichern (z.B. fehlerhafte Messungen am Dateiende)
-        if len(daten_lines) > 3:
-            daten_lines = daten_lines[:-1]
-
-
-
-
+    # Entferne die letzte Zeile vor dem Abspeichern (z.B. fehlerhafte Messungen am Dateiende)
+    if len(df) > 3:
+        df = df.iloc[:-1]
 
     # ------------------------------------------------------------------------------
     # Zielordner und neuen Dateinamen bestimmen
@@ -113,18 +128,16 @@ def laden_und_reinigen():
         neuer_name = basename.split('_')[-1].replace('.csv', '') + ".csv"
     ziel_path = os.path.join(zielordner, neuer_name)
 
-    # Schreibe bereinigte Datei
-    with open(ziel_path, 'w', encoding='utf-8') as f:
-        f.writelines(daten_lines)
+    # Dateinamen ohne .csv-Endung extrahieren und global speichern
+    context.filename_ohne_ext = os.path.splitext(neuer_name)[0]
+    print("Datei name:", context.filename_ohne_ext)
+    # Schreibe den Wert als Python-Variable in src/airScout_analytics/context.py
+    context_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "context.py")
+    with open(context_path, "w", encoding="utf-8") as f:
+        f.write(f"filename_ohne_ext = '{context.filename_ohne_ext}'\n")
 
-
-    # 4. Lese die bereinigte Datei ein
-    df = pd.read_csv(ziel_path)
-
-    # Spalten DateTime und GPS_DateTime in datetime konvertieren
-    for spalte in ['DateTime', 'GPS_DateTime']:
-        if spalte in df.columns:
-            df[spalte] = pd.to_datetime(df[spalte], errors='coerce')
+    # Schreibe bereinigtes DataFrame als CSV
+    df.to_csv(ziel_path, index=False, encoding='utf-8', lineterminator='\n')
 
     # Anzeigeoptionen für bessere Terminaldarstellung
     pd.set_option('display.width', 120)

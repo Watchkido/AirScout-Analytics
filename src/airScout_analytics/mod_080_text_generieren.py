@@ -20,6 +20,39 @@ def generiere_text(df):
         text += "⚠️ Warnung: Kritischer CO-Wert erkannt!"
     return [text]
 
+
+
+
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
+  -H 'Content-Type: application/json' \
+  -H 'X-goog-api-key: GEMINI_API_KEY' \
+  -X POST \
+  -d '{
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Explain how AI works in a few words"
+          }
+        ]
+      }
+    ]
+  }'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     # Code hier drunter wird nur ausgeführt wenn das Skript direkt aufgerufen wird
     pass

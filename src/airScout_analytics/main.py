@@ -5,6 +5,9 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=Warning)
+# main.py
+import airScout_analytics.context as context
+context.filename = generate_filename_based_on_date()
 
 
 

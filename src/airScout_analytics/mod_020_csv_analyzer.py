@@ -1,4 +1,61 @@
+def main():
+    """
+    Pipeline-kompatibler Einstiegspunkt: Führt csv_info_extractor für die erste Datei in data/bearbeitet0 aus.
+    """
+    import glob, os
+    csv_ordner = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "bearbeitet0")
+    csv_files = glob.glob(os.path.join(csv_ordner, "*.csv"))
+    if not csv_files:
+        print(f"Keine CSV-Datei in {csv_ordner} gefunden!")
+        return None
+    return csv_info_extractor(csv_files[0])
+
+
+
+
+
 # 📊 CSV ANALYSE UND INFO-EXPORT SCRIPT MIT ERWEITERTEN ANALYTICS
+'''mod_020_csv_analyzer.py
+=======================
+Dieses Modul bietet ein umfassendes Analyse- und Informations-Export-Skript für CSV-Dateien mit Sensordaten, insbesondere für Projekte im Bereich AirScout Analytics. Es kombiniert klassische Datenanalyse mit erweiterten Machine-Learning-Techniken zur Untersuchung von Sensorwerten (z.B. MQ-Gassensoren).
+Hauptfunktionen:
+----------------
+- **csv_info_extractor**: Robust geladenes Einlesen von CSV-Dateien mit automatischer Trennzeichenerkennung, Erzeugung eines ausführlichen Analyse-Reports als TXT-Datei. Der Report enthält u.a.:
+    - Grundlegende Informationen (Shape, Dateigröße, Datentypen)
+    - Beispielwerte pro Spalte
+    - Head/Tail der Daten
+    - Nullwert-Analyse mit Beispielen
+    - Statistiken für numerische und kategoriale Spalten
+    - Korrelationen und Duplikate
+    - Erweiterte Analysen (Clustering, PCA, Zeitreihen, Feature Selection)
+    - Zusammenfassung und Empfehlungen
+- **erweiterte_sensor_analyse**: Führt verschiedene ML-Analysen auf Sensordaten durch:
+    - Clustering von MQ-Sensoren (KMeans)
+    - Hauptkomponentenanalyse (PCA)
+    - Zeitreihenanalyse (Trends, Variabilität)
+    - Auswahl unabhängiger Sensoren (Feature Selection)
+- **mq_sensor_clustering**: Gruppiert MQ-Sensoren nach Ähnlichkeit ihres Verhaltens.
+- **hauptkomponenten_analyse**: Reduziert die Dimensionalität der Sensordaten und identifiziert die wichtigsten Sensoren pro Komponente.
+- **zeitreihen_veraenderungs_analyse**: Analysiert Trends und Variabilität der Sensorwerte über die Zeit.
+- **unabhaengige_sensoren_waehlen**: Identifiziert und empfiehlt möglichst unabhängige Sensoren für weitere Analysen.
+Besonderheiten:
+---------------
+- Automatische und robuste CSV-Parsing-Strategien (verschiedene Trennzeichen, Fehlerbehandlung)
+- Speicherung der Analyseberichte an mehreren Zielorten mit Zeitstempel
+- Umfangreiche Ausgaben für Debugging und Nachvollziehbarkeit
+- Konfigurierbare Schwellenwerte und Analyseparameter über ein zentrales CONFIG-Objekt
+Verwendung:
+-----------
+Das Skript kann direkt ausgeführt werden und sucht automatisch nach einer CSV-Datei im Standardordner. Alternativ kann die Hauptfunktion für beliebige CSV-Dateien aufgerufen werden.
+Beispiel:
+---------
+    python mod_020_csv_analyzer.py <pfad/zur/datei.csv>
+Abhängigkeiten:
+---------------
+- pandas, numpy, scikit-learn, scipy, matplotlib, seaborn'''
+
+
+
 import pandas as pd
 import numpy as np
 import os

@@ -6,7 +6,7 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 
 [Komoot Tour anzeigen](https://www.komoot.com/de-de/tour/2413578613?share_token=apHyFIhrf2YKNJ2b1SoPXXkasVKoAAOQN9jk74EsBOb3qIL1sM&profile=1)
 
-![AirScout-One](img/airscoutone.jpg)
+![AirScout-One](img/airscout_one_karte.jpg)
 
 ## 📊 Projektziele
 
@@ -17,9 +17,10 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 - **Visualisierung** mit interaktiven Diagrammen (Heatmaps, Scatterplots, Verlaufslinien)
 - **Erweiterbares Dashboard** zur Echtzeit- oder nachträglichen Analyse
 
-
 ---
+
 ## Kaggle Datensatz
+
 [Hyperlocal Urban Environmental Monitoring Dataset](https://www.kaggle.com/datasets/avitarus/hyperlocal-urban-environmental-monitoring-dataset)
 
 ---
@@ -38,7 +39,9 @@ Dieses Projekt erfasst und analysiert umfangreiche [Umweltdaten](https://www.kag
 ---
 
 ## 🧠 Kernfunktionen
+
 ### 1. Automatisierte Datenpipeline
+
 ```mermaid
 graph TD
     A[CSV-Rohdaten] --> B(Data Cleaning)
@@ -50,22 +53,25 @@ graph TD
 ```
 
 ### 2. Wichtige Skripte
-| Skript | Beschreibung | Output |
-|--------|-------------|--------|
-| `csv_analyser.py` | Hauptpipeline (Datenanalyse + Visuals) | HTML/PDF |
-| `geo_mapper.py` | Interaktive Pollution-Maps | GeoJSON |
-| `report_generator.py` | Autom. Report-Erstellung | PDF |
+
+| Skript                | Beschreibung                           | Output   |
+| --------------------- | -------------------------------------- | -------- |
+| `csv_analyser.py`     | Hauptpipeline (Datenanalyse + Visuals) | HTML/PDF |
+| `geo_mapper.py`       | Interaktive Pollution-Maps             | GeoJSON  |
+| `report_generator.py` | Autom. Report-Erstellung               | PDF      |
 
 ---
 
-
 ### 📈 Visualisierung
-![Dashboard](images/dashboard_preview.png)
+
+![Dashboard](img/airscout_one_karte.jpg)
 
 ---
 
 ## 📝 Prüfungsrelevante Aspekte
+
 1. **Software-Engineering**:
+
    - MVC-Architektur
    - Unit-Tests (pytest)
    - CI/CD (GitHub Actions)
@@ -78,23 +84,26 @@ graph TD
 ---
 
 ## 🧪 Testprotokoll
+
 ```bash
 pytest tests/ --cov=src/ --cov-report=html
 ```
-| Modul | Abdeckung | Status |
-|-------|-----------|--------|
-| Datenbereinigung | 0% | ❌ |
-| Geo-Mapping | 0% | ❌ |
-| Report-Gen | 0% | ❌ |
+
+| Modul            | Abdeckung | Status |
+| ---------------- | --------- | ------ |
+| Datenbereinigung | 0%        | ❌     |
+| Geo-Mapping      | 0%        | ❌     |
+| Report-Gen       | 0%        | ❌     |
 
 ---
 
 ## 📜 Lizenz & Danksagung
+
 **MIT License** - Speziell entwickelt für die Python-Prüfung 2025.  
-*Betreut durch [Institut/Professor]*  
+_Betreut durch [Institut/Professor]_
 
 **Kontakt:**  
-Frank Albrecht | [airscout@watchkido.de](mailto:airscout@watchkido.de)  
+Frank Albrecht | [airscout@watchkido.de](mailto:airscout@watchkido.de)
 
 ## Schnellstart
 
