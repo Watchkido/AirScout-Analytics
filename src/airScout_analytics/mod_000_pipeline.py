@@ -12,24 +12,6 @@ Damit ein Modul automatisch ausgeführt wird, müssen folgende Bedingungen erfü
 - Gibt es keine main()-Funktion, wird das Modul übersprungen.
 - Bei einem Fehler im Modul wird die Pipeline abgebrochen.
 
-Aktuelle Reihenfolge der Module (Stand: 2025-07-26):
-
-mod_010_laden_reinigen.py
-mod_020_csv_analyzer.py
-mod_021_csv_analyzer_gassensor_010.py
-mod_040_feature_engeneering.py
-mod_041_Umrechnung_wert_ppm_µgm3.py
-mod_042_Umrechnung_wert_ppm_ygm3.py
-mod_043_glaetten_der_sensorwerte.py
-mod_045_datenanalyse plotten.py
-mod_050_gui copy.py
-mod_050_gui.py
-mod_060_visualization.py
-mod_070_reporting.py
-mod_080_text_generieren.py
-mod_090_bild_generieren.py
-mod_100_upload_wordpress.py
-mod_110_auswertung_gesamt.py
 
 Jedes Modul ist für einen klar abgegrenzten Verarbeitungsschritt zuständig (Laden, Analyse, Feature Engineering, Visualisierung, Reporting etc.).
 Die Pipeline ist so konzipiert, dass sie leicht um weitere Module erweitert werden kann.
