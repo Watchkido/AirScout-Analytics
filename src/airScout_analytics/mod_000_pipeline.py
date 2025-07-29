@@ -37,6 +37,23 @@ from mod_020_csv_analyzer import csv_info_extractor
 def main():
 
     modulverzeichnis = os.path.dirname(os.path.abspath(__file__))
+    # Vor dem Start: Ordner bearbeitet0 bis bearbeitet3 bereinigen
+    zu_bereinigen = [
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet0"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet1"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet2"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet3"),
+    ]
+    for ordner in zu_bereinigen:
+        if os.path.isdir(ordner):
+            for datei in os.listdir(ordner):
+                pfad = os.path.join(ordner, datei)
+                if os.path.isfile(pfad):
+                    try:
+                        os.remove(pfad)
+                        print(f"[Bereinigt] Datei gelöscht: {pfad}")
+                    except Exception as e:
+                        print(f"[Fehler beim Löschen] {pfad}: {e}")
     # Alle mod_*.py Dateien (außer pipeline selbst) sortiert laden
     alle_module = sorted([
         f for f in os.listdir(modulverzeichnis)
@@ -68,7 +85,10 @@ def main():
 
 
     # Am Ende: Frisch erstellte Dateien in Ergebnisordner kopieren und dann gezielt löschen
-    filename_ohne_ext = getattr(context, "filename_ohne_ext", None) if context else None
+    try:
+        import context
+    except ImportError:
+        context = None
     zu_loeschende_ordner = [
         os.path.join(CONFIG.DATA_ROOT, "bearbeitet0"),
         os.path.join(CONFIG.DATA_ROOT, "bearbeitet1"),
@@ -77,17 +97,17 @@ def main():
     ]
     # Ermittlung der bearbeiteten Dateien: Alle Dateien mit Namensbestandteil im jeweiligen Ordner
     bearbeitete_dateien = []
-    if filename_ohne_ext:
+    if context and hasattr(context, "filename_ohne_ext") and context.filename_ohne_ext:
         for ordner in zu_loeschende_ordner:
             if not os.path.isdir(ordner):
                 continue
             for datei in os.listdir(ordner):
-                if filename_ohne_ext in datei:
+                if context.filename_ohne_ext in datei:
                     bearbeitete_dateien.append((ordner, datei))
     else:
         print("[Warnung] Kein Namensbestandteil für Löschprüfung gefunden (context.filename_ohne_ext)")
     # Zielordner für Kopien vor dem Löschen
-    kopierziel = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", filename_ohne_ext) if filename_ohne_ext else None
+    kopierziel = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", context.filename_ohne_ext) if context and hasattr(context, "filename_ohne_ext") and context.filename_ohne_ext else None
     if kopierziel and not os.path.isdir(kopierziel):
         try:
             os.makedirs(kopierziel)
@@ -98,12 +118,20 @@ def main():
     # Zuerst kopieren, dann löschen
     for ordner, datei in bearbeitete_dateien:
         pfad = os.path.join(ordner, datei)
-        if kopierziel:
+        # Zielordner: ergebnisse/context.filename_ohne_ext/bearbeitetX
+        ordnername = os.path.basename(ordner)
+        ziel_unterordner = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", context.filename_ohne_ext, ordnername)
+        if not os.path.isdir(ziel_unterordner):
             try:
-                shutil.copy2(pfad, kopierziel)
-                print(f"Datei kopiert nach: {kopierziel}")
+                os.makedirs(ziel_unterordner)
+                print(f"Kopierziel erstellt: {ziel_unterordner}")
             except Exception as e:
-                print(f"Fehler beim Kopieren von {pfad} nach {kopierziel}: {e}")
+                print(f"Fehler beim Erstellen des Kopierziels: {e}")
+        try:
+            shutil.copy2(pfad, ziel_unterordner)
+            print(f"Datei kopiert nach: {ziel_unterordner}")
+        except Exception as e:
+            print(f"Fehler beim Kopieren von {pfad} nach {ziel_unterordner}: {e}")
         try:
             os.remove(pfad)
             print(f"Datei gelöscht: {pfad}")

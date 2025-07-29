@@ -91,7 +91,8 @@ def main() -> None:
     pfad2 = os.path.join(unterordner, f"{context.filename_ohne_ext}_karte_mq135.png")
     plt.savefig(pfad1)
     plt.savefig(pfad2)
-    plt.show()
+    plt.close()
+    print(f"Karte gespeichert unter: {pfad1} und {pfad2}")
 
 
 if __name__ == "__main__":

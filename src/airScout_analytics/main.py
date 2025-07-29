@@ -1,5 +1,13 @@
 import os
 import warnings
+try:
+    from config import CONFIG
+except ImportError:
+    from .config import CONFIG
+try:
+    DATA_ROOT = CONFIG.DATA_ROOT
+except AttributeError:
+    DATA_ROOT = os.path.join(str(CONFIG.PROJEKT_PFAD), "data")
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)

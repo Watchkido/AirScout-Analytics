@@ -1,0 +1,11 @@
+[2025-07-29 18:41:35] filename_ohne_ext gesetzt auf '2025_07_19_14_23' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 18:47:57] filename_ohne_ext gesetzt auf '2025_07_19_14_23' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 18:57:41] filename_ohne_ext gesetzt auf '2025_07_19_14_23' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:01:20] filename_ohne_ext gesetzt auf '2025_07_19_17_44' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:17:58] filename_ohne_ext gesetzt auf '2025_07_19_17_44' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:22:20] filename_ohne_ext gesetzt auf '2025_07_20_06_00' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:28:42] filename_ohne_ext gesetzt auf '2025_07_20_06_00' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:43:52] filename_ohne_ext gesetzt auf '2025_07_21_04_50' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:46:40] filename_ohne_ext gesetzt auf '2025_07_21_04_50' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 19:54:05] filename_ohne_ext gesetzt auf '2025_07_21_04_50' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+[2025-07-29 20:04:12] filename_ohne_ext gesetzt auf '2025_07_21_13_58' durch e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py

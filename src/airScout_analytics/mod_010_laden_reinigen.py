@@ -129,8 +129,14 @@ def laden_und_reinigen() -> pd.DataFrame:
 
     # Schreibe den Wert als Python-Variable in src/airScout_analytics/context.py
     context_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "context.py")
+    import datetime, inspect
+    aufrufer = inspect.stack()[1].filename
+    zeit = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_path = os.path.join(os.path.dirname(context_path), "context_log.txt")
     with open(context_path, "w", encoding="utf-8") as f:
         f.write(f"filename_ohne_ext = '{context.filename_ohne_ext}'\n")
+    with open(log_path, "a", encoding="utf-8") as logf:
+        logf.write(f"[{zeit}] filename_ohne_ext gesetzt auf '{context.filename_ohne_ext}' durch {aufrufer}\n")
 
     # Schreibe bereinigtes DataFrame als CSV
     df.to_csv(ziel_path, index=False, encoding='utf-8', lineterminator='\n')

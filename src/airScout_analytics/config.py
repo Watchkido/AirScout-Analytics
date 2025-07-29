@@ -85,6 +85,7 @@ CONFIG = SimpleNamespace(
     # Projekt-Grundkonfiguration
     BASIS_PFAD=str(PROJECT_ROOT),
     PROJEKT_PFAD=str(PROJECT_ROOT),
+    DATA_ROOT=str(DATA_ROOT),
     PROJEKT_NAME="006_Umweltkontrollsystem",
     PROJEKT_BESCHREIBUNG="Umweltkontrollsystem für Gassensor-Datenanalyse",
     PROJEKT_TYP="Python-Projekt",

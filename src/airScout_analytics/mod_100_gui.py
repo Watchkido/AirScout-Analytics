@@ -49,13 +49,13 @@ TAB1_FILES = [
 TAB1_FILES += [os.path.join("..", "..", "data", "bearbeitet", f"Infos{i+1}.txt") for i in range(3, 20)]
 
 # Tab 2
-TAB2_TAB_NAMES = [f"Tab2_{i+1}" for i in range(20)]
-TAB2_LABELS = [f"Tab 2 - Ansicht {i+1}" for i in range(20)]
+TAB2_TAB_NAMES = [f"Tab2_{i+1}" for i in range(29)]
+TAB2_LABELS = [f"Tab 2 - Ansicht {i+1}" for i in range(29)]
 TAB2_FILES = [os.path.join("..", "..", "data", "bearbeitet", f"Infos{i+1}.txt") for i in range(20)]
 
 # Tab 3
-TAB3_TAB_NAMES = [f"Tab3_{i+1}" for i in range(20)]
-TAB3_LABELS = [f"Tab 3 - Ansicht {i+1}" for i in range(20)]
+TAB3_TAB_NAMES = [f"Tab3_{i+1}" for i in range(29)]
+TAB3_LABELS = [f"Tab 3 - Ansicht {i+1}" for i in range(29)]
 TAB3_FILES = [os.path.join("..", "..", "data", "bearbeitet", f"Infos{i+1}.txt") for i in range(20)]
 
 
@@ -89,9 +89,35 @@ def show_txt_in_tab(frame, filepath):
     pdf_exts = ('.pdf',)
     html_exts = ('.html', '.htm')
     MAX_IMAGE_SIZE = (1920, 1080)  # Größere Darstellung für Bilder
+    # Prüfe, ob Bilddatei und zeige in eigenem Frame
+    if abs_path.lower().endswith(image_exts):
+        try:
+            print(f"[LOG] Versuche Bild zu laden: {abs_path}")
+            img = Image.open(abs_path)
+            print(f"[LOG] Bild erfolgreich geöffnet: {abs_path}")
+            # Bild ggf. skalieren, falls größer als MAX_IMAGE_SIZE
+            img.thumbnail(MAX_IMAGE_SIZE)
+            photo = ImageTk.PhotoImage(img)
+            image_frame = tk.Frame(frame)
+            image_frame.pack(expand=True, fill=tk.BOTH)
+            label = tk.Label(image_frame, image=photo)
+            label.image = photo  # Referenz halten!
+            if not hasattr(image_frame, 'image_refs'):
+                image_frame.image_refs = []
+            image_frame.image_refs.append(photo)
+            print(f"[LOG] Bildreferenz am Frame gespeichert: {abs_path}")
+            label.pack(expand=True, fill=tk.BOTH)
+        except Exception as e:
+            print(f"[ERROR] Fehler beim Laden des Bildes: {e}\nPfad: {abs_path}")
+            content = f"Fehler beim Laden des Bildes: {e}\nPfad: {abs_path}"
+            text = tk.Text(frame, height=30, width=120)
+            text.insert(tk.END, content)
+            text.pack(expand=True, fill=tk.BOTH)
+        return
+    # HTML-Anzeige
     if abs_path.lower().endswith(html_exts) and HTML_SUPPORT:
         try:
-            html_frame = HtmlFrame(frame, horizontal_scrollbar=True)
+            html_frame = HtmlFrame(frame, horizontal_scrollbar=True, messages_enabled=False)
             html_frame.load_file(abs_path)
             html_frame.pack(expand=True, fill=tk.BOTH)
         except Exception as e:
@@ -110,13 +136,19 @@ def show_txt_in_tab(frame, filepath):
             text_frame.grid_columnconfigure(0, weight=1)
     elif abs_path.lower().endswith(image_exts):
         try:
+            print(f"[LOG] Versuche Bild (unskaliert) zu laden: {abs_path}")
             img = Image.open(abs_path)
-            # Bild wird nicht verkleinert, sondern in voller Größe geladen
+            print(f"[LOG] Bild erfolgreich geöffnet: {abs_path}")
             photo = ImageTk.PhotoImage(img)
             label = tk.Label(frame, image=photo)
             label.image = photo  # Referenz halten!
+            if not hasattr(frame, 'image_refs'):
+                frame.image_refs = []
+            frame.image_refs.append(photo)
+            print(f"[LOG] Bildreferenz am Frame gespeichert: {abs_path}")
             label.pack(expand=True, fill=tk.BOTH)
         except Exception as e:
+            print(f"[ERROR] Fehler beim Laden des Bildes: {e}\nPfad: {abs_path}")
             content = f"Fehler beim Laden des Bildes: {e}\nPfad: {abs_path}"
             text = tk.Text(frame, height=30, width=120)
             text.insert(tk.END, content)
@@ -233,6 +265,10 @@ def main() -> None:
     """
     Pipeline-kompatibler Einstiegspunkt: Startet die MultiTab-GUI.
     """
+    import threading
+    if threading.current_thread() is not threading.main_thread():
+        print("[FEHLER] Die GUI muss im Hauptthread gestartet werden! Bitte als eigenen Prozess ausführen.")
+        return
     app = MultiTabGUI()
     app.mainloop()
 

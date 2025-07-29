@@ -1,5 +1,7 @@
-# Importiere CONFIG ganz oben, damit es verfügbar ist
+import os
 from config import CONFIG
+import context
+
 EMA_SPAN = CONFIG.EMA_ANALYSE.get('EMA_SPAN', 5)
 ZSCORE_THRESHOLD = CONFIG.EMA_ANALYSE.get('ZSCORE_THRESHOLD', 3)
 GAS_THRESHOLD_MULTIPLIER = CONFIG.EMA_ANALYSE.get('GAS_THRESHOLD_MULTIPLIER', 1.5)
@@ -7,6 +9,7 @@ GAS_EVENT_WINDOW = CONFIG.EMA_ANALYSE.get('GAS_EVENT_WINDOW', 5)
 ANOMALY_CONTAMINATION = CONFIG.EMA_ANALYSE.get('ANOMALY_CONTAMINATION', 0.05)
 ML_RANDOM_STATE = CONFIG.EMA_ANALYSE.get('ML_RANDOM_STATE', 42)
 ML_N_ESTIMATORS = CONFIG.EMA_ANALYSE.get('ML_N_ESTIMATORS', 100)
+
 # Hilfsfunktion zur Sensorerkennung
 def identify_sensor_columns(df):
     """
@@ -37,7 +40,9 @@ from sklearn.preprocessing import StandardScaler
 import sys
 import io
 from config import CONFIG
-from context import filename_ohne_ext
+
+
+
 
 
 OUTPUT_SUFFIX = CONFIG.EMA_ANALYSE['OUTPUT_SUFFIX']
@@ -53,6 +58,7 @@ def get_info_txt_path(filename_ohne_ext: str) -> str:
         'data/ergebnisse/Home-LOG2025-07-12-2258_ema/info.txt'
     """
     # IT-Witz: Wer Info.txt nicht findet, hat vermutlich die Doku gelöscht!
+    print(f"[DEBUG] get_info_txt_path: filename_ohne_ext={filename_ohne_ext} (aus context)")
     return f"data/ergebnisse/{filename_ohne_ext}/{filename_ohne_ext}_info.txt"
 def main() -> None:
     """
@@ -84,14 +90,14 @@ import warnings
 import sys
 import io
 from config import CONFIG
-from context import filename_ohne_ext
+import context
 
 
 # Projektpfade definieren
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_ROH_PATH = PROJECT_ROOT / "data" / "bearbeitet2"
 DATA_BEARBEITET_PATH = PROJECT_ROOT / "data" / "bearbeitet3"
-ERGENISSE_PATH = PROJECT_ROOT / "data" / "ergebnisse"
+ERGEBNISSE_PATH = PROJECT_ROOT / "data" / "ergebnisse"
 
 
 def apply_ema_smoothing(df, sensor_groups):
@@ -358,50 +364,116 @@ def process_all_csv_files():
     Verarbeitet alle CSV-Dateien im data/roh Ordner und schreibt die Terminalausgabe in eine TXT-Datei im Ordner 'ergebnisse'.
     """
     # Logging-Stream für alle print-Ausgaben
-    ERGENISSE_PATH.mkdir(parents=True, exist_ok=True)
+    ERGEBNISSE_PATH.mkdir(parents=True, exist_ok=True)
     log_stream = io.StringIO()
     orig_stdout = sys.stdout
-    # Statusmeldungen direkt ins Terminal
-    print("Datei name:", filename_ohne_ext)
     DATA_ROH_PATH.mkdir(parents=True, exist_ok=True)
     DATA_BEARBEITET_PATH.mkdir(parents=True, exist_ok=True)
-    csv_files = list({f.resolve() for f in DATA_ROH_PATH.glob("*.csv")})
-    print(f"Gefundene CSV-Dateien in {DATA_ROH_PATH}: {len(csv_files)}")
-    if csv_files:
-        print("Dateinamen:", [f.name for f in csv_files])
-    else:
-        print(f"Keine CSV-Dateien in {DATA_ROH_PATH} gefunden!")
-        return
-    print("ERWEITERTE SENSORWERTE-ANALYSE")
-    print("=" * 70)
-    print("Features: EMA, Z-Score, Gas-Events, ML-Anomalien")
-    print("=" * 70)
-    successful = 0
-    failed = 0
-    sys.stdout = log_stream
-    for csv_file in csv_files:
-        # Erstelle Ausgabe-Dateinamen
-        output_name = f"{csv_file.stem}{OUTPUT_SUFFIX}.csv"
-        output_file = DATA_BEARBEITET_PATH / output_name
-        # Verarbeite die Datei
-        if process_csv_file(csv_file, output_file):
-            successful += 1
-        else:
-            failed += 1
-        print()  # Leerzeile zwischen Dateien
-    print("=" * 70)
-    print(f"ANALYSE ABGESCHLOSSEN:")
-    print(f"Erfolgreich: {successful}")
-    print(f"Fehlgeschlagen: {failed}")
-    print(f"Ausgabe in: {DATA_BEARBEITET_PATH}")
-    sys.stdout = orig_stdout
-    info_txt_path = get_info_txt_path(filename_ohne_ext)
-    # Ordner sicherstellen
+    # Verwende ausschließlich context.filename_ohne_ext für alle Dateinamen
+    print(f"[LOG] Verwende filename_ohne_ext aus context: {context.filename_ohne_ext}")
+    input_name = f"feature_{context.filename_ohne_ext}_umgerechnet.csv"
+    input_file = DATA_ROH_PATH / input_name
+    output_name = f"feature_{context.filename_ohne_ext}_umgerechnet_ema.csv"
+    output_file = DATA_BEARBEITET_PATH / output_name
+    ergebnis_ordner = ERGEBNISSE_PATH / context.filename_ohne_ext
+    ergebnis_ordner.mkdir(parents=True, exist_ok=True)
+    log_datei = ergebnis_ordner / f"analyse_log_{context.filename_ohne_ext}.txt"
+    with open(log_datei, "w", encoding="utf-8") as logf:
+        successful = 0
+        failed = 0
+        try:
+            sys.stdout = log_stream
+            print(f"[DEBUG] filename_ohne_ext aus context: {context.filename_ohne_ext}")
+            print(f"[DEBUG] Erwartete Eingabedatei: {input_file}")
+            print(f"[DEBUG] Existiert Eingabedatei? {input_file.exists()}")
+            print(f"[DEBUG] Ziel-Ausgabedatei: {output_file}")
+            print("ERWEITERTE SENSORWERTE-ANALYSE")
+            print("=" * 70)
+            print("Features: EMA, Z-Score, Gas-Events, ML-Anomalien")
+            print("=" * 70)
+            if input_file.exists():
+                ok = process_csv_file(input_file, output_file)
+                print(f"[LOG] Existiert Ausgabedatei nach Verarbeitung? {output_file.exists()}")
+                if ok and output_file.exists():
+                    successful += 1
+                    print(f"Erfolgreich verarbeitet: {output_file}")
+                else:
+                    failed += 1
+                    print(f"Fehler bei Verarbeitung: {input_file}")
+            else:
+                print(f"[ERROR] Eingabedatei nicht gefunden: {input_file}")
+                failed += 1
+            print("=" * 70)
+            print(f"ANALYSE ABGESCHLOSSEN:")
+            print(f"Erfolgreich: {successful}")
+            print(f"Fehlgeschlagen: {failed}")
+            print(f"Ausgabe in: {DATA_BEARBEITET_PATH}")
+        finally:
+            sys.stdout = orig_stdout
+            logf.write(log_stream.getvalue())
+    print(f"Analyse-Log geschrieben nach: {log_datei}")
+    info_txt_path = get_info_txt_path(korrekter_filename_ohne_ext)
     info_dir = os.path.dirname(info_txt_path)
     os.makedirs(info_dir, exist_ok=True)
     with open(info_txt_path, 'a', encoding='utf-8') as f:
         f.write("\n\n--- Erweiterte Sensoranalyse ---\n")
         f.write(log_stream.getvalue())
+    print(f"Analyse-Log an {info_txt_path} angehängt.")
+
+
+def process_single_csv_file():
+    """
+    Verarbeitet gezielt die Datei feature_{context.filename_ohne_ext}_umgerechnet.csv aus bearbeitet2 und schreibt Ergebnis/Log in bearbeitet3 und ergebnisse.
+    Erstellt ein ausführliches Log mit allen Schritten und Fehlern.
+    """
+    from pathlib import Path
+    import io
+    import sys
+    ERGEBNISSE_PATH = Path(__file__).parent.parent.parent / "data" / "ergebnisse"
+    DATA_ROH_PATH = Path(__file__).parent.parent.parent / "data" / "bearbeitet2"
+    DATA_BEARBEITET_PATH = Path(__file__).parent.parent.parent / "data" / "bearbeitet3"
+    ERGEBNISSE_PATH.mkdir(parents=True, exist_ok=True)
+    DATA_ROH_PATH.mkdir(parents=True, exist_ok=True)
+    DATA_BEARBEITET_PATH.mkdir(parents=True, exist_ok=True)
+    log_stream = io.StringIO()
+    orig_stdout = sys.stdout
+    # Dateiname und Pfade
+    input_name = f"feature_{context.filename_ohne_ext}_umgerechnet.csv"
+    input_file = DATA_ROH_PATH / input_name
+    output_name = f"feature_{context.filename_ohne_ext}_umgerechnet_ema.csv"
+    output_file = DATA_BEARBEITET_PATH / output_name
+    ergebnis_ordner = ERGEBNISSE_PATH / context.filename_ohne_ext
+    ergebnis_ordner.mkdir(parents=True, exist_ok=True)
+    log_datei = ergebnis_ordner / f"analyse_log_{context.filename_ohne_ext}.txt"
+    info_txt_path = get_info_txt_path(context.filename_ohne_ext)
+    info_dir = os.path.dirname(info_txt_path)
+    os.makedirs(info_dir, exist_ok=True)
+    # Logging
+    with open(log_datei, "w", encoding="utf-8") as logf:
+        sys.stdout = log_stream
+        print(f"[LOG] Starte Verarbeitung: {input_file}")
+        print(f"[LOG] Erwartete Ausgabedatei: {output_file}")
+        print(f"[LOG] filename_ohne_ext aus context: {context.filename_ohne_ext}")
+        print(f"[LOG] Existiert Eingabedatei? {input_file.exists()}")
+        if not input_file.exists():
+            print(f"[ERROR] Eingabedatei nicht gefunden: {input_file}")
+            sys.stdout = orig_stdout
+            logf.write(log_stream.getvalue())
+            return
+        ok = process_csv_file(input_file, output_file)
+        print(f"[LOG] Verarbeitung abgeschlossen. Rückgabewert: {ok}")
+        print(f"[LOG] Existiert Ausgabedatei nach Verarbeitung? {output_file.exists()}")
+        if ok and output_file.exists():
+            print(f"[SUCCESS] Datei verarbeitet und gespeichert: {output_file}")
+        else:
+            print(f"[FAIL] Verarbeitung fehlgeschlagen oder Datei nicht geschrieben: {output_file}")
+        sys.stdout = orig_stdout
+        logf.write(log_stream.getvalue())
+    print(f"Analyse-Log geschrieben nach: {log_datei}")
+    with open(info_txt_path, 'a', encoding='utf-8') as f:
+        f.write("\n\n--- Erweiterte Sensoranalyse ---\n")
+        with open(log_datei, "r", encoding="utf-8") as lf:
+            f.write(lf.read())
     print(f"Analyse-Log an {info_txt_path} angehängt.")
 
 
