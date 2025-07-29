@@ -37,3 +37,40 @@ def upload(texts, images):
         )
         print("Beitrag veröffentlicht:", response.status_code)
 
+def main() -> bool:
+    """
+    Pipeline-kompatibler Einstiegspunkt: Sucht Texte und Bilder im Ergebnisordner und lädt sie zu WordPress hoch.
+    """
+    import importlib
+    import glob
+    import os
+    # Kontext laden
+    context = importlib.import_module('airScout_analytics.context')
+    filename_ohne_ext = getattr(context, 'filename_ohne_ext', None)
+    if not filename_ohne_ext:
+        print("[Fehler] context.filename_ohne_ext ist nicht gesetzt!")
+        return False
+    ergebnisse_dir = os.path.join("data", "ergebnisse", filename_ohne_ext)
+    # Suche nach Texten und Bildern
+    text_dateien = glob.glob(os.path.join(ergebnisse_dir, "*.txt"))
+    bild_dateien = glob.glob(os.path.join(ergebnisse_dir, "*.png"))
+    if not text_dateien or not bild_dateien:
+        print("[Fehler] Keine Text- oder Bilddateien im Ergebnisordner gefunden.")
+        return False
+    # Texte laden
+    texte = []
+    for pfad in text_dateien:
+        with open(pfad, encoding="utf-8") as f:
+            texte.append(f.read())
+    # Upload durchführen
+    upload(texte, bild_dateien)
+    print(f"✅ Upload zu WordPress abgeschlossen für {len(texte)} Texte und {len(bild_dateien)} Bilder.")
+    return True
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print(f"Fehler beim WordPress-Upload: {e}")
+

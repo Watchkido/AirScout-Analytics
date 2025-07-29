@@ -4,8 +4,13 @@ preprocessing.py
 Funktionen zur Datenbereinigung und Vorverarbeitung.
 Hier werden Funktionen zur Bereinigung, Transformation und Vorbereitung der Daten definiert.
 """
-from config import CONFIG
 
+
+from config import CONFIG
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=Warning)
 # Für .env-Handling und HTTP-Requests
 import os
 import requests
@@ -41,12 +46,26 @@ def generiere_luftqualitaetsbericht_von_gemini(prompt_txt_pfad: str) -> str:
     api_key = lade_gemini_api_key(os.path.join(os.path.dirname(__file__), '../../.env'))
     if not api_key:
         return "[Fehler] Kein Gemini API-Key gefunden."
-    if not os.path.exists(prompt_txt_pfad):
-        return f"[Fehler] Prompt-Datei nicht gefunden: {prompt_txt_pfad}"
-    with open(prompt_txt_pfad, encoding="utf-8") as f:
-        prompt_text = f.read()
+
+    # 1. Basis-Prompt laden (immer zuerst)
+    basis_prompt_pfad = os.path.join(os.path.dirname(__file__), 'Umweltprompt.txt')
+    if not os.path.exists(basis_prompt_pfad):
+        return f"[Fehler] Basis-Prompt nicht gefunden: {basis_prompt_pfad}"
+    with open(basis_prompt_pfad, encoding="utf-8") as f:
+        basis_prompt = f.read().strip()
+
+    # 2. Optional: individuellen Prompt anhängen
+    if os.path.exists(prompt_txt_pfad):
+        with open(prompt_txt_pfad, encoding="utf-8") as f:
+            user_prompt = f.read().strip()
+        prompt_text = basis_prompt + "\n\n" + user_prompt
+    else:
+        prompt_text = basis_prompt
 
     try:
+        print("\n--- Prompt an Gemini ---\n")
+        print(prompt_text)
+        print("\n--- Ende Prompt ---\n")
         genai.configure(api_key=api_key)
         # Modellname kann angepasst werden (z.B. "gemini-2.5-flash" oder "gemini-1.5-pro-latest")
         model_name = "gemini-2.5-flash"

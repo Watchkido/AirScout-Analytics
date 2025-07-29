@@ -1,9 +1,32 @@
-def main():
+import os
+import glob
+import sys
+import re
+import warnings
+import numpy as np
+import pandas as pd
+from datetime import datetime
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
+from scipy import stats
+from config import CONFIG
+
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=Warning)
+
+
+def main() -> str | None:
     """
     Pipeline-kompatibler Einstiegspunkt: Führt csv_info_extractor für die erste Datei in data/bearbeitet0 aus.
+    Gibt den Pfad zur Info-Textdatei zurück oder None bei Fehler.
     """
-    import glob, os
-    csv_ordner = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "bearbeitet0")
+    csv_ordner = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        "data", "bearbeitet0"
+    )
     csv_files = glob.glob(os.path.join(csv_ordner, "*.csv"))
     if not csv_files:
         print(f"Keine CSV-Datei in {csv_ordner} gefunden!")
@@ -12,15 +35,21 @@ def main():
 
 
 
-
-
 # 📊 CSV ANALYSE UND INFO-EXPORT SCRIPT MIT ERWEITERTEN ANALYTICS
-'''mod_020_csv_analyzer.py
+'''
+mod_020_csv_analyzer.py
 =======================
-Dieses Modul bietet ein umfassendes Analyse- und Informations-Export-Skript für CSV-Dateien mit Sensordaten, insbesondere für Projekte im Bereich AirScout Analytics. Es kombiniert klassische Datenanalyse mit erweiterten Machine-Learning-Techniken zur Untersuchung von Sensorwerten (z.B. MQ-Gassensoren).
+Dieses Modul bietet ein umfassendes Analyse- und Informations-Export-Skript
+für CSV-Dateien mit Sensordaten, insbesondere für Projekte im Bereich
+AirScout Analytics. Es kombiniert klassische Datenanalyse mit erweiterten
+Machine-Learning-Techniken zur Untersuchung von Sensorwerten (z.B.
+MQ-Gassensoren).
+
 Hauptfunktionen:
 ----------------
-- **csv_info_extractor**: Robust geladenes Einlesen von CSV-Dateien mit automatischer Trennzeichenerkennung, Erzeugung eines ausführlichen Analyse-Reports als TXT-Datei. Der Report enthält u.a.:
+- **csv_info_extractor**: Robust geladenes Einlesen von CSV-Dateien mit
+  automatischer Trennzeichenerkennung, Erzeugung eines ausführlichen
+  Analyse-Reports als TXT-Datei. Der Report enthält u.a.:
     - Grundlegende Informationen (Shape, Dateigröße, Datentypen)
     - Beispielwerte pro Spalte
     - Head/Tail der Daten
@@ -29,47 +58,47 @@ Hauptfunktionen:
     - Korrelationen und Duplikate
     - Erweiterte Analysen (Clustering, PCA, Zeitreihen, Feature Selection)
     - Zusammenfassung und Empfehlungen
-- **erweiterte_sensor_analyse**: Führt verschiedene ML-Analysen auf Sensordaten durch:
+- **erweiterte_sensor_analyse**: Führt verschiedene ML-Analysen auf
+  Sensordaten durch:
     - Clustering von MQ-Sensoren (KMeans)
     - Hauptkomponentenanalyse (PCA)
     - Zeitreihenanalyse (Trends, Variabilität)
     - Auswahl unabhängiger Sensoren (Feature Selection)
-- **mq_sensor_clustering**: Gruppiert MQ-Sensoren nach Ähnlichkeit ihres Verhaltens.
-- **hauptkomponenten_analyse**: Reduziert die Dimensionalität der Sensordaten und identifiziert die wichtigsten Sensoren pro Komponente.
-- **zeitreihen_veraenderungs_analyse**: Analysiert Trends und Variabilität der Sensorwerte über die Zeit.
-- **unabhaengige_sensoren_waehlen**: Identifiziert und empfiehlt möglichst unabhängige Sensoren für weitere Analysen.
+- **mq_sensor_clustering**: Gruppiert MQ-Sensoren nach Ähnlichkeit ihres
+  Verhaltens.
+- **hauptkomponenten_analyse**: Reduziert die Dimensionalität der
+  Sensordaten und identifiziert die wichtigsten Sensoren pro Komponente.
+- **zeitreihen_veraenderungs_analyse**: Analysiert Trends und Variabilität
+  der Sensorwerte über die Zeit.
+- **unabhaengige_sensoren_waehlen**: Identifiziert und empfiehlt möglichst
+  unabhängige Sensoren für weitere Analysen.
+
 Besonderheiten:
 ---------------
-- Automatische und robuste CSV-Parsing-Strategien (verschiedene Trennzeichen, Fehlerbehandlung)
+- Automatische und robuste CSV-Parsing-Strategien (verschiedene
+  Trennzeichen, Fehlerbehandlung)
 - Speicherung der Analyseberichte an mehreren Zielorten mit Zeitstempel
 - Umfangreiche Ausgaben für Debugging und Nachvollziehbarkeit
-- Konfigurierbare Schwellenwerte und Analyseparameter über ein zentrales CONFIG-Objekt
+- Konfigurierbare Schwellenwerte und Analyseparameter über ein zentrales
+  CONFIG-Objekt
+
 Verwendung:
 -----------
-Das Skript kann direkt ausgeführt werden und sucht automatisch nach einer CSV-Datei im Standardordner. Alternativ kann die Hauptfunktion für beliebige CSV-Dateien aufgerufen werden.
+Das Skript kann direkt ausgeführt werden und sucht automatisch nach einer
+CSV-Datei im Standardordner. Alternativ kann die Hauptfunktion für beliebige
+CSV-Dateien aufgerufen werden.
+
 Beispiel:
 ---------
     python mod_020_csv_analyzer.py <pfad/zur/datei.csv>
+
 Abhängigkeiten:
 ---------------
-- pandas, numpy, scikit-learn, scipy, matplotlib, seaborn'''
+- pandas, numpy, scikit-learn, scipy, matplotlib, seaborn
+'''
 
-
-
-import pandas as pd
-import numpy as np
-import os
-from datetime import datetime
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
-from scipy import stats
-import matplotlib.pyplot as plt
-import seaborn as sns
-import warnings
 warnings.filterwarnings('ignore')
-from config import CONFIG
+
 
 def csv_info_extractor(csv_filepath):
     """
@@ -435,7 +464,6 @@ def csv_info_extractor(csv_filepath):
 
         # 2. Kopie im Unterordner yyyy_mm_dd_hh_mm mit {alter dateiname}_info.txt
         # Extrahiere Zeitstempel aus Dateinamen (Format: yyyy_mm_dd_hh_mm)
-        import re
         match = re.search(r'(\d{4})_(\d{2})(\d{2})(\d{2})(\d{2})', alt_dateiname)
         if match:
             yyyy_mm_dd_hh_mm = f"{match.group(1)}_{match.group(2)}_{match.group(3)}_{match.group(4)}_{match.group(5)}"
@@ -497,6 +525,7 @@ if __name__ == "__main__":
         print("   python csv_analyzer_02.py <pfad/zur/datei.csv>")
     else:
         print("\n❌ Analyse konnte nicht abgeschlossen werden.")
+
 
 def erweiterte_sensor_analyse(df: pd.DataFrame, output_pfad: str) -> dict:
     """
@@ -807,27 +836,27 @@ def unabhaengige_sensoren_waehlen(df: pd.DataFrame, numerische_spalten: list, ou
         var2 = sensor_daten[sensor2].var()
         redundanter_sensor = sensor1 if var1 < var2 else sensor2
         redundante_sensoren.add(redundanter_sensor)
-    
+
     # Unabhängige Sensoren auswählen
     unabhaengige_sensoren = [s for s in numerische_spalten if s not in redundante_sensoren]
-    
+
     # Diversität bewerten (durchschnittliche absolute Korrelation)
     if len(unabhaengige_sensoren) > 1:
         unabhaengige_korr_matrix = sensor_daten[unabhaengige_sensoren].corr()
         durchschnittliche_korrelation = np.abs(unabhaengige_korr_matrix.values).mean()
     else:
         durchschnittliche_korrelation = 0.0
-    
+
     print(f"✅ {len(hohe_korrelationen)} redundante Sensor-Paare gefunden:")
     for sensor1, sensor2, korr in hohe_korrelationen[:5]:  # Erste 5 zeigen
         print(f"   {sensor1} ↔ {sensor2}: r={korr:.3f}")
-    
+
     print(f"\n🎯 {len(unabhaengige_sensoren)} unabhängige Sensoren ausgewählt:")
     for sensor in unabhaengige_sensoren:
         print(f"   {sensor}")
-    
+
     print(f"\n📊 Durchschnittliche Korrelation der Auswahl: {durchschnittliche_korrelation:.3f}")
-    
+
     return {
         'unabhaengige_sensoren': unabhaengige_sensoren,
         'redundante_sensoren': list(redundante_sensoren),

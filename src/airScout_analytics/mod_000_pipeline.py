@@ -1,52 +1,41 @@
+
 """
 AirScout-Analytics Pipeline-Steuerung
 -------------------------------------
 
 Dieses Skript steuert die Ausführung aller Pipeline-Module im Projekt.
-Damit ein Modul automatisch ausgeführt wird, müssen folgende Bedingungen erfüllt sein:
 
-- Die Datei liegt im gleichen Verzeichnis wie diese Pipeline und beginnt mit 'mod_' und endet auf '.py'.
-- Die Datei darf nicht 'mod_000_pipeline.py' heißen (diese wird übersprungen).
-- Das Modul muss eine Funktion 'main' enthalten (def main(): ...), die keine Argumente erwartet.
-- Nur dann wird das Modul importiert und seine main()-Funktion ausgeführt.
-- Gibt es keine main()-Funktion, wird das Modul übersprungen.
-- Bei einem Fehler im Modul wird die Pipeline abgebrochen.
+Bedingungen für die automatische Ausführung eines Moduls:
+    - Die Datei liegt im gleichen Verzeichnis wie diese Pipeline und beginnt mit 'mod_' und endet auf '.py'.
+    - Die Datei darf nicht 'mod_000_pipeline.py' heißen (diese wird übersprungen).
+    - Das Modul muss eine Funktion 'main' enthalten (def main(): ...), die keine Argumente erwartet.
+    - Nur dann wird das Modul importiert und seine main()-Funktion ausgeführt.
+    - Gibt es keine main()-Funktion, wird das Modul übersprungen.
+    - Bei einem Fehler im Modul wird die Pipeline abgebrochen.
 
-Aktuelle Reihenfolge der Module (Stand: 2025-07-26):
-
-mod_010_laden_reinigen.py
-mod_020_csv_analyzer.py
-mod_021_csv_analyzer_gassensor_010.py
-mod_040_feature_engeneering.py
-mod_041_Umrechnung_wert_ppm_µgm3.py
-mod_042_Umrechnung_wert_ppm_ygm3.py
-mod_043_glaetten_der_sensorwerte.py
-mod_045_datenanalyse plotten.py
-mod_050_gui copy.py
-mod_050_gui.py
-mod_060_visualization.py
-mod_070_reporting.py
-mod_080_text_generieren.py
-mod_090_bild_generieren.py
-mod_100_upload_wordpress.py
-mod_110_auswertung_gesamt.py
 
 Jedes Modul ist für einen klar abgegrenzten Verarbeitungsschritt zuständig (Laden, Analyse, Feature Engineering, Visualisierung, Reporting etc.).
 Die Pipeline ist so konzipiert, dass sie leicht um weitere Module erweitert werden kann.
 """
 
 
-from config import CONFIG
+import os
+import importlib
+import time
+import shutil
+try:
+    import context
+except ImportError:
+    context = None
+try:
+    from config import CONFIG
+except ImportError:
+    CONFIG = None
 from mod_010_laden_reinigen import laden_und_reinigen
 from mod_020_csv_analyzer import csv_info_extractor
 
 def main():
-    import glob
-    import os
-    import importlib
-    import sys
 
-    # Verzeichnis mit den Modulen
     modulverzeichnis = os.path.dirname(os.path.abspath(__file__))
     # Alle mod_*.py Dateien (außer pipeline selbst) sortiert laden
     alle_module = sorted([
@@ -55,14 +44,14 @@ def main():
     ])
 
     print("Starte sequentielle Pipeline:")
+
     for modulname in alle_module:
+        time.sleep(3)
         modulpfad = os.path.join(modulverzeichnis, modulname)
         print(f"\n--- Starte Modul: {modulname} ---")
-        # Dynamisch importieren
         modname = modulname[:-3]
         try:
             mod = importlib.import_module(modname)
-            # Wenn main()-Funktion vorhanden, ausführen
             if hasattr(mod, "main"):
                 result = mod.main()
                 print(f"Modul {modulname} erfolgreich ausgeführt. Rückgabewert: {result}")
@@ -70,8 +59,69 @@ def main():
                 print(f"Kein main() in {modulname}, überspringe Ausführung.")
         except Exception as e:
             print(f"Fehler beim Ausführen von {modulname}: {e}")
-            break
-    print('\nPipeline vollständig abgeschlossen.')
+            print(f"[Warnung] Modul {modulname} wurde übersprungen. Weiter mit dem nächsten Modul.")
+
+    print("\nPipeline vollständig abgeschlossen.")
+
+
+
+
+
+    # Am Ende: Nur die gerade bearbeiteten Dateien in den Zielordnern löschen
+    # DATA_ROOT bleibt aus CONFIG, Namenszusatz aus context
+    filename_ohne_ext = getattr(context, "filename_ohne_ext", None) if context else None
+    zu_loeschende_ordner = [
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet1"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet2"),
+        os.path.join(CONFIG.DATA_ROOT, "ergebnisse3"),
+    ]
+    # TODO: Liste der bearbeiteten Dateien aus den Modulen holen!
+    bearbeitete_dateien = []  # z.B. als Rückgabe der Module oder als globale Variable
+    if not filename_ohne_ext:
+        print("[Warnung] Kein Namensbestandteil für Löschprüfung gefunden (context.filename_ohne_ext)")
+    # Zielordner für Kopien vor dem Löschen
+    kopierziel = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", filename_ohne_ext)
+    if not os.path.isdir(kopierziel):
+        try:
+            os.makedirs(kopierziel)
+            print(f"Kopierziel erstellt: {kopierziel}")
+        except Exception as e:
+            print(f"Fehler beim Erstellen des Kopierziels: {e}")
+    import shutil
+    for ordner in zu_loeschende_ordner:
+        if not os.path.isdir(ordner):
+            continue
+        for datei in bearbeitete_dateien:
+            if filename_ohne_ext and filename_ohne_ext not in datei:
+                print(f"Überspringe Datei (Namensbestandteil fehlt): {datei}")
+                continue
+            pfad = os.path.join(ordner, datei)
+            if os.path.isfile(pfad):
+                # Vor dem Löschen kopieren
+                try:
+                    shutil.copy2(pfad, kopierziel)
+                    print(f"Datei kopiert nach: {kopierziel}")
+                except Exception as e:
+                    print(f"Fehler beim Kopieren von {pfad} nach {kopierziel}: {e}")
+                # Dann löschen
+                try:
+                    os.remove(pfad)
+                    print(f"Datei gelöscht: {pfad}")
+                except Exception as e:
+                    print(f"Fehler beim Löschen von {pfad}: {e}")
+
+
+# am ende der pipeline sollen die gerade bearbeiteten dateien in 
+# 1. data\bearbeitet
+# 2. data\bearbeitet1
+# 3. data\bearbeitet2
+# 4. data\ergebnisse3
+#gelöscht werden. aber nur diese! keine anderen!
+    
+
+
+
 
 if __name__ == "__main__":
     main()

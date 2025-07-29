@@ -1,8 +1,38 @@
-def main():
+
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+
+import sys
+import io
+from config import CONFIG
+from context import filename_ohne_ext
+
+
+OUTPUT_SUFFIX = CONFIG.EMA_ANALYSE['OUTPUT_SUFFIX']
+def get_info_txt_path(filename_ohne_ext: str) -> str:
+    """
+    Gibt den Pfad zur Info-Textdatei für die aktuelle Session zurück.
+    :param filename_ohne_ext: Dateiname ohne Erweiterung
+    :type filename_ohne_ext: str
+    :returns: Pfad zur Info-Textdatei
+    :rtype: str
+    :example:
+        >>> get_info_txt_path('Home-LOG2025-07-12-2258_ema')
+        'data/ergebnisse/Home-LOG2025-07-12-2258_ema/info.txt'
+    """
+    # IT-Witz: Wer Info.txt nicht findet, hat vermutlich die Doku gelöscht!
+    return f"data/ergebnisse/{filename_ohne_ext}/{filename_ohne_ext}_info.txt"
+def main() -> None:
     """
     Pipeline-kompatibler Einstiegspunkt: Führt process_all_csv_files() aus.
     """
-    return process_all_csv_files()
+    process_all_csv_files()
+
+
 """
 Erweiterte Sensorwerte-Analyse mit EMA, Z-Score und Anomalieerkennung
 ==================================================================
@@ -15,6 +45,7 @@ Features:
 - Speichert Ergebnisse als "_ema.csv"
 """
 
+import os
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -24,12 +55,9 @@ from sklearn.preprocessing import StandardScaler
 import warnings
 import sys
 import io
-warnings.filterwarnings('ignore')
-
-# Import der Konfiguration
-
 from config import CONFIG
 from context import filename_ohne_ext
+
 
 # Projektpfade definieren
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -38,103 +66,28 @@ DATA_BEARBEITET_PATH = PROJECT_ROOT / "data" / "bearbeitet3"
 ERGENISSE_PATH = PROJECT_ROOT / "data" / "ergebnisse"
 
 
-def get_info_txt_path(filename_ohne_ext):
-    if filename_ohne_ext:
-        return ERGENISSE_PATH / f"info_txt_{filename_ohne_ext}.txt"
-    return ERGENISSE_PATH / "info_txt_unbekannt.txt"
-
-# Analyse-Einstellungen aus Config laden
-EMA_SPAN = CONFIG.EMA_ANALYSE['EMA_SPAN']
-ZSCORE_THRESHOLD = CONFIG.EMA_ANALYSE['ZSCORE_THRESHOLD']
-GAS_THRESHOLD_MULTIPLIER = CONFIG.EMA_ANALYSE['GAS_THRESHOLD_MULTIPLIER']
-ANOMALY_CONTAMINATION = CONFIG.EMA_ANALYSE['ANOMALY_CONTAMINATION']
-GAS_EVENT_WINDOW = CONFIG.EMA_ANALYSE['GAS_EVENT_WINDOW']
-ML_RANDOM_STATE = CONFIG.EMA_ANALYSE['ML_RANDOM_STATE']
-ML_N_ESTIMATORS = CONFIG.EMA_ANALYSE['ML_N_ESTIMATORS']
-OUTPUT_SUFFIX = CONFIG.EMA_ANALYSE['OUTPUT_SUFFIX']
-
-
-def clean_csv_header(file_path):
-    """
-    Entfernt Kommentarzeilen über dem Header und lädt saubere CSV
-    
-    Args:
-        file_path: Pfad zur CSV-Datei
-    
-    Returns:
-        DataFrame: Geladene und bereinigte CSV-Daten
-    """
-    try:
-        # Lese Datei zeilenweise um Header zu finden
-        with open(file_path, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-        
-        # Finde erste Zeile die wie ein CSV-Header aussieht
-        header_line = 0
-        for i, line in enumerate(lines):
-            if ('MQ' in line and ',' in line) or \
-               ('Temperature' in line or 'DateTime' in line):
-                header_line = i
-                break
-        
-        # Lade CSV ab der Header-Zeile
-        df = pd.read_csv(file_path, skiprows=header_line)
-        print(f"  → Header bei Zeile {header_line}, {len(df)} Datensätze")
-        return df
-        
-    except Exception as e:
-        print(f"  → Fehler beim Laden: {str(e)}")
-        return pd.read_csv(file_path, comment='#')
-
-
-def identify_sensor_columns(df):
-    """
-    Identifiziert alle relevanten Sensorspalten
-    
-    Returns:
-        dict: Dictionary mit Sensorkategorien
-    """
-    columns = df.columns.tolist()
-    
-    sensor_groups = {
-        'mq_sensors': [col for col in columns if re.match(CONFIG.SENSOR_PATTERNS['MQ_SENSORS'], col)],
-        'environmental': [col for col in columns 
-                         if any(keyword in col.lower() for keyword in 
-                               CONFIG.SENSOR_PATTERNS['ENVIRONMENTAL_KEYWORDS'])],
-        'all_sensors': []
-    }
-    
-    # Alle Sensorspalten zusammenfassen
-    sensor_groups['all_sensors'] = (sensor_groups['mq_sensors'] + 
-                                   sensor_groups['environmental'])
-    
-    return sensor_groups
-
-
 def apply_ema_smoothing(df, sensor_groups):
     """
     Wendet Exponential Moving Average auf alle Sensorspalten an
-    
-    Args:
-        df: DataFrame mit Rohdaten
-        sensor_groups: Dictionary mit Sensorspalten
-    
-    Returns:
-        DataFrame: DataFrame mit EMA-geglätteten Spalten
+    (bestimmte Spalten wie GPS, Radiation_CPS, *_zscore, *_outlier etc. werden explizit ausgeschlossen)
     """
     df_ema = df.copy()
-    
     print(f"  → EMA-Glättung für {len(sensor_groups['all_sensors'])} Sensoren")
-    
+    # Spalten, die niemals geglättet werden sollen
+    ausnahme_spalten = [
+        "GPS_Lat", "GPS_Lon", "GPS_Alt", "GPS_Speed", "GPS_Course", "GPS_Sats",
+        "Radiation_CPS"
+    ]
+    ausnahme_spalten += [col for col in df.columns if any(
+        col.endswith(suffix) for suffix in ["_zscore", "_outlier", "_event", "_intensity", "_anomaly", "_score"]
+    )]
     for sensor in sensor_groups['all_sensors']:
-        if sensor in df.columns:
+        if sensor in df.columns and sensor not in ausnahme_spalten:
             ema_col = f"{sensor}_ema"
             df_ema[ema_col] = df[sensor].ewm(span=EMA_SPAN, adjust=False).mean()
-            
             # Ersetze ursprüngliche Spalte mit EMA-Werten
             df_ema[sensor] = df_ema[ema_col]
             df_ema.drop(columns=[ema_col], inplace=True)
-    
     return df_ema
 
 
@@ -284,58 +237,61 @@ def detect_anomalies_ml(df, sensor_groups):
 def process_csv_file(input_file, output_file):
     """
     Verarbeitet eine CSV-Datei mit vollständiger Sensoranalyse
-    
-    Args:
-        input_file: Pfad zur Eingabe-CSV-Datei
-        output_file: Pfad zur Ausgabe-CSV-Datei
-    
-    Returns:
-        bool: True falls erfolgreich, False bei Fehler
+    (bestimmte Spalten wie GPS, Radiation_CPS, *_zscore, *_outlier etc. werden explizit von der Rundung ausgenommen)
     """
     try:
         print(f"Verarbeite: {input_file.name}")
-        
         # 1. CSV laden und Header bereinigen
         df = clean_csv_header(input_file)
-        
+        print(f"Spalten im DataFrame: {df.columns.tolist()}")  # Debug-Ausgabe
         if df.empty:
             print("  → Datei ist leer!")
             return False
-        
         # 2. Sensorspalten identifizieren
         sensor_groups = identify_sensor_columns(df)
-        
+        print(f"Erkannte Sensorspalten: {sensor_groups.get('all_sensors', [])}")  # Debug-Ausgabe
         if not sensor_groups['all_sensors']:
             print("  → Keine Sensorspalten gefunden!")
             return False
-        
         print(f"  → {len(sensor_groups['mq_sensors'])} MQ-Sensoren, "
               f"{len(sensor_groups['environmental'])} Umweltsensoren")
-        
         # 3. EMA-Glättung anwenden
         df_processed = apply_ema_smoothing(df, sensor_groups)
-        
         # 4. Z-Score-Analyse
         df_processed = calculate_zscore_analysis(df_processed, sensor_groups)
-        
         # 5. Gas-Ereignis-Erkennung
         df_processed = detect_gas_events(df_processed, sensor_groups)
-        
         # 6. ML-Anomalieerkennung
         df_processed = detect_anomalies_ml(df_processed, sensor_groups)
-        
         # 7. Stelle sicher, dass Ausgabeordner existiert
         output_file.parent.mkdir(parents=True, exist_ok=True)
-        
-        # 8. Verarbeitete Datei speichern
-        df_processed.to_csv(output_file, index=False)
-        print(f"  → Gespeichert: {output_file.name}")
-        
+        # 8. Bestimmte Spalten (GPS, Radiation_CPS, *_zscore, *_outlier etc.) von Glättung und Rundung ausnehmen
+        ausnahme_spalten = [
+            "GPS_Lat", "GPS_Lon", "GPS_Alt", "GPS_Speed", "GPS_Course", "GPS_Sats",
+            "Radiation_CPS"
+        ]
+        ausnahme_spalten += [col for col in df_processed.columns if any(
+            col.endswith(suffix) for suffix in ["_zscore", "_outlier", "_event", "_intensity", "_anomaly", "_score"]
+        )]
+        ausnahme_spalten = [col for col in ausnahme_spalten if col in df_processed.columns]
+        original_werte = df_processed[ausnahme_spalten].copy() if ausnahme_spalten else None
+        if ausnahme_spalten:
+            df_gerundet = df_processed.round(3)
+            for col in ausnahme_spalten:
+                df_gerundet[col] = original_werte[col]
+        else:
+            df_gerundet = df_processed.round(3)
+        # Speichere die finale Version in bearbeitet3
+        try:
+            df_gerundet.to_csv(output_file, index=False)
+            print(f"  → Gespeichert in bearbeitet3: {output_file}")
+            if not output_file.exists():
+                print(f"  → Fehler: Datei wurde nicht gespeichert! Pfad: {output_file}")
+        except Exception as e:
+            print(f"  → Fehler beim Speichern in bearbeitet3: {e}")
         # 9. Zusammenfassung
         print_analysis_summary(df_processed, sensor_groups)
-        
         return True
-        
     except Exception as e:
         print(f"  → Fehler bei {input_file.name}: {str(e)}")
         return False
@@ -373,55 +329,49 @@ def process_all_csv_files():
     ERGENISSE_PATH.mkdir(parents=True, exist_ok=True)
     log_stream = io.StringIO()
     orig_stdout = sys.stdout
-    sys.stdout = log_stream
-    # Dateiname direkt aus context.py importiert
+    # Statusmeldungen direkt ins Terminal
     print("Datei name:", filename_ohne_ext)
-    try:
-        DATA_ROH_PATH.mkdir(parents=True, exist_ok=True)
-        DATA_BEARBEITET_PATH.mkdir(parents=True, exist_ok=True)
-        
-        # Finde alle CSV-Dateien
-        csv_files = list({f.resolve() for f in DATA_ROH_PATH.glob("*.csv")})
-        
-        if not csv_files:
-            print(f"Keine CSV-Dateien in {DATA_ROH_PATH} gefunden!")
-            return
-        
-        print("ERWEITERTE SENSORWERTE-ANALYSE")
-        print("=" * 70)
-        print("Features: EMA, Z-Score, Gas-Events, ML-Anomalien")
-        print(f"Gefundene CSV-Dateien: {len(csv_files)}")
-        print("=" * 70)
-        
-        successful = 0
-        failed = 0
-        
-        for csv_file in csv_files:
-            # Erstelle Ausgabe-Dateinamen
-            output_name = f"{csv_file.stem}{OUTPUT_SUFFIX}.csv"
-            output_file = DATA_BEARBEITET_PATH / output_name
-            
-            # Verarbeite die Datei
-            if process_csv_file(csv_file, output_file):
-                successful += 1
-            else:
-                failed += 1
-            print()  # Leerzeile zwischen Dateien
-        
-        print("=" * 70)
-        print(f"ANALYSE ABGESCHLOSSEN:")
-        print(f"Erfolgreich: {successful}")
-        print(f"Fehlgeschlagen: {failed}")
-        print(f"Ausgabe in: {DATA_BEARBEITET_PATH}")
-    finally:
-        # Schreibe Log an info_txt_{filename_ohne_ext}.txt
-        sys.stdout = orig_stdout
-        info_txt_path = get_info_txt_path(filename_ohne_ext)
-        with open(info_txt_path, 'a', encoding='utf-8') as f:
-            f.write("\n\n--- Erweiterte Sensoranalyse ---\n")
-            f.write(log_stream.getvalue())
-        print(f"Analyse-Log an {info_txt_path} angehängt.")
+    DATA_ROH_PATH.mkdir(parents=True, exist_ok=True)
+    DATA_BEARBEITET_PATH.mkdir(parents=True, exist_ok=True)
+    csv_files = list({f.resolve() for f in DATA_ROH_PATH.glob("*.csv")})
+    print(f"Gefundene CSV-Dateien in {DATA_ROH_PATH}: {len(csv_files)}")
+    if csv_files:
+        print("Dateinamen:", [f.name for f in csv_files])
+    else:
+        print(f"Keine CSV-Dateien in {DATA_ROH_PATH} gefunden!")
+        return
+    print("ERWEITERTE SENSORWERTE-ANALYSE")
+    print("=" * 70)
+    print("Features: EMA, Z-Score, Gas-Events, ML-Anomalien")
+    print("=" * 70)
+    successful = 0
+    failed = 0
+    sys.stdout = log_stream
+    for csv_file in csv_files:
+        # Erstelle Ausgabe-Dateinamen
+        output_name = f"{csv_file.stem}{OUTPUT_SUFFIX}.csv"
+        output_file = DATA_BEARBEITET_PATH / output_name
+        # Verarbeite die Datei
+        if process_csv_file(csv_file, output_file):
+            successful += 1
+        else:
+            failed += 1
+        print()  # Leerzeile zwischen Dateien
+    print("=" * 70)
+    print(f"ANALYSE ABGESCHLOSSEN:")
+    print(f"Erfolgreich: {successful}")
+    print(f"Fehlgeschlagen: {failed}")
+    print(f"Ausgabe in: {DATA_BEARBEITET_PATH}")
+    sys.stdout = orig_stdout
+    info_txt_path = get_info_txt_path(filename_ohne_ext)
+    # Ordner sicherstellen
+    info_dir = os.path.dirname(info_txt_path)
+    os.makedirs(info_dir, exist_ok=True)
+    with open(info_txt_path, 'a', encoding='utf-8') as f:
+        f.write("\n\n--- Erweiterte Sensoranalyse ---\n")
+        f.write(log_stream.getvalue())
+    print(f"Analyse-Log an {info_txt_path} angehängt.")
 
 
 if __name__ == "__main__":
-    process_all_csv_files()
+    main()

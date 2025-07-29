@@ -1,22 +1,17 @@
-def main():
-    """
-    Pipeline-kompatibler Einstiegspunkt: Führt laden_und_reinigen() aus und gibt das DataFrame zurück.
-    """
-    return laden_und_reinigen()
 """mod_010_laden_reinigen.py
 Lädt die erste CSV aus 'data/bearbeitet', bereinigt sie und speichert das Ergebnis in 'data/bearbeitet0'.
-Gibt das bereinigte DataFrame zurück.   
+Gibt das bereinigte DataFrame zurück.
 """
-
-
-
 
 import re
 import io
 import os
 import glob
 import pandas as pd
-
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=Warning)
 # Kompatibler Import für Direktaufruf und als Modul
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -26,9 +21,7 @@ import airScout_analytics.context as context
 
 
 
-
-
-def laden_und_reinigen():
+def laden_und_reinigen() -> pd.DataFrame:
     """
     Lädt die erste CSV aus data/bearbeitet, bereinigt sie und speichert das Ergebnis in data/bearbeitet0.
     Gibt das bereinigte DataFrame zurück.
@@ -114,9 +107,11 @@ def laden_und_reinigen():
         df = df.iloc[:-1]
 
     # ------------------------------------------------------------------------------
+
     # Zielordner und neuen Dateinamen bestimmen
     zielordner = os.path.join(projekt_root, "data", "bearbeitet0")
     os.makedirs(zielordner, exist_ok=True)
+
     # Extrahiere Zeitstempel aus dem alten Dateinamen
     basename = os.path.basename(csv_path)
     match = re.search(r'(\d{4})_(\d{2})(\d{2})(\d{2})(\d{2})', basename)
@@ -131,6 +126,7 @@ def laden_und_reinigen():
     # Dateinamen ohne .csv-Endung extrahieren und global speichern
     context.filename_ohne_ext = os.path.splitext(neuer_name)[0]
     print("Datei name:", context.filename_ohne_ext)
+
     # Schreibe den Wert als Python-Variable in src/airScout_analytics/context.py
     context_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "context.py")
     with open(context_path, "w", encoding="utf-8") as f:
@@ -145,7 +141,10 @@ def laden_und_reinigen():
 
     return df
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Hauptfunktion für Pipeline-Aufruf: Lädt und bereinigt die CSV und gibt eine Vorschau aus.
+    """
     df = laden_und_reinigen()
     print('Spaltennamen:', list(df.columns))
     print(df.head())
@@ -159,3 +158,6 @@ if __name__ == "__main__":
     else:
         print("Keine numerischen Spalten für Histogramm gefunden.")
     print("Fertig!")
+
+if __name__ == "__main__":
+    main()

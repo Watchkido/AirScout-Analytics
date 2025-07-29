@@ -143,6 +143,13 @@ class MultiTabGUI(tk.Tk):
             show_txt_in_tab(frame, TAB3_FILES[i])
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Pipeline-kompatibler Einstiegspunkt: Startet die MultiTab-GUI.
+    """
     app = MultiTabGUI()
     app.mainloop()
+
+
+if __name__ == "__main__":
+    main()
