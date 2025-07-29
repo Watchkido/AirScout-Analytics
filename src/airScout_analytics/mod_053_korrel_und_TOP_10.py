@@ -1,20 +1,22 @@
 
 
 
-    """
-    Pipeline-kompatibler Einstiegspunkt für die Korrelationen- und Top-10%-Analyse.
-    """
-    import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import os
-    import sys
-    import glob
-    import warnings
-    warnings.filterwarnings("ignore", category=FutureWarning)
-    warnings.filterwarnings("ignore", category=UserWarning)
-    warnings.filterwarnings("ignore", category=Warning)
-    import airScout_analytics.context as context
+"""
+Pipeline-kompatibler Einstiegspunkt für die Korrelationen- und Top-10%-Analyse.
+"""
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import sys
+import glob
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=Warning)
+from context import filename_ohne_ext
+
+def main():
     # === Automatische Auswahl der ersten CSV aus bearbeitet3 ===
     datenordner = os.path.join("data", "bearbeitet3")
     csv_dateien = glob.glob(os.path.join(datenordner, "*.csv"))
@@ -118,10 +120,16 @@
                 handles += h3
                 labels += l3
             fig.legend(handles, labels, loc="upper center", ncol=3)
-            umwelt_datei = os.path.expanduser(f"~/Downloads/umweltwerte_{context.filename_ohne_ext}.png")
+            # Diagramm im Download-Ordner und im zugehörigen Ergebnis-Unterordner speichern
+            umwelt_datei = os.path.expanduser(f"~/Downloads/umweltwerte_{filename_ohne_ext}.png")
+            ergebnisse_dir = os.path.join("data", "ergebnisse")
+            unterordner = os.path.join(ergebnisse_dir, filename_ohne_ext)
+            os.makedirs(unterordner, exist_ok=True)
+            umwelt_datei2 = os.path.join(unterordner, f"umweltwerte_{filename_ohne_ext}.png")
             plt.savefig(umwelt_datei)
+            plt.savefig(umwelt_datei2)
             plt.close(fig)
-            print(f"Umweltwerte-Diagramm (log10, >50) gespeichert als '{umwelt_datei}'.")
+            print(f"Umweltwerte-Diagramm (log10, >50) gespeichert als '{umwelt_datei}' und '{umwelt_datei2}'.")
         else:
             print("Warnung: Keine Werte > 50 für Temperatur, Feuchte oder Radioaktivität zum log-Plotten vorhanden.")
     else:
@@ -201,11 +209,11 @@
                     legend_html += f'<i style="background:{farbe};color:{farbe};border-radius:50%;padding:4px 8px;margin-right:8px;">●</i> <b>{sensor}</b>: {sensor_gas[sensor]}<br>'
                 legend_html += '</div>'
                 ergebnisse_dir = os.path.join("data", "ergebnisse")
-                unterordner = os.path.join(ergebnisse_dir, context.filename_ohne_ext)
+                unterordner = os.path.join(ergebnisse_dir, filename_ohne_ext)
                 os.makedirs(ergebnisse_dir, exist_ok=True)
                 os.makedirs(unterordner, exist_ok=True)
-                map_datei1 = os.path.join(ergebnisse_dir, f"sensor_top10_map_{context.filename_ohne_ext}.html")
-                map_datei2 = os.path.join(unterordner, f"sensor_top10_map_{context.filename_ohne_ext}.html")
+                map_datei1 = os.path.join(ergebnisse_dir, f"sensor_top10_map_{filename_ohne_ext}.html")
+                map_datei2 = os.path.join(unterordner, f"sensor_top10_map_{filename_ohne_ext}.html")
                 m.get_root().html.add_child(folium.Element(legend_html))
                 m.save(map_datei1)
                 m.save(map_datei2)
@@ -232,11 +240,11 @@
     plt.gcf().text(0.01, -0.06, legende, ha='left', va='top', fontsize=12)
     plt.tight_layout(rect=(0,0.08,1,1))
     ergebnisse_dir = os.path.join("data", "ergebnisse")
-    unterordner = os.path.join(ergebnisse_dir, context.filename_ohne_ext)
+    unterordner = os.path.join(ergebnisse_dir, filename_ohne_ext)
     os.makedirs(ergebnisse_dir, exist_ok=True)
     os.makedirs(unterordner, exist_ok=True)
-    korrelationsgrafik_datei1 = os.path.join(ergebnisse_dir, f"korrelationsmatrix_{context.filename_ohne_ext}.png")
-    korrelationsgrafik_datei2 = os.path.join(unterordner, f"korrelationsmatrix_{context.filename_ohne_ext}.png")
+    korrelationsgrafik_datei1 = os.path.join(ergebnisse_dir, f"korrelationsmatrix_{filename_ohne_ext}.png")
+    korrelationsgrafik_datei2 = os.path.join(unterordner, f"korrelationsmatrix_{filename_ohne_ext}.png")
     plt.savefig(korrelationsgrafik_datei1, bbox_inches='tight')
     plt.savefig(korrelationsgrafik_datei2, bbox_inches='tight')
     plt.close()
@@ -249,4 +257,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         print(f"Fehler bei der Korrelation/Top-10-Analyse: {e}")
-            map_datei2 = os.path.join(unterordner, f"sensor_top10_map_{context.filename_ohne_ext}.html")
+        # ...existing code...

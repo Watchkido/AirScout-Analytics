@@ -1,3 +1,31 @@
+# Importiere CONFIG ganz oben, damit es verfügbar ist
+from config import CONFIG
+EMA_SPAN = CONFIG.EMA_ANALYSE.get('EMA_SPAN', 5)
+ZSCORE_THRESHOLD = CONFIG.EMA_ANALYSE.get('ZSCORE_THRESHOLD', 3)
+GAS_THRESHOLD_MULTIPLIER = CONFIG.EMA_ANALYSE.get('GAS_THRESHOLD_MULTIPLIER', 1.5)
+GAS_EVENT_WINDOW = CONFIG.EMA_ANALYSE.get('GAS_EVENT_WINDOW', 5)
+ANOMALY_CONTAMINATION = CONFIG.EMA_ANALYSE.get('ANOMALY_CONTAMINATION', 0.05)
+ML_RANDOM_STATE = CONFIG.EMA_ANALYSE.get('ML_RANDOM_STATE', 42)
+ML_N_ESTIMATORS = CONFIG.EMA_ANALYSE.get('ML_N_ESTIMATORS', 100)
+# Hilfsfunktion zur Sensorerkennung
+def identify_sensor_columns(df):
+    """
+    Identifiziert Sensorspalten im DataFrame.
+    Gibt ein Dictionary mit 'all_sensors', 'mq_sensors' und 'environmental' zurück.
+    """
+    # Die gewünschten Sensorspalten
+    all_sensors = [
+        "Temperature_DHT_C", "Humidity_RH", "Light_Level", "Light_Percent",
+        "MQ2", "MQ3", "MQ4", "MQ5", "MQ6", "MQ7", "MQ8", "MQ9", "MQ135",
+        "Mic1", "Mic2"
+    ]
+    mq_sensors = [s for s in all_sensors if s.startswith("MQ") and s in df.columns]
+    environmental = [s for s in ["Temperature_DHT_C", "Humidity_RH", "Light_Level", "Light_Percent"] if s in df.columns]
+    return {
+        "all_sensors": [s for s in all_sensors if s in df.columns],
+        "mq_sensors": mq_sensors,
+        "environmental": environmental
+    }
 
 import pandas as pd
 import numpy as np
@@ -72,17 +100,15 @@ def apply_ema_smoothing(df, sensor_groups):
     (bestimmte Spalten wie GPS, Radiation_CPS, *_zscore, *_outlier etc. werden explizit ausgeschlossen)
     """
     df_ema = df.copy()
-    print(f"  → EMA-Glättung für {len(sensor_groups['all_sensors'])} Sensoren")
-    # Spalten, die niemals geglättet werden sollen
-    ausnahme_spalten = [
-        "GPS_Lat", "GPS_Lon", "GPS_Alt", "GPS_Speed", "GPS_Course", "GPS_Sats",
-        "Radiation_CPS"
+    # Nur diese Spalten werden geglättet
+    zu_glätten = [
+        "Temperature_DHT_C", "Humidity_RH", "Light_Level", "Light_Percent",
+        "MQ2", "MQ3", "MQ4", "MQ5", "MQ6", "MQ7", "MQ8", "MQ9", "MQ135",
+        "Mic1", "Mic2"
     ]
-    ausnahme_spalten += [col for col in df.columns if any(
-        col.endswith(suffix) for suffix in ["_zscore", "_outlier", "_event", "_intensity", "_anomaly", "_score"]
-    )]
-    for sensor in sensor_groups['all_sensors']:
-        if sensor in df.columns and sensor not in ausnahme_spalten:
+    print(f"  → EMA-Glättung für diese Spalten: {zu_glätten}")
+    for sensor in zu_glätten:
+        if sensor in df.columns:
             ema_col = f"{sensor}_ema"
             df_ema[ema_col] = df[sensor].ewm(span=EMA_SPAN, adjust=False).mean()
             # Ersetze ursprüngliche Spalte mit EMA-Werten
@@ -239,22 +265,25 @@ def process_csv_file(input_file, output_file):
     Verarbeitet eine CSV-Datei mit vollständiger Sensoranalyse
     (bestimmte Spalten wie GPS, Radiation_CPS, *_zscore, *_outlier etc. werden explizit von der Rundung ausgenommen)
     """
+    log_lines = []
+    def log(msg):
+        print(msg)
+        log_lines.append(msg)
     try:
-        print(f"Verarbeite: {input_file.name}")
-        # 1. CSV laden und Header bereinigen
-        df = clean_csv_header(input_file)
-        print(f"Spalten im DataFrame: {df.columns.tolist()}")  # Debug-Ausgabe
+        log(f"Verarbeite: {input_file.name}")
+        # 1. CSV laden (Standard-Import, da clean_csv_header nicht definiert)
+        df = pd.read_csv(input_file)
+        log(f"Spalten im DataFrame: {df.columns.tolist()}")
         if df.empty:
-            print("  → Datei ist leer!")
+            log("  → Datei ist leer!")
             return False
         # 2. Sensorspalten identifizieren
         sensor_groups = identify_sensor_columns(df)
-        print(f"Erkannte Sensorspalten: {sensor_groups.get('all_sensors', [])}")  # Debug-Ausgabe
+        log(f"Erkannte Sensorspalten: {sensor_groups.get('all_sensors', [])}")
         if not sensor_groups['all_sensors']:
-            print("  → Keine Sensorspalten gefunden!")
+            log("  → Keine Sensorspalten gefunden!")
             return False
-        print(f"  → {len(sensor_groups['mq_sensors'])} MQ-Sensoren, "
-              f"{len(sensor_groups['environmental'])} Umweltsensoren")
+        log(f"  → {len(sensor_groups['mq_sensors'])} MQ-Sensoren, {len(sensor_groups['environmental'])} Umweltsensoren")
         # 3. EMA-Glättung anwenden
         df_processed = apply_ema_smoothing(df, sensor_groups)
         # 4. Z-Score-Analyse
@@ -284,16 +313,19 @@ def process_csv_file(input_file, output_file):
         # Speichere die finale Version in bearbeitet3
         try:
             df_gerundet.to_csv(output_file, index=False)
-            print(f"  → Gespeichert in bearbeitet3: {output_file}")
+            log(f"  → Gespeichert in bearbeitet3: {output_file}")
             if not output_file.exists():
-                print(f"  → Fehler: Datei wurde nicht gespeichert! Pfad: {output_file}")
+                log(f"  → Fehler: Datei wurde nicht gespeichert! Pfad: {output_file}")
         except Exception as e:
-            print(f"  → Fehler beim Speichern in bearbeitet3: {e}")
+            log(f"  → Fehler beim Speichern in bearbeitet3: {e}")
         # 9. Zusammenfassung
         print_analysis_summary(df_processed, sensor_groups)
+        log("Analyse abgeschlossen.")
+        # Logdatei wird nicht mehr benötigt
         return True
     except Exception as e:
-        print(f"  → Fehler bei {input_file.name}: {str(e)}")
+        log(f"  → Fehler bei {input_file.name}: {str(e)}")
+        # Logdatei wird nicht mehr benötigt
         return False
 
 

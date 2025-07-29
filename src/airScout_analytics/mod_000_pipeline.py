@@ -67,56 +67,56 @@ def main():
 
 
 
-    # Am Ende: Nur die gerade bearbeiteten Dateien in den Zielordnern löschen
-    # DATA_ROOT bleibt aus CONFIG, Namenszusatz aus context
+    # Am Ende: Frisch erstellte Dateien in Ergebnisordner kopieren und dann gezielt löschen
     filename_ohne_ext = getattr(context, "filename_ohne_ext", None) if context else None
     zu_loeschende_ordner = [
-        os.path.join(CONFIG.DATA_ROOT, "bearbeitet"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet0"),
         os.path.join(CONFIG.DATA_ROOT, "bearbeitet1"),
         os.path.join(CONFIG.DATA_ROOT, "bearbeitet2"),
-        os.path.join(CONFIG.DATA_ROOT, "ergebnisse3"),
+        os.path.join(CONFIG.DATA_ROOT, "bearbeitet3"),
     ]
-    # TODO: Liste der bearbeiteten Dateien aus den Modulen holen!
-    bearbeitete_dateien = []  # z.B. als Rückgabe der Module oder als globale Variable
-    if not filename_ohne_ext:
+    # Ermittlung der bearbeiteten Dateien: Alle Dateien mit Namensbestandteil im jeweiligen Ordner
+    bearbeitete_dateien = []
+    if filename_ohne_ext:
+        for ordner in zu_loeschende_ordner:
+            if not os.path.isdir(ordner):
+                continue
+            for datei in os.listdir(ordner):
+                if filename_ohne_ext in datei:
+                    bearbeitete_dateien.append((ordner, datei))
+    else:
         print("[Warnung] Kein Namensbestandteil für Löschprüfung gefunden (context.filename_ohne_ext)")
     # Zielordner für Kopien vor dem Löschen
-    kopierziel = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", filename_ohne_ext)
-    if not os.path.isdir(kopierziel):
+    kopierziel = os.path.join(CONFIG.DATA_ROOT, "ergebnisse", filename_ohne_ext) if filename_ohne_ext else None
+    if kopierziel and not os.path.isdir(kopierziel):
         try:
             os.makedirs(kopierziel)
             print(f"Kopierziel erstellt: {kopierziel}")
         except Exception as e:
             print(f"Fehler beim Erstellen des Kopierziels: {e}")
     import shutil
-    for ordner in zu_loeschende_ordner:
-        if not os.path.isdir(ordner):
-            continue
-        for datei in bearbeitete_dateien:
-            if filename_ohne_ext and filename_ohne_ext not in datei:
-                print(f"Überspringe Datei (Namensbestandteil fehlt): {datei}")
-                continue
-            pfad = os.path.join(ordner, datei)
-            if os.path.isfile(pfad):
-                # Vor dem Löschen kopieren
-                try:
-                    shutil.copy2(pfad, kopierziel)
-                    print(f"Datei kopiert nach: {kopierziel}")
-                except Exception as e:
-                    print(f"Fehler beim Kopieren von {pfad} nach {kopierziel}: {e}")
-                # Dann löschen
-                try:
-                    os.remove(pfad)
-                    print(f"Datei gelöscht: {pfad}")
-                except Exception as e:
-                    print(f"Fehler beim Löschen von {pfad}: {e}")
+    # Zuerst kopieren, dann löschen
+    for ordner, datei in bearbeitete_dateien:
+        pfad = os.path.join(ordner, datei)
+        if kopierziel:
+            try:
+                shutil.copy2(pfad, kopierziel)
+                print(f"Datei kopiert nach: {kopierziel}")
+            except Exception as e:
+                print(f"Fehler beim Kopieren von {pfad} nach {kopierziel}: {e}")
+        try:
+            os.remove(pfad)
+            print(f"Datei gelöscht: {pfad}")
+        except Exception as e:
+            print(f"Fehler beim Löschen von {pfad}: {e}")
 
 
+# erst sollen die frisch erstellten dateien in ergebnisse\context.filename_ohne_ext kopiert werden und dann 
 # am ende der pipeline sollen die gerade bearbeiteten dateien in 
-# 1. data\bearbeitet
+# 1. data\bearbeitet0
 # 2. data\bearbeitet1
 # 3. data\bearbeitet2
-# 4. data\ergebnisse3
+# 4. data\bearbeitet3
 #gelöscht werden. aber nur diese! keine anderen!
     
 

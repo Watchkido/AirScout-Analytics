@@ -30,12 +30,14 @@ Ergebnis:
 ---------
 Die Analyseergebnisse werden sowohl auf der Konsole ausgegeben als auch in der Datei 'import_analyse_ergebnis.txt' gespeichert.
 """
+# ...existing code...
 import os
 import re
 import subprocess
 from collections import defaultdict
-from Projekt_Generator.config import CONFIG
+from config import CONFIG
 import ast
+# ...existing code...
 
 # -------------------------------------------
 # 🔎 Datei- & Import-Analyse (wie oben)
@@ -190,7 +192,7 @@ def schreibe_python_dateien_baum(modulnamen_to_dateien: dict[str, str], dateinam
     with open(dateiname, "w", encoding="utf-8") as f:
         f.write("📄 Python-Dateien:\n")
         schreibe_baum(baum, "", f)
-/
+
 def extrahiere_imports(dateiPfad):
     """
     Extrahiert alle importierten Module aus einer Python-Datei.
@@ -400,5 +402,5 @@ def hauptfunktion(startverzeichnis: str) -> None:
 
 if __name__ == "__main__":
     # Startet die Analyse mit dem in der Konfiguration hinterlegten Basis-Pfad
-    hauptfunktion(CONFIG.PROJEKT_Pfad)
+     hauptfunktion(CONFIG.PROJEKT_PFAD)
     #print_verwendete_module(verwendet_von)

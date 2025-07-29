@@ -1,0 +1,560 @@
+📄 Python-Dateien:
+projekt_analyse_optimiert → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py
+template_00_data_processing → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_00_data_processing.py
+template_01_data_loader → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_01_data_loader.py
+template_02_data_exploration → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_02_data_exploration.py
+template_03_data_cleanup → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_03_data_cleanup.py
+template_04_feature_engineering → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_04_feature_engineering.py
+template_05_data_imputation → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_05_data_imputation.py
+template_06_outlier_detection → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_06_outlier_detection.py
+template_07_data_visualization → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_07_data_visualization.py
+template_08_modeling_pipeline → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_08_modeling_pipeline.py
+template_09_model_evaluation → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_09_model_evaluation.py
+template_10_reporting → e:\dev\projekt_python_venv\airscout-analytics\scripts\template_10_reporting.py
+001_finde_alle_funktionen → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\001_finde_alle_funktionen.py
+__init__ → e:\dev\projekt_python_venv\airscout-analytics\tests\__init__.py
+config → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\config.py
+context → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\context.py
+csv_analyzer_10 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\csv_analyzer_10.py
+funktionen → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\funktionen.py
+gps_analysis → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\gps_analysis.py
+main → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
+mod_000_pipeline → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+mod_010_laden_reinigen → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+mod_020_csv_analyzer → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_020_csv_analyzer.py
+mod_040_feature_engeneering → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_040_feature_engeneering.py
+mod_041_f_e_wert_ppm_µgm3 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_041_f_e_wert_ppm_µgm3.py
+mod_042_glaetten_der_sensorwerte → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py
+mod_050_datenanalyse plotten → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_050_datenanalyse plotten.py
+mod_051_Karte_Luft_Qualitaet → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_051_Karte_Luft_Qualitaet.py
+mod_052_zeitslider → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_052_zeitslider.py
+mod_053_korrel_und_TOP_10 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
+mod_080_text_generieren → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
+mod_100_gui → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
+projekt_analyse → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
+projektstruktur → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projektstruktur.py
+sensordatei lesen mit numpy alle sensoren auf karte → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\sensordatei lesen mit numpy alle sensoren auf karte.py
+csv_analyzer_04 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_analyzer_04.py
+gps2street → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py
+logging_config → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
+spracheingabe → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\spracheingabe.py
+test_00_main → e:\dev\projekt_python_venv\airscout-analytics\tests\test_00_main.py
+test_01_unit → e:\dev\projekt_python_venv\airscout-analytics\tests\test_01_unit.py
+test_02_integration → e:\dev\projekt_python_venv\airscout-analytics\tests\test_02_integration.py
+test_03_system → e:\dev\projekt_python_venv\airscout-analytics\tests\test_03_system.py
+test_04_fuzz → e:\dev\projekt_python_venv\airscout-analytics\tests\test_04_fuzz.py
+test_05_penetration → e:\dev\projekt_python_venv\airscout-analytics\tests\test_05_penetration.py
+test_05_security → e:\dev\projekt_python_venv\airscout-analytics\tests\test_05_security.py
+test_07_performance → e:\dev\projekt_python_venv\airscout-analytics\tests\test_07_performance.py
+test_08_Affe → e:\dev\projekt_python_venv\airscout-analytics\tests\test_08_Affe.py
+test_09_wiederherstellbarkeit → e:\dev\projekt_python_venv\airscout-analytics\tests\test_09_wiederherstellbarkeit.py
+test_10_Umwelt → e:\dev\projekt_python_venv\airscout-analytics\tests\test_10_Umwelt.py
+test_main → e:\dev\projekt_python_venv\airscout-analytics\tests\test_main.py
+
+🔗 Verwendete Module:
+config verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\csv_analyzer_10.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_020_csv_analyzer.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_040_feature_engeneering.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_041_f_e_wert_ppm_µgm3.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_050_datenanalyse plotten.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_052_zeitslider.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projekt_analyse.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py
+mod_000_pipeline verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
+context verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
+mod_010_laden_reinigen verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+mod_020_csv_analyzer verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+main verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\tests\test_00_main.py
+
+🧹 Nicht verwendete Dateien:
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_00_data_processing.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_01_data_loader.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_02_data_exploration.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_03_data_cleanup.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_04_feature_engineering.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_05_data_imputation.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_06_outlier_detection.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_07_data_visualization.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_08_modeling_pipeline.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_09_model_evaluation.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\scripts\template_10_reporting.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\001_finde_alle_funktionen.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\__init__.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\csv_analyzer_10.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\funktionen.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\gps_analysis.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_040_feature_engeneering.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_041_f_e_wert_ppm_µgm3.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_050_datenanalyse plotten.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_051_Karte_Luft_Qualitaet.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_052_zeitslider.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projektstruktur.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\sensordatei lesen mit numpy alle sensoren auf karte.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_analyzer_04.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\spracheingabe.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_00_main.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_01_unit.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_02_integration.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_03_system.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_04_fuzz.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_05_penetration.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_05_security.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_07_performance.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_08_Affe.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_09_wiederherstellbarkeit.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_10_Umwelt.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\tests\test_main.py
+
+📝 Funktionen pro Datei:
+e:\dev\projekt_python_venv\airscout-analytics\data\fertig\projekt_analyse_optimiert.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_kompletten_verzeichnisbaum()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - extrahiere_alle_imports()
+  - analysiere_imports()
+  - analysiere_externe_libraries()
+  - print_externe_libraries()
+  - schreibe_library_analyse()
+  - flake8_pruefen()
+  - erstelle_ausgabeordner()
+  - hauptfunktion()
+  - neue_hauptfunktion()
+  - sammle_python_dateien()
+  - analysiere_code_statistiken()
+  - print_statistiken()
+  - analysiere_abhängigkeiten()
+  - print_abhängigkeiten()
+  - schreibe_statistik_bericht()
+  - schreibe_abhängigkeits_bericht()
+  - schreibe_baum()
+  - schreibe_baum()
+  - print_baum()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_00_data_processing.py:
+  - process_data()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_01_data_loader.py:
+  - lade_csv_daten()
+  - load_data()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_02_data_exploration.py:
+  - explore_data()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_03_data_cleanup.py:
+  - cleanup_temp_files()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_04_feature_engineering.py:
+  - feature_engineering()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_05_data_imputation.py:
+  - impute_missing_values()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_06_outlier_detection.py:
+  - detect_outliers()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_07_data_visualization.py:
+  - visualize_data()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_08_modeling_pipeline.py:
+  - build_model()
+e:\dev\projekt_python_venv\airscout-analytics\scripts\template_09_model_evaluation.py:
+  - evaluate_model()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\001_finde_alle_funktionen.py:
+  - finde_und_liste_alle_funktionen()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\config.py:
+  - aktuelle_version()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\csv_analyzer_10.py:
+  - advanced_statistics_analysis()
+  - csv_info_extractor()
+  - erstelle_auswertungsdiagramme()
+  - plot_grid()
+  - custom_fmt()
+  - plot_violin_grid()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\funktionen.py:
+  - projekt_anlegen()
+  - skript_ausführen()
+  - projekt_analyse_starten()
+  - finde_alle_scripts()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\gps_analysis.py:
+  - pruefe_und_analysiere_gps()
+  - gps_auswertung()
+  - normiere()
+  - haversine()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py:
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py:
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_010_laden_reinigen.py:
+  - laden_und_reinigen()
+  - main()
+  - kurs_korrigieren()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_020_csv_analyzer.py:
+  - main()
+  - csv_info_extractor()
+  - erweiterte_sensor_analyse()
+  - mq_sensor_clustering()
+  - hauptkomponenten_analyse()
+  - zeitreihen_veraenderungs_analyse()
+  - unabhaengige_sensoren_waehlen()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_040_feature_engeneering.py:
+  - feature_engineering()
+  - strassennamen_einfügen()
+  - main()
+  - haversine()
+  - finde_strasse_unscharf()
+  - extract_millisec()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_041_f_e_wert_ppm_µgm3.py:
+  - convert_to_ppm()
+  - convert_to_ugm3()
+  - process_csv_file()
+  - process_all_csv_files()
+  - process_single_file()
+  - show_expected_values()
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py:
+  - identify_sensor_columns()
+  - get_info_txt_path()
+  - main()
+  - apply_ema_smoothing()
+  - calculate_zscore_analysis()
+  - detect_gas_events()
+  - detect_anomalies_ml()
+  - process_csv_file()
+  - print_analysis_summary()
+  - process_all_csv_files()
+  - log()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_050_datenanalyse plotten.py:
+  - plot_temperaturverlauf()
+  - plot_zeitslider_lautstaerke()
+  - plot_zeitslider_radioaktiv()
+  - plot_luftkarte()
+  - plot_sensorverläufe_mit_pdf()
+  - plot_sensoren_zeitverlauf()
+  - plot_3d()
+  - plot_beispiel_3()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+  - get_color()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_051_Karte_Luft_Qualitaet.py:
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_052_zeitslider.py:
+  - plot_zeitslider()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py:
+  - main()
+  - luftqualitaet_index()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py:
+  - lade_gemini_api_key()
+  - generiere_luftqualitaetsbericht_von_gemini()
+  - generiere_text()
+  - main()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py:
+  - show_txt_in_tab()
+  - main()
+  - __init__()
+  - beenden()
+  - create_tabs()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projektstruktur.py:
+  - kopfkommentar()
+  - erstelle_struktur()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projekt_analyse.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_python_dateien_baum_alle()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - schreibe_kompletten_verzeichnisbaum()
+  - analysiere_imports()
+  - finde_und_liste_alle_funktionen()
+  - flake8_pruefen()
+  - hauptfunktion()
+  - baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - baum_zu_liste()
+  - print_baum()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_analyzer_04.py:
+  - advanced_statistics_analysis()
+  - csv_info_extractor()
+  - erstelle_auswertungsdiagramme()
+  - custom_fmt()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py:
+  - reverse_geocode_gpsdatei()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_python_dateien_baum_alle()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - schreibe_kompletten_verzeichnisbaum()
+  - analysiere_imports()
+  - flake8_pruefen()
+  - hauptfunktion()
+  - schreibe_baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - print_baum()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py:
+  - sammle_python_dateien()
+  - extrahiere_alle_imports()
+  - erstelle_modul_mapping()
+  - analysiere_externe_libraries()
+  - analysiere_code_statistiken()
+  - analysiere_abhängigkeiten()
+  - print_statistiken()
+  - print_abhängigkeiten()
+  - print_externe_libraries()
+  - schreibe_statistik_bericht()
+  - schreibe_abhängigkeits_bericht()
+  - schreibe_library_analyse()
+  - neue_hauptfunktion()
+e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\spracheingabe.py:
+  - filter_woerter()
+
+Funktionen in data\fertig\projekt_analyse_optimiert.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_kompletten_verzeichnisbaum()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - extrahiere_alle_imports()
+  - analysiere_imports()
+  - analysiere_externe_libraries()
+  - print_externe_libraries()
+  - schreibe_library_analyse()
+  - flake8_pruefen()
+  - erstelle_ausgabeordner()
+  - hauptfunktion()
+  - neue_hauptfunktion()
+  - sammle_python_dateien()
+  - analysiere_code_statistiken()
+  - print_statistiken()
+  - analysiere_abhängigkeiten()
+  - print_abhängigkeiten()
+  - schreibe_statistik_bericht()
+  - schreibe_abhängigkeits_bericht()
+  - schreibe_baum()
+  - schreibe_baum()
+  - print_baum()
+
+Funktionen in scripts\template_00_data_processing.py:
+  - process_data()
+
+Funktionen in scripts\template_01_data_loader.py:
+  - lade_csv_daten()
+  - load_data()
+
+Funktionen in scripts\template_02_data_exploration.py:
+  - explore_data()
+
+Funktionen in scripts\template_03_data_cleanup.py:
+  - cleanup_temp_files()
+
+Funktionen in scripts\template_04_feature_engineering.py:
+  - feature_engineering()
+
+Funktionen in scripts\template_05_data_imputation.py:
+  - impute_missing_values()
+
+Funktionen in scripts\template_06_outlier_detection.py:
+  - detect_outliers()
+
+Funktionen in scripts\template_07_data_visualization.py:
+  - visualize_data()
+
+Funktionen in scripts\template_08_modeling_pipeline.py:
+  - build_model()
+
+Funktionen in scripts\template_09_model_evaluation.py:
+  - evaluate_model()
+
+Funktionen in src\airScout_analytics\001_finde_alle_funktionen.py:
+  - finde_und_liste_alle_funktionen()
+
+Funktionen in src\airScout_analytics\config.py:
+  - aktuelle_version()
+
+Funktionen in src\airScout_analytics\csv_analyzer_10.py:
+  - advanced_statistics_analysis()
+  - csv_info_extractor()
+  - erstelle_auswertungsdiagramme()
+  - plot_grid()
+  - custom_fmt()
+  - plot_violin_grid()
+
+Funktionen in src\airScout_analytics\gps_analysis.py:
+  - pruefe_und_analysiere_gps()
+  - gps_auswertung()
+  - normiere()
+  - haversine()
+
+Funktionen in src\airScout_analytics\main.py:
+  - main()
+
+Funktionen in src\airScout_analytics\mod_000_pipeline.py:
+  - main()
+
+Funktionen in src\airScout_analytics\mod_010_laden_reinigen.py:
+  - laden_und_reinigen()
+  - main()
+  - kurs_korrigieren()
+
+Funktionen in src\airScout_analytics\mod_020_csv_analyzer.py:
+  - main()
+  - csv_info_extractor()
+  - erweiterte_sensor_analyse()
+  - mq_sensor_clustering()
+  - hauptkomponenten_analyse()
+  - zeitreihen_veraenderungs_analyse()
+  - unabhaengige_sensoren_waehlen()
+
+Funktionen in src\airScout_analytics\mod_040_feature_engeneering.py:
+  - feature_engineering()
+  - strassennamen_einfügen()
+  - main()
+  - haversine()
+  - finde_strasse_unscharf()
+  - extract_millisec()
+
+Funktionen in src\airScout_analytics\mod_041_f_e_wert_ppm_µgm3.py:
+  - convert_to_ppm()
+  - convert_to_ugm3()
+  - process_csv_file()
+  - process_all_csv_files()
+  - process_single_file()
+  - show_expected_values()
+  - main()
+
+Funktionen in src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py:
+  - identify_sensor_columns()
+  - get_info_txt_path()
+  - main()
+  - apply_ema_smoothing()
+  - calculate_zscore_analysis()
+  - detect_gas_events()
+  - detect_anomalies_ml()
+  - process_csv_file()
+  - print_analysis_summary()
+  - process_all_csv_files()
+  - log()
+
+Funktionen in src\airScout_analytics\mod_050_datenanalyse plotten.py:
+  - plot_temperaturverlauf()
+  - plot_zeitslider_lautstaerke()
+  - plot_zeitslider_radioaktiv()
+  - plot_luftkarte()
+  - plot_sensorverläufe_mit_pdf()
+  - plot_sensoren_zeitverlauf()
+  - plot_3d()
+  - plot_beispiel_3()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+  - get_color()
+
+Funktionen in src\airScout_analytics\mod_051_Karte_Luft_Qualitaet.py:
+  - main()
+
+Funktionen in src\airScout_analytics\mod_052_zeitslider.py:
+  - plot_zeitslider()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+
+Funktionen in src\airScout_analytics\mod_053_korrel_und_TOP_10.py:
+  - main()
+  - luftqualitaet_index()
+
+Funktionen in src\airScout_analytics\mod_080_text_generieren.py:
+  - lade_gemini_api_key()
+  - generiere_luftqualitaetsbericht_von_gemini()
+  - generiere_text()
+  - main()
+
+Funktionen in src\airScout_analytics\mod_100_gui.py:
+  - show_txt_in_tab()
+  - main()
+  - __init__()
+  - beenden()
+  - create_tabs()
+
+Funktionen in src\airScout_analytics\projekt_analyse.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_python_dateien_baum_alle()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - schreibe_kompletten_verzeichnisbaum()
+  - analysiere_imports()
+  - finde_und_liste_alle_funktionen()
+  - flake8_pruefen()
+  - hauptfunktion()
+  - baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - baum_zu_liste()
+  - print_baum()
+
+Funktionen in src\airScout_analytics\utils\csv_analyzer_04.py:
+  - advanced_statistics_analysis()
+  - csv_info_extractor()
+  - erstelle_auswertungsdiagramme()
+  - custom_fmt()
+
+Funktionen in src\airScout_analytics\utils\gps2street.py:
+  - reverse_geocode_gpsdatei()
+
+Funktionen in src\airScout_analytics\utils\projekt_analyse.py:
+  - finde_python_dateien()
+  - print_verwendete_module()
+  - schreibe_python_dateien_baum_alle()
+  - schreibe_python_dateien_baum()
+  - extrahiere_imports()
+  - schreibe_kompletten_verzeichnisbaum()
+  - analysiere_imports()
+  - flake8_pruefen()
+  - hauptfunktion()
+  - schreibe_baum()
+  - schreibe_baum()
+  - schreibe_baum()
+  - print_baum()
+
+Funktionen in src\airScout_analytics\utils\projekt_analyse_optimiert.py:
+  - sammle_python_dateien()
+  - extrahiere_alle_imports()
+  - erstelle_modul_mapping()
+  - analysiere_externe_libraries()
+  - analysiere_code_statistiken()
+  - analysiere_abhängigkeiten()
+  - print_statistiken()
+  - print_abhängigkeiten()
+  - print_externe_libraries()
+  - schreibe_statistik_bericht()
+  - schreibe_abhängigkeits_bericht()
+  - schreibe_library_analyse()
+  - neue_hauptfunktion()
+
+Funktionen in src\airScout_analytics\utils\spracheingabe.py:
+  - filter_woerter()
