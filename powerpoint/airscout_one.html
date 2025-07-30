@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AirScout - Umweltbericht Neustadt/W</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; padding: 0; }
+        .container { max-width: 1400px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px #aaa; }
+        h1 { text-align: center; }
+        .video { text-align: center; margin-bottom: 30px; }
+        .tabs { margin: 30px 0; }
+        .tab-btns { display: flex; justify-content: center; margin-bottom: 10px; }
+        .tab-btns button { padding: 10px 20px; margin: 0 5px; border: none; background: #eee; border-radius: 5px 5px 0 0; cursor: pointer; font-size: 1em; }
+        .tab-btns button.active { background: #4285f4; color: #fff; }
+        .tab-content { display: none; border: 1px solid #ddd; border-radius: 0 0 8px 8px; background: #fafafa; padding: 20px; }
+        .tab-content.active { display: block; }
+        .slideshow { text-align: center; margin: 30px 0; }
+        img { max-width: 1200px; max-height: 700px; border-radius: 8px; box-shadow: 0 1px 6px #bbb; }
+        .caption { font-size: 1.1em; margin-top: 10px; color: #333; }
+        .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 40px; }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            max-width: 1260px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .gallery img {
+            flex: 1 1 0;
+            max-width: 400px;
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AirScout - Umweltbericht Neustadt/W</h1>
+        <!-- Video oben -->
+        <div class="video">
+            <video width="1200" height="700" controls poster="powerpoint/AirScout_ONE_Nachrichten.png">
+                <source src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/AirScout_ONE_Nachrichten.mp4" type="video/mp4">
+                <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/AirScout_ONE_Nachrichten.png" alt="AirScout Nachrichten" style="width:1200px;height:700px;" />
+                Ihr Browser unterstützt das Video-Tag nicht.
+            </video>
+        </div>
+        <!-- Tabs für HTML-Seiten -->
+        <div class="tabs">
+            <div class="tab-btns">
+                <button class="active" onclick="showTab(0)">Zeitslider MQ135</button>
+                <button onclick="showTab(1)">Zeitslider Temperature</button>
+                <button onclick="showTab(2)">Zeitslider Radioaktiv</button>
+                <button onclick="showTab(3)">Top 10 Map</button>
+                <button onclick="showTab(4)">3D Temperatur  Map</button>
+            </div>
+            <div class="tab-content active">
+                <iframe src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/2025_07_19_06_05_Zeitslider_MQ135.html" width="1400" height="700" frameborder="0" style="background:#fff;"></iframe>
+            </div>
+            <div class="tab-content">
+                <iframe src="E:/dev/projekt_python_venv/airscout-analytics/powerpoint/2025_07_19_06_05_Zeitslider_Temperature_DHT_C.html" width="1400" height="700" frameborder="0" style="background:#fff;"></iframe>
+            </div>
+            <div class="tab-content">
+                <iframe src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/2025_07_21_04_50_radioaktiv.html" width="1400" height="700" frameborder="0" style="background:#fff;"></iframe>
+            </div>
+            <div class="tab-content">
+                <iframe src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/sensor_top10_map_2025_07_18_13_03.html" width="1400" height="700" frameborder="0" style="background:#fff;"></iframe>
+            </div>
+            <div class="tab-content">
+                <iframe src="file:///E:\dev\projekt_python_venv\airscout-analytics\powerpoint\2025_07_18_15_08_3dplot.html" width="1400" height="700" frameborder="0" style="background:#fff;"></iframe>
+            </div>
+
+
+        </div>
+    <!-- Umweltbericht als lesbarer Text am Ende -->
+    <div class="umweltbericht" style="margin-top:60px; background:#f4f4f4; border-radius:8px; padding:30px; max-width:900px; margin-left:auto; margin-right:auto;">
+        <h2 style="text-align:center; color:#4285f4; margin-bottom:30px;">AirScout - Umweltbericht Neustadt/W</h2>
+        <section style="font-size:1.15em; color:#222; line-height:1.7; max-width:1200px; margin:auto;">
+            <h3 style="color:#2e7d32;">Der Neustädter Luft-Check: Eine Reise durch unsere Umwelt!</h3>
+            <p><strong>Hallo, liebe Neustädterinnen und Neustädter, ob Groß oder Klein!</strong></p>
+            <p>Stell dir vor, unser <strong>AirScout</strong>, eine Art mobiler Umwelt-Detektiv, war am <strong>31. Juli 2025</strong> früh morgens in Neustadt an der Weinstraße unterwegs! Er hat über <strong>1900 Mal</strong> ganz genau gemessen, wie es unserer Luft geht. Das ist so, als würde er fast 2000 Schnappschüsse von unserer Umwelt machen!</p>
+            <p>Wir haben die Daten genau unter die Lupe genommen und erzählen dir, was unser AirScout alles herausgefunden hat.</p>
+            <hr>
+            <h4 style="color:#fbc02d;">☀️ Wetter-Check: So war das Klima an diesem Morgen</h4>
+            <ul>
+                <li><strong>Für die Kids:</strong> Stell dir vor, es war ein frischer Sommermorgen, der langsam wärmer wurde! Unser AirScout hat gemessen, dass es zwischen <strong>17 und 25 Grad Celsius</strong> warm war – perfekt, um in den Tag zu starten! Die Luft war auch ziemlich feucht, so als hätte es vielleicht kurz vorher geregnet oder als wäre noch viel Morgentau in der Luft (zwischen 58% und super-feuchten 98%).</li>
+                <li><strong>Für die Erwachsenen:</strong> Die Temperatur lag im Durchschnitt bei angenehmen <strong>18.8°C</strong>, mit einer Spanne von 17°C bis 25.3°C. Die Luftfeuchtigkeit war mit durchschnittlich <strong>87%</strong> und Spitzenwerten von 98% sehr hoch, was auf eine feuchte Morgenluft schließen lässt. Das Licht wechselte stark, von schattig bis sonnig, je nach Standort.</li>
+            </ul>
+            <hr>
+            <h4 style="color:#039be5;">🌬️ Unsere Luftqualität: Was die kleinen Sensoren verraten!</h4>
+            <p>Das ist der wichtigste Teil! Unser AirScout hatte viele Nasen (sogenannte MQ-Sensoren), die verschiedene Gase in der Luft erschnüffeln können.</p>
+            <ul>
+                <li><strong>Für die Kids:</strong> Super-Nachricht! Unser AirScout hat ganz viele verschiedene Gase gemessen, die zum Beispiel von Autos, Heizungen oder auch von der Natur kommen können. Aber – und das ist das Beste! – er hat <strong>keinen großen Gas-Alarm</strong> geschlagen! Das bedeutet, die Luft in Neustadt war an diesem Morgen <strong>sehr sauber</strong>, was schädliche Gase wie Kohlenmonoxid (das ist das, was aus manchen Schornsteinen kommt und man nicht riechen kann) oder andere brennbare Gase angeht. Ein echtes Aufatmen für unsere Lungen!<br><span style="color:#888;">Manchmal gab es kleine "Ausreißer" bei den Messungen. Stell dir vor, das ist wie ein Eichhörnchen, das mal ganz schnell rennt und dann wieder ganz still sitzt – das ist normal und kein Grund zur Sorge.</span></li>
+                <li><strong>Für die Erwachsenen:</strong> Die Analyse der verschiedenen MQ-Sensoren (MQ2 bis MQ135), die Gase wie Kohlenmonoxid (CO), Methan, Propan, Alkohol und allgemeine Luftqualitätsparameter messen, ergab eine sehr positive Nachricht: Es wurden <strong>keine "Gas-Ereignisse"</strong> festgestellt. Das bedeutet, dass es während der Messungen keine signifikanten und anhaltenden Erhöhungen von potenziell schädlichen Gasen gab, die über normale Umgebungswerte hinausgingen. Die erkannten "Z-Score-Ausreißer" (1063) und "ML-Anomalien" (191) sind Indikatoren für natürliche Schwankungen oder Veränderungen in der Umgebung (z.B. durch Bewegung oder lokale Quellen), aber keine Anzeichen für flächendeckende oder akute Gasbelastungen. Die hohe Korrelation zwischen vielen MQ-Sensoren zeigt zudem, dass sie konsistent auf Umwelteinflüsse reagierten.</li>
+            </ul>
+            <hr>
+            <h4 style="color:#8e24aa;">🎤 Geräuschpegel: Wie laut war es in Neustadt?</h4>
+            <ul>
+                <li><strong>Für die Kids:</strong> Unser AirScout hat auch Ohren gehabt! Er hat gemessen, wie laut es war. Meistens war es eher ruhig, aber manchmal gab es auch lautere Momente – vielleicht ist ein Auto vorbeigefahren, oder jemand hat laut gesprochen. Aber keine Dauer-Lautstärke!</li>
+                <li><strong>Für die Erwachsenen:</strong> Die Mikrofonsensoren (Mic1, Mic2) registrierten meist niedrige Werte, mit einigen Spitzen, die auf normale Umgebungsgeräusche (z.B. Verkehr, Gespräche) hindeuten, aber keine durchgehende Lärmbelästigung.</li>
+            </ul>
+            <hr>
+            <h4 style="color:#d32f2f;">🛡️ Sicherheit im Blick: Strahlung</h4>
+            <ul>
+                <li><strong>Für Groß und Klein:</strong> Keine Sorge! Unser AirScout hat auch nach Strahlung geschaut. Und die Werte waren super-super-niedrig, eigentlich fast gar nicht vorhanden (meist 0, höchstens mal 2). Das ist ganz normal und bedeutet: <strong>Hier ist alles sicher!</strong></li>
+            </ul>
+            <hr>
+            <h4 style="color:#388e3c;">🗺️ Unterwegs in Neustadt: Wo waren wir?</h4>
+            <ul>
+                <li><strong>Für Groß und Klein:</strong> Unser AirScout war kein Stubenhocker! Er ist durch Neustadt gefahren (oder gegangen). Das wissen wir, weil er sich mit dem GPS-System (wie in deinem Navi!) verbunden hat. Er war zwischen <strong>108 und 257 Metern hoch</strong> – das ist so, als ob er vom flachen Teil von Neustadt bis fast zum Hambacher Schloss gefahren wäre! Und er war richtig flott unterwegs, mit einer durchschnittlichen Geschwindigkeit von fast <strong>24 km/h</strong> und bis zu 49 km/h. So konnte er die Luft an ganz vielen verschiedenen Orten in Neustadt messen!</li>
+            </ul>
+            <hr>
+            <h4 style="color:#f57c00;">✨ Fazit & Blick nach vorn</h4>
+            <p><strong>Liebe Neustädterinnen und Neustädter, dieser Bericht ist eine tolle Nachricht!</strong></p>
+            <p>An diesem Morgen am 31. Juli 2025 war die Luft in unserer schönen Stadt <strong>sehr gut</strong>! Es gab keine Hinweise auf schädliche Gase, die Geräuschkulisse war normal und auch die Strahlung war unauffällig. Unser mobiler AirScout hat uns gezeigt, dass Neustadt an der Weinstraße einen guten Start in den Tag hatte, was die Umwelt betrifft.</p>
+            <p>Das ist toll, denn saubere Luft ist wichtig für uns alle, damit wir gesund bleiben, Sport treiben und unsere wunderschöne Umgebung genießen können – die Weinberge, den Pfälzerwald und unsere charmante Stadt.</p>
+            <p style="font-size:1.2em; color:#2e7d32; font-weight:bold;">Lasst uns weiterhin gemeinsam dafür sorgen, dass unsere Luft so sauber bleibt!</p>
+        </section>
+      
+        <!-- Galerie für alle anderen PNGs -->
+        <div class="gallery">
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/AirScout_Strecke.png" alt="Strecke" />
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/Humidity_RH_2025_07_20_06_00.png" alt="Humidity RH" />
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/bild1_2025_07_15_16_49.png" alt="Bild1" />
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/Radiation_CPS_2025_07_18_13_03.png" alt="Radiation CPS" />
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/Mic1_2025_07_15_16_49.png" alt="Mic1" />
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/Light_Percent_2025_07_17_15_04.png" alt="Light Percent" />
+        </div>
+        <!-- Sektion: images1 untereinander -->
+     
+    <script>
+    // Tabs Umschalten
+    function showTab(idx) {
+        const btns = document.querySelectorAll('.tab-btns button');
+        const tabs = document.querySelectorAll('.tab-content');
+        btns.forEach((b,i) => b.classList.toggle('active', i===idx));
+        tabs.forEach((t,i) => t.classList.toggle('active', i===idx));
+    }
+    // Slideshow für Karte und Korrelation
+    const images1 = [
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/karte_mq135_2025_07_21_04_50.png', caption: 'Karte MQ135 - 2025_07_21_04_50'},
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/karte_mq135_2025_07_20_06_00.png', caption: 'Karte MQ135 - 2025_07_20_06_00'},
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/karte_mq135_2025_07_18_15_08.png', caption: 'Karte MQ135 - 2025_07_18_15_08'}];
+    const image2 = [    
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/korrelationsmatrix_2025_07_21_04_50.png', caption: 'Korrelationsmatrix - 2025_07_21_04_50'},
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/korrelationsmatrix_2025_07_20_06_00.png', caption: 'Korrelationsmatrix - 2025_07_20_06_00'},
+        {src: 'file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/korrelationsmatrix_2025_07_18_15_08.png', caption: 'Korrelationsmatrix - 2025_07_18_15_08'}
+    ];
+    let idx = 0;
+    function showNextImage() {
+        idx = (idx + 1) % Math.max(images1.length, image2.length);
+        // Karte
+        document.getElementById('slideshow-img1').src = images1[idx % images1.length].src;
+        document.getElementById('slideshow-caption1').textContent = images1[idx % images1.length].caption;
+        // Korrelationsmatrix
+        document.getElementById('slideshow-img2').src = image2[idx % image2.length].src;
+        document.getElementById('slideshow-caption2').textContent = image2[idx % image2.length].caption;
+    }
+    setInterval(showNextImage, 3000);
+    </script>
+
+
+
+
+
+
+
+        <!-- Info-Text CSV Analyse Report -->
+        <div class="info-report" style="margin-top:60px; background:#eaf6ff; border-radius:8px; padding:30px; max-width:1200px; margin-left:auto; margin-right:auto;">
+            <h2 style="text-align:center; color:#1976d2; margin-bottom:30px;">CSV Analyse Report</h2>
+            <pre style="white-space:pre-wrap; font-size:1.05em; background:none; border:none; color:#222;">
+================================================================================
+CSV ANALYSE REPORT - 2025_07_12_17_29.csv
+Erstellt am: 29.07.2025 14:59:51
+================================================================================
+
+🔍 1. GRUNDLEGENDE INFORMATIONEN
+----------------------------------------
+📊 Shape: 9204 Zeilen × 25 Spalten
+💾 Dateigröße: 1263.8 KB
+🔢 Gesamt-Datenpunkte: 230,100
+
+📋 2. SPALTEN MIT DATENTYPEN
+----------------------------------------
+ 1. SecSinceMidnight-MS       → object       | Beispiele: 70242-615, 64152-291, 82110-708, 64084-475, 67009-724
+ 2. Temperature_DHT_C         → float64      | Beispiele: 25.3, 25.9, 26.6, 25.0, 25.4
+ 3. Humidity_RH               → float64      | Beispiele: 31.0, 32.0, 37.0, 34.0, 33.0
+ 4. Light_Level               → int64        | Beispiele: 454, 726, 743, 166, 609
+ 5. Light_Percent             → float64      | Beispiele: 20.4, 57.3, 21.9, 19.3, 24.0
+ 6. GPS_Lat                   → float64      | Beispiele: 49.3531, 49.3527, 49.3529, 49.3524, 49.3523
+ 7. GPS_Lon                   → float64      | Beispiele: 8.1651, 8.1647, 8.1646, 8.1649, 8.1648
+ 8. GPS_Alt                   → float64      | Beispiele: 92.1, 133.1, 127.6, 120.0, 154.7
+ 9. GPS_Speed                 → float64      | Beispiele: 5.0, 2.7, 0.9, 1.6, 0.1
+10. GPS_Course                → int64        | Beispiele: 116, 3, 9, 121, 278
+11. GPS_Sats                  → int64        | Beispiele: 8, 9, 4, 3, 0
+12. MQ2                       → int64        | Beispiele: 131, 146, 127, 154, 142
+13. MQ3                       → int64        | Beispiele: 131, 116, 135, 115, 102
+14. MQ4                       → int64        | Beispiele: 311, 276, 275, 294, 325
+15. MQ5                       → int64        | Beispiele: 236, 244, 265, 240, 281
+16. MQ6                       → int64        | Beispiele: 183, 195, 155, 164, 179
+17. MQ7                       → int64        | Beispiele: 237, 263, 262, 212, 207
+18. MQ8                       → int64        | Beispiele: 282, 270, 275, 250, 255
+19. MQ9                       → int64        | Beispiele: 259, 298, 315, 340, 344
+20. MQ135                     → int64        | Beispiele: 224, 169, 219, 148, 157
+21. Mic1                      → int64        | Beispiele: 6, 7, 8, 2, 4
+22. Mic2                      → int64        | Beispiele: 8, 4, 6, 3, 2
+23. Radiation_CPS             → int64        | Beispiele: 0
+24. DateTime                  → datetime64[ns] | Beispiele: 2025-07-13T00:13:01.00000..., 2025-07-12T21:57:37.00000..., 2025-07-12T21:53:06.00000..., 2025-07-13T00:26:58.00000..., 2025-07-12T22:14:21.00000...
+25. GPS_DateTime              → datetime64[ns] | Beispiele: 2025-07-12T19:25:28.00000..., 2025-07-12T20:47:57.00000..., 2025-07-12T21:06:54.00000..., 2025-07-12T20:00:10.00000..., 2025-07-12T19:06:55.00000...
+    
+👀 3. ERSTE 5 ZEILEN (HEAD)
+----------------------------------------
+  SecSinceMidnight-MS  Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent  GPS_Lat  GPS_Lon  GPS_Alt  GPS_Speed  GPS_Course  GPS_Sats  MQ2  MQ3  MQ4  MQ5  MQ6  MQ7  MQ8  MQ9  MQ135  Mic1  Mic2  Radiation_CPS            DateTime        GPS_DateTime
+0           64024-498               26.6         31.0          158           15.5  49.3526   8.1645    142.9        2.4          20         4  153  148  310  271  191  254  272  342    247     5     5              0 2025-07-12 19:47:04 2025-07-12 17:47:05
+1           64026-476               26.6         31.0          159           15.5  49.3527   8.1645    140.0        1.4          20         4  154  148  309  272  191  254  270  343    244     4     4              0 2025-07-12 19:47:06 2025-07-12 17:47:07
+2           64028-475               26.6         31.0          159           15.5  49.3527   8.1645    139.6        1.4          20         4  156  151  312  275  193  255  275  345    250     5     5              0 2025-07-12 19:47:08 2025-07-12 17:47:09
+3           64030-475               26.6         31.0          159           15.4  49.3527   8.1645    139.6        1.4          20         4  153  150  311  272  192  254  272  344    249     5     4              0 2025-07-12 19:47:10 2025-07-12 17:47:11
+4           64032-475               26.6         31.0          159           15.4  49.3527   8.1645    139.6        1.4          20         4  152  150  311  274  193  255  272  346    249     5     6              0 2025-07-12 19:47:12 2025-07-12 17:47:13
+
+👁️ LETZTE 5 ZEILEN (TAIL)
+----------------------------------------
+     SecSinceMidnight-MS  Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent  GPS_Lat  GPS_Lon  GPS_Alt  GPS_Speed  GPS_Course  GPS_Sats  MQ2  MQ3  MQ4  MQ5  MQ6  MQ7  MQ8  MQ9  MQ135  Mic1  Mic2  Radiation_CPS            DateTime        GPS_DateTime
+9199           82700-660               24.7         36.0          767           75.0  49.3526   8.1646    153.7        0.5           0         7  147  138  322  282  197  264  283  344    220     4     4              0 2025-07-13 00:58:20 2025-07-12 22:58:20
+9200           82702-712               24.7         36.0          767           75.2  49.3526   8.1646    152.8        0.4           0         7  147  137  322  281  198  264  282  343    219     4     5              0 2025-07-13 00:58:22 2025-07-12 22:58:22
+9201           82704-790               24.7         36.0          781           76.2  49.3526   8.1646    152.6        0.3           0         6  148  139  322  282  198  265  281  343    221     4     4              0 2025-07-13 00:58:24 2025-07-12 22:58:24
+9202           82706-829               24.7         36.0          767           75.1  49.3526   8.1646    152.4        0.6           0         6  148  139  323  281  197  264  280  344    220     3     4              0 2025-07-13 00:58:26 2025-07-12 22:58:26
+9203           82708-878               24.7         36.0          764           74.9  49.3527   8.1646    152.3        0.5           0         7  148  138  321  282  202  264  281  344    220     4     5              0 2025-07-13 00:58:28 2025-07-12 22:58:28
+
+📊 4. DATAFRAME INFO
+----------------------------------------
+RangeIndex: 9204 entries, 0 to 9203
+Data columns (total 25 columns):
+  0  SecSinceMidnight-MS    9204 non-null  object
+  1  Temperature_DHT_C      9204 non-null  float64
+  2  Humidity_RH            9204 non-null  float64
+  3  Light_Level            9204 non-null  int64
+  4  Light_Percent          9204 non-null  float64
+  5  GPS_Lat                9204 non-null  float64
+  6  GPS_Lon                9204 non-null  float64
+  7  GPS_Alt                9204 non-null  float64
+  8  GPS_Speed              9204 non-null  float64
+  9  GPS_Course             9204 non-null  int64
+ 10  GPS_Sats               9204 non-null  int64
+ 11  MQ2                    9204 non-null  int64
+ 12  MQ3                    9204 non-null  int64
+ 13  MQ4                    9204 non-null  int64
+ 14  MQ5                    9204 non-null  int64
+ 15  MQ6                    9204 non-null  int64
+ 16  MQ7                    9204 non-null  int64
+ 17  MQ8                    9204 non-null  int64
+ 18  MQ9                    9204 non-null  int64
+ 19  MQ135                  9204 non-null  int64
+ 20  Mic1                   9204 non-null  int64
+ 21  Mic2                   9204 non-null  int64
+ 22  Radiation_CPS          9204 non-null  int64
+ 23  DateTime               9204 non-null  datetime64[ns]
+ 24  GPS_DateTime           9204 non-null  datetime64[ns]
+Memory usage: 2247.2 KB
+
+❌ 5. NULL VALUES (FEHLENDE WERTE)
+----------------------------------------
+✅ Keine fehlenden Werte gefunden!
+
+🔢 6. NUMERISCHE STATISTIKEN
+----------------------------------------
+       Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent      GPS_Lat      GPS_Lon      GPS_Alt    GPS_Speed   GPS_Course     GPS_Sats          MQ2          MQ3          MQ4          MQ5          MQ6          MQ7          MQ8          MQ9        MQ135         Mic1         Mic2  Radiation_CPS
+count        9204.000000  9204.000000  9204.000000    9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000         9204.0
+mean           25.552043    34.712842   555.877879      54.337994    49.352669     8.164562   135.278759     0.673207    69.716428     6.783681   125.587897   122.681334   285.849848   249.382877   171.869622   222.108214   247.651890   293.515319   188.978922     4.657540     4.461864            0.0
+std             0.620877     1.242867   241.686379      23.628868     0.000068     0.000093    10.008460     0.762506   112.101188     0.933652    13.583399    15.880087    13.181275    12.265307    10.197120    17.993057    12.484421    25.060520    29.209886     0.911406     0.911945            0.0
+min            24.300000    31.000000   156.000000      15.300000    49.352300     8.164200    88.500000     0.000000     0.000000     0.000000   105.000000    95.000000   266.000000   229.000000   155.000000   194.000000   230.000000   255.000000   147.000000     2.000000     2.000000            0.0
+25%            25.000000    34.000000   260.000000      25.400000    49.352600     8.164500   131.100000     0.200000     0.000000     6.000000   114.000000   108.000000   275.000000   240.000000   164.000000   207.000000   238.000000   272.000000   163.000000     4.000000     4.000000            0.0
+            ...
+            </pre>
+        </div>
+        <!-- Bilder am Ende -->
+        <div class="report-images" style="margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:30px;">
+            <div style="display:flex; flex-direction:row; gap:40px; justify-content:center; align-items:center; width:100%;">
+                <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/airscoutone.jpg" alt="AirScout One" style="max-width:700px; border-radius:12px; box-shadow:0 2px 12px #aaa;" />
+                <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/foto%20Frank.jpg" alt="Foto Frank" style="max-width:400px; border-radius:12px; box-shadow:0 2px 12px #aaa;" />
+            </div>
+            <img src="file:///E:/dev/projekt_python_venv/airscout-analytics/powerpoint/my_data_analyst_frank_albrecht_banner.png" alt="Banner Frank Albrecht" style="max-width:1200px; border-radius:12px; box-shadow:0 2px 12px #aaa; margin-top:30px;" />
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+================================================================================
+GASSENSOR-DATENANALYSE REPORT
+Datei: waldparkplatz_07131217.CSV
+Erstellt: 13.07.2025 20:32:43
+================================================================================
+
+🔍 1. GRUNDLEGENDE INFORMATIONEN
+----------------------------------------
+📊 Datensätze: 4,496
+📋 Spalten gesamt: 25
+🎯 MQ-Gassensoren: 9
+🌡️ Umweltsensoren: 11
+⏰ Zeitfelder: 3
+
+📋 2. SPALTEN-ÜBERSICHT
+----------------------------------------
+ 1. SecSinceMidnight-MS  | object   |    0 NULL |   4496 eindeutig
+ 2. Temperature_DHT_C    | float64  |    0 NULL |    163 eindeutig
+ 3. Humidity_RH          | float64  |    0 NULL |     18 eindeutig
+ 4. Light_Level          | int64    |    0 NULL |     52 eindeutig
+ 5. Light_Percent        | float64  |    0 NULL |     51 eindeutig
+ 6. GPS_Lat              | float64  |    0 NULL |      4 eindeutig
+ 7. GPS_Lon              | float64  |    0 NULL |      5 eindeutig
+ 8. GPS_Alt              | float64  |    0 NULL |    293 eindeutig
+ 9. GPS_Speed            | float64  |    0 NULL |     23 eindeutig
+10. GPS_Course           | int64    |    0 NULL |     20 eindeutig
+11. GPS_Sats             | int64    |    0 NULL |     10 eindeutig
+12. MQ2                  | int64    |    0 NULL |     41 eindeutig
+13. MQ3                  | int64    |    0 NULL |     18 eindeutig
+14. MQ4                  | int64    |    0 NULL |     47 eindeutig
+15. MQ5                  | int64    |    0 NULL |     36 eindeutig
+16. MQ6                  | int64    |    0 NULL |     36 eindeutig
+17. MQ7                  | int64    |    0 NULL |     38 eindeutig
+18. MQ8                  | int64    |    0 NULL |     39 eindeutig
+19. MQ9                  | int64    |    0 NULL |     53 eindeutig
+20. MQ135                | int64    |    0 NULL |     72 eindeutig
+21. Mic1                 | int64    |    0 NULL |      5 eindeutig
+22. Mic2                 | int64    |    0 NULL |      5 eindeutig
+23. Radiation_CPS        | int64    |    0 NULL |      9 eindeutig
+24. DateTime             | object   |    0 NULL |   4490 eindeutig
+25. GPS_DateTime         | object   |    0 NULL |   4495 eindeutig
+
+🎯 3. MQ-GASSENSOR DETAILS
+----------------------------------------
+           MQ2      MQ3      MQ4     MQ5      MQ6      MQ7      MQ8      MQ9    MQ135
+count  4496.00  4496.00  4496.00  4496.0  4496.00  4496.00  4496.00  4496.00  4496.00
+mean    213.81   189.13   380.03   333.1   247.67   340.62   332.64   431.27   367.03
+std       6.39     2.87     5.53     4.3     4.52     6.72     4.46     6.02     8.22
+min     184.00   180.00   342.00   303.0   217.00   316.00   301.00   383.00   290.00
+25%     208.00   187.00   378.00   332.0   246.00   337.00   331.00   429.00   364.00
+50%     215.00   190.00   382.00   334.0   249.00   340.00   334.00   433.00   369.00
+75%     218.00   191.00   383.00   335.0   250.00   346.00   335.00   435.00   372.00
+max     227.00   197.00   388.00   339.0   254.00   353.00   340.00   441.00   377.00
+
+🌡️ 4. UMWELTSENSOR DETAILS
+----------------------------------------
+       Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent  GPS_Lat  GPS_Lon  GPS_Alt  GPS_Speed  GPS_Course  GPS_Sats
+count            4496.00      4496.00      4496.00        4496.00  4496.00  4496.00  4496.00    4496.00     4496.00   4496.00
+mean               37.20         6.38        25.46          97.50    49.35     8.18   133.69       0.14        1.60      9.25
+std                 4.89         6.90        14.14           1.37     0.74     0.12     6.17       0.21       20.18      1.18
+min                31.90         0.00         6.00          94.40     0.00     0.00     0.00       0.00        0.00      0.00
+25%                33.20         0.00        11.00          96.20    49.36     8.18   130.30       0.00        0.00      9.00
+50%                35.20         2.00        23.00          97.80    49.36     8.18   133.10       0.10        0.00      9.00
+75%                41.50        15.00        39.00          98.90    49.36     8.18   136.40       0.20        0.00     10.00
+max                48.10        17.00        57.00          99.40    49.36     8.18   150.90       5.00      357.00     12.00
+
+⏰ 5. ZEITREIHEN-INFORMATIONEN
+----------------------------------------
+📅 DateTime:
+   Start: 2025-07-13 14:18:01 MESZ
+   Ende:  2025-07-13 16:55:14 MESZ
+📅 GPS_DateTime:
+   Start: 2025-07-13 12:18:04 UTC
+   Ende:  2025-07-13 14:55:16 UTC
+
+✅ 6. DATENQUALITÄT
+----------------------------------------
+📊 Vollständigkeit: 100.0%
+❌ Fehlende Werte: 0 von 112,400

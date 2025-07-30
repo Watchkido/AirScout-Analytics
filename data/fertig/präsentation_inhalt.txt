@@ -1,0 +1,83 @@
+
+Funktionen in main.py:
+  - main()
+
+Funktionen in mod_000_pipeline.py:
+  - main()
+
+Funktionen in mod_010_laden_reinigen.py:
+  - laden_und_reinigen()
+  - main()
+  - kurs_korrigieren()
+
+Funktionen in mod_020_csv_analyzer.py:
+  - main()
+  - csv_info_extractor()
+  - erweiterte_sensor_analyse()
+  - mq_sensor_clustering()
+  - hauptkomponenten_analyse()
+
+Funktionen in mod_040_feature_engeneering.py:
+  - feature_engineering()
+  - strassennamen_einfügen()
+  - main()
+  - finde_strasse_unscharf()
+  - extract_millisec()
+
+Funktionen in mod_041_f_e_wert_ppm_µgm3.py:
+  - convert_to_ppm()
+  - convert_to_ugm3()
+  - main()
+
+Funktionen in mod_042_glaetten_der_sensorwerte.py:
+  - identify_sensor_columns()
+  - main()
+  - calculate_zscore_analysis()
+  - detect_gas_events()
+  - detect_anomalies_ml()
+  - print_analysis_summary()
+  - log()
+
+Funktionen in mod_050_datenanalyse_plotten.py:
+  - plot_temperaturverlauf()
+  - plot_zeitslider_lautstaerke()
+  - plot_zeitslider_radioaktiv()
+  - plot_luftkarte()
+  - plot_sensorverläufe_mit_pdf()
+  - plot_sensoren_zeitverlauf()
+  - plot_3d()
+  - plot_beispiel_3()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+  - get_color()
+
+Funktionen in mod_051_Karte_Luft_Qualitaet.py:
+  - main()
+
+Funktionen in mod_052_zeitslider.py:
+  - plot_zeitslider()
+  - erstelle_plots()
+  - main_plotting()
+  - main()
+
+Funktionen in mod_053_korrel_und_TOP_10.py:
+  - main()
+  - luftqualitaet_index()
+
+Funktionen in mod_080_text_generieren.py:
+  - lade_gemini_api_key()
+  - generiere_luftqualitaetsbericht_von_gemini()
+  - generiere_text()
+  - main()
+
+Funktionen in mod_100_gui.py:
+  - show_txt_in_tab()
+  - main()
+  - __init__()
+  - on_close()
+  - beenden()
+  - create_tabs()
+
+Funktionen in gps2street.py:
+  - reverse_geocode_gpsdatei()

@@ -1,0 +1,49 @@
+# Umweltkontrollsystem Log
+# Start: 2025-07-16 15:14:33
+# ===== SENSOR-KONFIGURATION =====
+# TEMPERATURSENSOR:
+#   DHT11: Pin 22 (Digital) - Temp + Luftfeuchtigkeit, 0.5Hz [Temperature_DHT_C, Humidity_RH]
+#   DS18B20: Pin 8 (OneWire) - 4.7K Pull-up zu 5V erforderlich
+# GPS-MODUL:
+#   RX: Pin 19, TX: Pin 18 (Serial1, 9600 Baud), 200Hz [GPS_Lat, GPS_Lon, GPS_Alt, GPS_Speed, GPS_Course, GPS_Sats, GPS_DateTime]
+# GAS-SENSOREN (MQ-Serie, 0.5Hz):
+#   MQ2 (Methan,Butan,LPG,Rauch): A0 [MQ2]
+#   MQ3 (Alkohol,Ethanol): A1 [MQ3]
+#   MQ4 (Methan,CNG): A2 [MQ4]
+#   MQ5 (Erdgas,LPG): A3 [MQ5]
+#   MQ6 (LPG,Butan): A4 [MQ6]
+#   MQ7 (Kohlenmonoxid CO): A5 [MQ7]
+#   MQ8 (Wasserstoff H2): A6 [MQ8]
+#   MQ9 (CO,entflammbare Gase): A7 [MQ9]
+#   MQ135 (Luftqualitaet CO2,NH3,NOx): A8 [MQ135]
+# MIKROFONE (100kHz Burst):
+#   Mikrofon Klein: A9, Mikrofon Gross: A10 [Mic1, Mic2]
+# RADIOAKTIVITAET:
+#   Geigerzaehler: Pin 29 (Digital), 200Hz Polling [Radiation_CPS]
+# LICHTSENSOR:
+#   LDR: Pin A11, 0.5Hz (0-1023 = Dunkel-Hell) [Light_Level, Light_Percent]
+# ZEIT/TIMESTAMP:
+#   Sekunden seit Mitternacht + Millisekunden [SecSinceMidnight-MS, DateTime]
+# SD-KARTE:
+#   CS: Pin 10, MOSI: 51, MISO: 50, SCK: 52 (SPI)
+# RTC (Real-Time Clock):
+#   SDA: Pin 20, SCL: Pin 21 (I2C)
+# SYSTEM: Arduino Mega 2560, 5V Versorgung
+# ABTASTRATEN: GPS/Radiation=200Hz, Sensoren=0.5Hz, Mikro=100kHz
+# ===================================
+SecSinceMidnight-MS,Temperature_DHT_C,Humidity_RH,Light_Level,Light_Percent,GPS_Lat,GPS_Lon,GPS_Alt,GPS_Speed,GPS_Course,GPS_Sats,MQ2,MQ3,MQ4,MQ5,MQ6,MQ7,MQ8,MQ9,MQ135,Mic1,Mic2,Radiation_CPS,DateTime,GPS_DateTime
+54873-941,0.0,0.0,7,99.3,--,--,--,--,--,0,13,59,181,161,103,78,143,10,8,3,4,0,2025-07-16 17:14:33 MESZ,----/--/-- --:--:-- UTC
+54875-858,28.9,46.0,5,99.2,--,--,--,--,--,0,15,67,204,179,115,90,160,15,11,3,3,0,2025-07-16 17:14:35 MESZ,----/--/-- --:--:-- UTC
+54878-012,28.9,46.0,7,99.4,--,--,--,--,--,0,10,65,200,175,112,89,157,12,7,3,4,0,2025-07-16 17:14:38 MESZ,----/--/-- --:--:-- UTC
+54880-263,28.9,46.0,7,99.2,--,--,--,--,--,0,11,63,197,174,113,88,156,15,9,2,3,0,2025-07-16 17:14:40 MESZ,----/--/-- --:--:-- UTC
+54882-288,29.0,45.0,10,99.1,--,--,--,--,--,0,12,65,204,180,116,90,163,14,7,3,4,0,2025-07-16 17:14:42 MESZ,----/--/-- --:--:-- UTC
+54884-268,29.0,45.0,9,99.1,--,--,--,--,--,0,11,68,208,184,119,93,167,17,7,3,3,0,2025-07-16 17:14:44 MESZ,----/--/-- --:--:-- UTC
+54886-386,29.0,45.0,9,99.0,--,--,--,--,--,0,11,66,209,184,120,93,168,18,9,4,3,0,2025-07-16 17:14:46 MESZ,----/--/-- --:--:-- UTC
+54888-330,29.0,45.0,10,98.9,--,--,--,--,--,0,15,70,211,188,122,97,170,21,10,3,3,0,2025-07-16 17:14:48 MESZ,----/--/-- --:--:-- UTC
+54890-387,29.0,45.0,10,98.8,--,--,--,--,--,0,12,71,213,190,123,97,171,22,9,4,4,0,2025-07-16 17:14:50 MESZ,----/--/-- --:--:-- UTC
+54892-609,29.0,45.0,9,99.1,--,--,--,--,--,0,13,70,217,192,125,96,174,24,11,3,4,0,2025-07-16 17:14:52 MESZ,----/--/-- --:--:-- UTC
+54894-612,29.0,45.0,10,98.9,--,--,--,--,--,0,15,72,216,192,125,98,175,29,11,4,4,0,2025-07-16 17:14:54 MESZ,----/--/-- --:--:-- UTC
+54896-690,28.9,45.0,8,98.9,--,--,--,--,--,0,16,71,216,190,125,98,174,31,12,4,4,0,2025-07-16 17:14:56 MESZ,----/--/-- --:--:-- UTC
+54903-782,28.9,45.0,10,99.1,--,--,--,--,--,0,18,76,224,198,130,102,181,37,13,3,3,0,2025-07-16 17:15:03 MESZ,----/--/-- --:--:-- UTC
+54905-779,28.9,45.0,10,99.0,--,--,--,--,--,0,18,74,223,196,130,102,179,40,14,4,3,0,2025-07-16 17:15:05 MESZ,----/--/-- --:--:-- UTC
+54907-014,28.8,45.0,12,99.0,--,--,--,--,--,0,19,73,222,195,129,101,179,44,14,3,4,1,2025-07-16 17:15:07 MESZ,----/--/-- --:--:-- UTC

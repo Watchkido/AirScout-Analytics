@@ -1,0 +1,39 @@
+# Umweltkontrollsystem Log
+# Start: 2025-07-15 11:00:33
+# ===== SENSOR-KONFIGURATION =====
+# TEMPERATURSENSOR:
+#   DHT11: Pin 22 (Digital) - Temp + Luftfeuchtigkeit, 0.5Hz [Temperature_DHT_C, Humidity_RH]
+#   DS18B20: Pin 8 (OneWire) - 4.7K Pull-up zu 5V erforderlich
+# GPS-MODUL:
+#   RX: Pin 19, TX: Pin 18 (Serial1, 9600 Baud), 200Hz [GPS_Lat, GPS_Lon, GPS_Alt, GPS_Speed, GPS_Course, GPS_Sats, GPS_DateTime]
+# GAS-SENSOREN (MQ-Serie, 0.5Hz):
+#   MQ2 (Methan,Butan,LPG,Rauch): A0 [MQ2]
+#   MQ3 (Alkohol,Ethanol): A1 [MQ3]
+#   MQ4 (Methan,CNG): A2 [MQ4]
+#   MQ5 (Erdgas,LPG): A3 [MQ5]
+#   MQ6 (LPG,Butan): A4 [MQ6]
+#   MQ7 (Kohlenmonoxid CO): A5 [MQ7]
+#   MQ8 (Wasserstoff H2): A6 [MQ8]
+#   MQ9 (CO,entflammbare Gase): A7 [MQ9]
+#   MQ135 (Luftqualitaet CO2,NH3,NOx): A8 [MQ135]
+# MIKROFONE (100kHz Burst):
+#   Mikrofon Klein: A9, Mikrofon Gross: A10 [Mic1, Mic2]
+# RADIOAKTIVITAET:
+#   Geigerzaehler: Pin 29 (Digital), 200Hz Polling [Radiation_CPS]
+# LICHTSENSOR:
+#   LDR: Pin A11, 0.5Hz (0-1023 = Dunkel-Hell) [Light_Level, Light_Percent]
+# ZEIT/TIMESTAMP:
+#   Sekunden seit Mitternacht + Millisekunden [SecSinceMidnight-MS, DateTime]
+# SD-KARTE:
+#   CS: Pin 10, MOSI: 51, MISO: 50, SCK: 52 (SPI)
+# RTC (Real-Time Clock):
+#   SDA: Pin 20, SCL: Pin 21 (I2C)
+# SYSTEM: Arduino Mega 2560, 5V Versorgung
+# ABTASTRATEN: GPS/Radiation=200Hz, Sensoren=0.5Hz, Mikro=100kHz
+# ===================================
+SecSinceMidnight-MS,Temperature_DHT_C,Humidity_RH,Light_Level,Light_Percent,GPS_Lat,GPS_Lon,GPS_Alt,GPS_Speed,GPS_Course,GPS_Sats,MQ2,MQ3,MQ4,MQ5,MQ6,MQ7,MQ8,MQ9,MQ135,Mic1,Mic2,Radiation_CPS,DateTime,GPS_DateTime
+39633-947,0.0,0.0,83,92.0,--,--,--,--,--,0,133,179,346,296,207,318,288,342,265,3,2,0,2025-07-15 13:00:33 MESZ,----/--/-- --:--:-- UTC
+39635-866,26.0,42.0,83,91.9,49.3526,8.1647,133.0,5.9, 0,6,133,178,346,296,208,318,289,342,266,3,3,0,2025-07-15 13:00:35 MESZ,2025-07-15 11:00:36 UTC
+39637-948,26.0,42.0,83,91.8,49.3526,8.1648,134.3,6.6,81,6,133,178,347,296,207,318,289,342,266,3,2,0,2025-07-15 13:00:37 MESZ,2025-07-15 11:00:38 UTC
+39640-170,26.0,42.0,84,91.9,49.3526,8.1648,133.8,4.3,90,6,133,177,346,297,208,318,289,342,266,3,2,0,2025-07-15 13:00:40 MESZ,2025-07-15 11:00:40 UTC
+39642-171,26.0,42.0,83,91.9,49.3526,8.1648,133.7,3.5, 0,6,135,179,343,295,207,316,287,339,264,3,3,0,2025-07-15 13:00:42 MESZ,2025-07-15 11:00:42 UTC

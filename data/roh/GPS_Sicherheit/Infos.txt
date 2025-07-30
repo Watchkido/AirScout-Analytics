@@ -1,0 +1,119 @@
+📋 KOMPLETTE SENSOR-PIN-LISTE
+🌡️ TEMPERATURSENSOR
+DS18B20 OneWire: Pin 8 (Digital)
+⚠️ Benötigt 4,7K Pull-up Widerstand zwischen Pin 8 und 5V
+📡 GPS-MODUL
+GPS RX: Pin 19 (Hardware Serial1 RX)
+GPS TX: Pin 18 (Hardware Serial1 TX)
+Baudrate: 9600
+🔬 GAS-SENSOREN (MQ-Serie) - Analoge Pins
+MQ2 (Methan, Butan, LPG, Rauch): Pin A0
+MQ3 (Alkohol, Ethanol): Pin A1
+MQ4 (Methan, CNG Gas): Pin A2
+MQ5 (Natürliche Gase, LPG): Pin A3
+MQ6 (LPG, Butangas): Pin A4
+MQ7 (Kohlenmonoxid CO): Pin A5
+MQ8 (Wasserstoff H2): Pin A6
+MQ9 (CO, entflammbare Gase): Pin A7
+MQ135 (Luftqualität CO2, NH3, NOx): Pin A8
+🎤 MIKROFONE
+Mikrofon Klein: Pin A9
+Mikrofon Groß: Pin A10
+☢️ RADIOAKTIVITÄTSSENSOR
+Geigerzähler: Pin 29 (Digital Input)
+💾 SD-KARTE
+CS (Chip Select): Pin 10
+MOSI: Pin 51 (Hardware SPI)
+MISO: Pin 50 (Hardware SPI)
+SCK: Pin 52 (Hardware SPI)
+🕒 RTC (Real-Time Clock)
+SDA: Pin 20 (I2C)
+SCL: Pin 21 (I2C)
+🔌 ZUSAMMENFASSUNG
+Analoge Pins belegt: A0-A10 (11 Pins)
+Digitale Pins belegt: 8, 10, 18, 19, 20, 21, 29, 50, 51, 52
+Kommunikation: I2C (RTC), SPI (SD), Serial1 (GPS), OneWire (Temp)
+⚡ STROMVERSORGUNG
+Alle Sensoren werden über Arduino Mega 2560 mit 5V versorgt.
+
+Das System nutzt 21 Pins für alle Sensoren und Module! 🎯
+
+
+
+
+✅ Sensorübersicht mit zugehörigen Werten:
+🕒 Zeit
+Timestamp intern: 132358-605
+Datum/Zeit: 2025-07-12 15:23:58 MESZ
+
+🌡️ Temperatur
+Sensor: DS18B20 (OneWire, Pin 8)
+Wert: 0.0 °C → ⚠️ Sensor offenbar nicht aktiv / defekt
+
+📡 GPS
+Modul: GPS über Serial1 (RX Pin 19, TX Pin 18)
+Latitude: 49.3527
+Longitude: 8.1645
+Höhe (Alt): 140.5 m
+Geschwindigkeit: 0.6 km/h
+Kursrichtung (Course): 0°
+Satelliten: 5
+
+🔬 Gas-Sensoren (MQ-Serie)
+Sensor	Typ / Gase	Pin	Wert
+MQ2	Methan, Butan, LPG, Rauch	A0	215
+MQ3	Alkohol, Ethanol	A1	167
+MQ4	Methan, CNG	A2	368
+MQ5	Erdgas, LPG	A3	325
+MQ6	LPG, Butan	A4	245
+MQ7	Kohlenmonoxid (CO)	A5	292
+MQ8	Wasserstoff (H2)	A6	326
+MQ9	CO, entflammbare Gase	A7	415
+MQ135	Luftqualität (CO2, NH3, NOx, etc.)	A8	353
+
+🎤 Mikrofone
+Mikrofon	Pin	Wert
+Mikrofon klein	A9	66
+Mikrofon groß	A10	71
+
+☢️ Radioaktivitätssensor
+Geigerzähler-Ereignisse (CPS): 0
+
+Pin: Digital 29
+
+
+
+🎉 Erfolgreich integrierte Funktionen:
+1. MQ-Sensor Clustering 🎯
+Identifiziert Gruppen von Sensoren mit ähnlichem Verhalten
+Verwendet KMeans-Algorithmus mit automatischer Cluster-Optimierung
+Hilft bei der Identifikation redundanter Sensoren
+2. Hauptkomponentenanalyse (PCA) 📊
+Reduziert Sensor-Dimensionen auf die wichtigsten 2-3 Komponenten
+Zeigt, welche Sensoren am meisten zur Datenvarianz beitragen
+Ermöglicht Visualisierung hochdimensionaler Daten
+3. Zeitreihenanalyse ⏰
+Analysiert zeitliche Veränderungen der Sensor-Werte
+Identifiziert variable Sensoren (z.B. bei Umgebungswechsel Wald→Zimmer)
+Erkennt Trends und Variabilität
+4. Feature Selection 🔍
+Wählt unabhängige Sensoren mit maximaler Informationsvielfalt
+Eliminiert hoch korrelierte (redundante) Sensoren
+Optimiert die Sensor-Auswahl für Machine Learning
+🔧 Technische Umsetzung:
+Deutsche Bezeichnungen und detaillierte Docstrings entsprechend Ihren Coding-Anweisungen
+Type Hints für alle Funktionen
+Modulare Struktur mit separaten Funktionen für jede Analyse
+Robuste Fehlerbehandlung mit spezifischen Exception-Meldungen
+Automatische Integration in den bestehenden Analyse-Workflow
+📁 Zusätzlich erstellt:
+Dokumentations-Datei (2025-07-13.md) mit fachlich präziser Erklärung aller neuen Funktionen
+Installation der benötigten Pakete: pandas, numpy, scikit-learn, matplotlib, seaborn, scipy
+💡 Praktischer Nutzen:
+Das erweiterte Script kann jetzt:
+
+Redundante MQ-Sensoren identifizieren → Kosteneinsparung
+Umweltwechsel erkennen (Wald→Zimmer) → Bessere Dateninterpretation
+Optimale Sensor-Kombinationen vorschlagen → Verbesserte Messgenauigkeit
+Komplexe Sensor-Daten in verständliche 2D/3D-Darstellungen überführen
+Die neuen Funktionen werden automatisch ausgeführt, wenn genügend numerische Spalten in der CSV-Datei vorhanden sind, und die Ergebnisse werden sowohl in der Konsole angezeigt als auch in der _info.txt-Datei gespeichert.

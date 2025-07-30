@@ -1,0 +1,186 @@
+================================================================================
+CSV ANALYSE REPORT - 2025_07_12_17_29.csv
+Erstellt am: 29.07.2025 14:59:51
+================================================================================
+
+🔍 1. GRUNDLEGENDE INFORMATIONEN
+----------------------------------------
+📊 Shape: 9204 Zeilen × 25 Spalten
+💾 Dateigröße: 1263.8 KB
+🔢 Gesamt-Datenpunkte: 230,100
+
+📋 2. SPALTEN MIT DATENTYPEN
+----------------------------------------
+ 1. SecSinceMidnight-MS       → object       | Beispiele: 70242-615, 64152-291, 82110-708, 64084-475, 67009-724
+ 2. Temperature_DHT_C         → float64      | Beispiele: 25.3, 25.9, 26.6, 25.0, 25.4
+ 3. Humidity_RH               → float64      | Beispiele: 31.0, 32.0, 37.0, 34.0, 33.0
+ 4. Light_Level               → int64        | Beispiele: 454, 726, 743, 166, 609
+ 5. Light_Percent             → float64      | Beispiele: 20.4, 57.3, 21.9, 19.3, 24.0
+ 6. GPS_Lat                   → float64      | Beispiele: 49.3531, 49.3527, 49.3529, 49.3524, 49.3523
+ 7. GPS_Lon                   → float64      | Beispiele: 8.1651, 8.1647, 8.1646, 8.1649, 8.1648
+ 8. GPS_Alt                   → float64      | Beispiele: 92.1, 133.1, 127.6, 120.0, 154.7
+ 9. GPS_Speed                 → float64      | Beispiele: 5.0, 2.7, 0.9, 1.6, 0.1
+10. GPS_Course                → int64        | Beispiele: 116, 3, 9, 121, 278
+11. GPS_Sats                  → int64        | Beispiele: 8, 9, 4, 3, 0
+12. MQ2                       → int64        | Beispiele: 131, 146, 127, 154, 142
+13. MQ3                       → int64        | Beispiele: 131, 116, 135, 115, 102
+14. MQ4                       → int64        | Beispiele: 311, 276, 275, 294, 325
+15. MQ5                       → int64        | Beispiele: 236, 244, 265, 240, 281
+16. MQ6                       → int64        | Beispiele: 183, 195, 155, 164, 179
+17. MQ7                       → int64        | Beispiele: 237, 263, 262, 212, 207
+18. MQ8                       → int64        | Beispiele: 282, 270, 275, 250, 255
+19. MQ9                       → int64        | Beispiele: 259, 298, 315, 340, 344
+20. MQ135                     → int64        | Beispiele: 224, 169, 219, 148, 157
+21. Mic1                      → int64        | Beispiele: 6, 7, 8, 2, 4
+22. Mic2                      → int64        | Beispiele: 8, 4, 6, 3, 2
+23. Radiation_CPS             → int64        | Beispiele: 0
+24. DateTime                  → datetime64[ns] | Beispiele: 2025-07-13T00:13:01.00000..., 2025-07-12T21:57:37.00000..., 2025-07-12T21:53:06.00000..., 2025-07-13T00:26:58.00000..., 2025-07-12T22:14:21.00000...
+25. GPS_DateTime              → datetime64[ns] | Beispiele: 2025-07-12T19:25:28.00000..., 2025-07-12T20:47:57.00000..., 2025-07-12T21:06:54.00000..., 2025-07-12T20:00:10.00000..., 2025-07-12T19:06:55.00000...
+
+👀 3. ERSTE 5 ZEILEN (HEAD)
+----------------------------------------
+  SecSinceMidnight-MS  Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent  GPS_Lat  GPS_Lon  GPS_Alt  GPS_Speed  GPS_Course  GPS_Sats  MQ2  MQ3  MQ4  MQ5  MQ6  MQ7  MQ8  MQ9  MQ135  Mic1  Mic2  Radiation_CPS            DateTime        GPS_DateTime
+0           64024-498               26.6         31.0          158           15.5  49.3526   8.1645    142.9        2.4          20         4  153  148  310  271  191  254  272  342    247     5     5              0 2025-07-12 19:47:04 2025-07-12 17:47:05
+1           64026-476               26.6         31.0          159           15.5  49.3527   8.1645    140.0        1.4          20         4  154  148  309  272  191  254  270  343    244     4     4              0 2025-07-12 19:47:06 2025-07-12 17:47:07
+2           64028-475               26.6         31.0          159           15.5  49.3527   8.1645    139.6        1.4          20         4  156  151  312  275  193  255  275  345    250     5     5              0 2025-07-12 19:47:08 2025-07-12 17:47:09
+3           64030-475               26.6         31.0          159           15.4  49.3527   8.1645    139.6        1.4          20         4  153  150  311  272  192  254  272  344    249     5     4              0 2025-07-12 19:47:10 2025-07-12 17:47:11
+4           64032-475               26.6         31.0          159           15.4  49.3527   8.1645    139.6        1.4          20         4  152  150  311  274  193  255  272  346    249     5     6              0 2025-07-12 19:47:12 2025-07-12 17:47:13
+
+👁️ LETZTE 5 ZEILEN (TAIL)
+----------------------------------------
+     SecSinceMidnight-MS  Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent  GPS_Lat  GPS_Lon  GPS_Alt  GPS_Speed  GPS_Course  GPS_Sats  MQ2  MQ3  MQ4  MQ5  MQ6  MQ7  MQ8  MQ9  MQ135  Mic1  Mic2  Radiation_CPS            DateTime        GPS_DateTime
+9199           82700-660               24.7         36.0          767           75.0  49.3526   8.1646    153.7        0.5           0         7  147  138  322  282  197  264  283  344    220     4     4              0 2025-07-13 00:58:20 2025-07-12 22:58:20
+9200           82702-712               24.7         36.0          767           75.2  49.3526   8.1646    152.8        0.4           0         7  147  137  322  281  198  264  282  343    219     4     5              0 2025-07-13 00:58:22 2025-07-12 22:58:22
+9201           82704-790               24.7         36.0          781           76.2  49.3526   8.1646    152.6        0.3           0         6  148  139  322  282  198  265  281  343    221     4     4              0 2025-07-13 00:58:24 2025-07-12 22:58:24
+9202           82706-829               24.7         36.0          767           75.1  49.3526   8.1646    152.4        0.6           0         6  148  139  323  281  197  264  280  344    220     3     4              0 2025-07-13 00:58:26 2025-07-12 22:58:26
+9203           82708-878               24.7         36.0          764           74.9  49.3527   8.1646    152.3        0.5           0         7  148  138  321  282  202  264  281  344    220     4     5              0 2025-07-13 00:58:28 2025-07-12 22:58:28
+
+📊 4. DATAFRAME INFO
+----------------------------------------
+RangeIndex: 9204 entries, 0 to 9203
+Data columns (total 25 columns):
+  0  SecSinceMidnight-MS    9204 non-null  object
+  1  Temperature_DHT_C      9204 non-null  float64
+  2  Humidity_RH            9204 non-null  float64
+  3  Light_Level            9204 non-null  int64
+  4  Light_Percent          9204 non-null  float64
+  5  GPS_Lat                9204 non-null  float64
+  6  GPS_Lon                9204 non-null  float64
+  7  GPS_Alt                9204 non-null  float64
+  8  GPS_Speed              9204 non-null  float64
+  9  GPS_Course             9204 non-null  int64
+ 10  GPS_Sats               9204 non-null  int64
+ 11  MQ2                    9204 non-null  int64
+ 12  MQ3                    9204 non-null  int64
+ 13  MQ4                    9204 non-null  int64
+ 14  MQ5                    9204 non-null  int64
+ 15  MQ6                    9204 non-null  int64
+ 16  MQ7                    9204 non-null  int64
+ 17  MQ8                    9204 non-null  int64
+ 18  MQ9                    9204 non-null  int64
+ 19  MQ135                  9204 non-null  int64
+ 20  Mic1                   9204 non-null  int64
+ 21  Mic2                   9204 non-null  int64
+ 22  Radiation_CPS          9204 non-null  int64
+ 23  DateTime               9204 non-null  datetime64[ns]
+ 24  GPS_DateTime           9204 non-null  datetime64[ns]
+Memory usage: 2247.2 KB
+
+❌ 5. NULL VALUES (FEHLENDE WERTE)
+----------------------------------------
+✅ Keine fehlenden Werte gefunden!
+
+🔢 6. NUMERISCHE STATISTIKEN
+----------------------------------------
+       Temperature_DHT_C  Humidity_RH  Light_Level  Light_Percent      GPS_Lat      GPS_Lon      GPS_Alt    GPS_Speed   GPS_Course     GPS_Sats          MQ2          MQ3          MQ4          MQ5          MQ6          MQ7          MQ8          MQ9        MQ135         Mic1         Mic2  Radiation_CPS
+count        9204.000000  9204.000000  9204.000000    9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000  9204.000000         9204.0
+mean           25.552043    34.712842   555.877879      54.337994    49.352669     8.164562   135.278759     0.673207    69.716428     6.783681   125.587897   122.681334   285.849848   249.382877   171.869622   222.108214   247.651890   293.515319   188.978922     4.657540     4.461864            0.0
+std             0.620877     1.242867   241.686379      23.628868     0.000068     0.000093    10.008460     0.762506   112.101188     0.933652    13.583399    15.880087    13.181275    12.265307    10.197120    17.993057    12.484421    25.060520    29.209886     0.911406     0.911945            0.0
+min            24.300000    31.000000   156.000000      15.300000    49.352300     8.164200    88.500000     0.000000     0.000000     0.000000   105.000000    95.000000   266.000000   229.000000   155.000000   194.000000   230.000000   255.000000   147.000000     2.000000     2.000000            0.0
+25%            25.000000    34.000000   260.000000      25.400000    49.352600     8.164500   131.100000     0.200000     0.000000     6.000000   114.000000   108.000000   275.000000   240.000000   164.000000   207.000000   238.000000   272.000000   163.000000     4.000000     4.000000            0.0
+50%            25.300000    35.000000   708.000000      69.300000    49.352700     8.164600   136.100000     0.400000     0.000000     7.000000   121.000000   119.000000   283.000000   246.000000   169.000000   215.000000   245.000000   284.000000   180.000000     5.000000     4.000000            0.0
+75%            26.200000    36.000000   751.000000      73.400000    49.352700     8.164600   140.200000     0.900000    92.000000     7.000000   134.000000   136.000000   291.000000   254.000000   176.000000   233.000000   252.000000   309.000000   209.000000     5.000000     5.000000            0.0
+max            26.600000    37.000000   793.000000      77.500000    49.353100     8.165100   177.500000     9.200000   358.000000     9.000000   158.000000   156.000000   327.000000   287.000000   203.000000   269.000000   286.000000   351.000000   254.000000     9.000000     9.000000            0.0
+
+📝 7. KATEGORISCHE SPALTEN ANALYSE
+----------------------------------------
+SecSinceMidnight-MS      : 9204 eindeutige Werte, häufigster: '64024-498'
+
+⭐ 8. ZUSÄTZLICHE INFORMATIONEN
+----------------------------------------
+🔁 Duplikate: 0
+📭 Komplett leere Zeilen: 0
+⚠️  Spalten mit nur einem Wert: Radiation_CPS
+
+🔗 9. KORRELATIONEN (NUMERISCHE SPALTEN)
+----------------------------------------
+🔥 Hohe Korrelationen (|r| > 0.7):
+  Temperature_DHT_C ↔ Humidity_RH: -0.740
+  Temperature_DHT_C ↔ Light_Level: -0.889
+  Temperature_DHT_C ↔ Light_Percent: -0.889
+  Temperature_DHT_C ↔ MQ2: 0.775
+  Temperature_DHT_C ↔ MQ3: 0.881
+  Temperature_DHT_C ↔ MQ7: 0.704
+  Temperature_DHT_C ↔ MQ9: 0.744
+  Temperature_DHT_C ↔ MQ135: 0.842
+  Humidity_RH ↔ Light_Level: 0.744
+  Humidity_RH ↔ Light_Percent: 0.744
+  Humidity_RH ↔ MQ3: -0.728
+  Humidity_RH ↔ MQ135: -0.738
+  Light_Level ↔ Light_Percent: 1.000
+  Light_Level ↔ MQ2: -0.823
+  Light_Level ↔ MQ3: -0.878
+  Light_Level ↔ MQ7: -0.767
+  Light_Level ↔ MQ9: -0.799
+  Light_Level ↔ MQ135: -0.876
+  Light_Percent ↔ MQ2: -0.823
+  Light_Percent ↔ MQ3: -0.878
+  Light_Percent ↔ MQ7: -0.767
+  Light_Percent ↔ MQ9: -0.799
+  Light_Percent ↔ MQ135: -0.876
+  MQ2 ↔ MQ3: 0.962
+  MQ2 ↔ MQ4: 0.921
+  MQ2 ↔ MQ5: 0.928
+  MQ2 ↔ MQ6: 0.943
+  MQ2 ↔ MQ7: 0.984
+  MQ2 ↔ MQ8: 0.925
+  MQ2 ↔ MQ9: 0.993
+  MQ2 ↔ MQ135: 0.985
+  MQ3 ↔ MQ4: 0.813
+  MQ3 ↔ MQ5: 0.822
+  MQ3 ↔ MQ6: 0.845
+  MQ3 ↔ MQ7: 0.929
+  MQ3 ↔ MQ8: 0.819
+  MQ3 ↔ MQ9: 0.952
+  MQ3 ↔ MQ135: 0.987
+  MQ4 ↔ MQ5: 0.994
+  MQ4 ↔ MQ6: 0.989
+  MQ4 ↔ MQ7: 0.961
+  MQ4 ↔ MQ8: 0.991
+  MQ4 ↔ MQ9: 0.944
+  MQ4 ↔ MQ135: 0.857
+  MQ5 ↔ MQ6: 0.990
+  MQ5 ↔ MQ7: 0.966
+  MQ5 ↔ MQ8: 0.992
+  MQ5 ↔ MQ9: 0.950
+  MQ5 ↔ MQ135: 0.868
+  MQ6 ↔ MQ7: 0.975
+  MQ6 ↔ MQ8: 0.990
+  MQ6 ↔ MQ9: 0.962
+  MQ6 ↔ MQ135: 0.890
+  MQ7 ↔ MQ8: 0.965
+  MQ7 ↔ MQ9: 0.995
+  MQ7 ↔ MQ135: 0.955
+  MQ8 ↔ MQ9: 0.949
+  MQ8 ↔ MQ135: 0.866
+  MQ9 ↔ MQ135: 0.975
+
+🔬 10. ERWEITERTE SENSOR-ANALYSEN
+----------------------------------------
+⚠️ Erweiterte Analyse fehlgeschlagen: list index out of range
+
+📈 11. ZUSAMMENFASSUNG
+----------------------------------------
+✅ Datenqualität: 100.0% vollständig
+📊 Datentypen: 22 numerisch, 1 kategorisch
+🔍 Einzigartigkeit: 100.0% eindeutige Zeilen
