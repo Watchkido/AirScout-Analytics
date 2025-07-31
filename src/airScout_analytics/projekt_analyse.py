@@ -378,7 +378,7 @@ def hauptfunktion(startverzeichnis: str) -> None:
     funktionen_dict = finde_und_liste_alle_funktionen(startverzeichnis)
 
     # Speichern
-    with open("import_analyse_ergebnis.txt", "w", encoding="utf-8") as f:
+    with open("Software_analyse_ergebnis_1.txt", "w", encoding="utf-8") as f:
         f.write("📄 Python-Dateien:\n")
         for modul, Pfad in alle_module.items():
             f.write(f"{modul} → {Pfad}\n")
@@ -397,7 +397,7 @@ def hauptfunktion(startverzeichnis: str) -> None:
                 f.write(f"  - {name}()\n")
 
     flake8_pruefen(py_dateien)
-    print("\n✅ Analyse abgeschlossen. Ergebnisse gespeichert in 'import_analyse_ergebnis.txt'")# 🏁 Ausführung
+    print("\n✅ Analyse abgeschlossen. Ergebnisse gespeichert in 'Software_analyse_ergebnis_1.txt'")# 🏁 Ausführung
 # -------------------------------------------
 
 if __name__ == "__main__":
