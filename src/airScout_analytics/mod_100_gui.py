@@ -27,7 +27,7 @@ TAB1_FILES = [
     os.path.join("..", "..", "data", "bearbeitet0", "*.csv"),
     os.path.join("..", "..", "data", "bearbeitet1", "*.csv"),
     os.path.join("..", "..", "data", "bearbeitet2", "*.csv"), 
-    os.path.join("..", "..", "data", "bearbeitet3", "*.csv"),
+    os.path.join("..", "..", "data", "bearbeitet2", "*.csv"),
     os.path.join("..", "..", "data", "ergebnisse", f"{filename_ohne_ext}", f"korrelationsmatrix_{filename_ohne_ext}.png"),
     os.path.join("..", "..", "data", "ergebnisse", f"{filename_ohne_ext}", f"{filename_ohne_ext}_bild1.png"),
     os.path.join("..", "..", "data", "ergebnisse", f"{filename_ohne_ext}", f"{filename_ohne_ext}_Humidity_RH.png"),

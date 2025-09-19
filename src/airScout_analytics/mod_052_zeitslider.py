@@ -211,14 +211,14 @@ def main_plotting(filename_ohne_ext=None, df=None):
     """
     Hauptfunktion für den Pipeline-Aufruf. Lädt DataFrame (falls nötig) und erstellt alle Plots.
     """
-    # Immer die erste CSV aus 'data/bearbeitet3' verwenden
+    # Immer die erste CSV aus 'data/bearbeitet2' verwenden
     from airScout_analytics import context
-    bearbeitet3_ordner = os.path.join("data", "bearbeitet3")
-    suchmuster = os.path.join(bearbeitet3_ordner, "*.csv")
+    bearbeitet2_ordner = os.path.join("data", "bearbeitet2")
+    suchmuster = os.path.join(bearbeitet2_ordner, "*.csv")
     treffer = glob.glob(suchmuster)
     if not treffer:
         raise FileNotFoundError(
-            f"Keine CSV-Datei gefunden im Ordner: {bearbeitet3_ordner}")
+            f"Keine CSV-Datei gefunden im Ordner: {bearbeitet2_ordner}")
     pfad = treffer[0]
     # Ordnername und Plots werden aus context.filename_ohne_ext gebildet
     df = pd.read_csv(pfad)

@@ -30,7 +30,7 @@ mod_052_zeitslider → e:\dev\projekt_python_venv\airscout-analytics\src\airScou
 mod_053_korrel_und_TOP_10 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
 mod_080_text_generieren → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
 mod_100_gui → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
-projekt_analyse → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
+projekt_analyse → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projekt_analyse.py
 csv_analyzer_04 → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_analyzer_04.py
 gps2street → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py
 logging_config → e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
@@ -64,19 +64,18 @@ config verwendet in:
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projekt_analyse.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
-  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py
+mod_000_pipeline verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
 context verwendet in:
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_042_glaetten_der_sensorwerte.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
-mod_000_pipeline verwendet in:
-  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\main.py
-mod_020_csv_analyzer verwendet in:
-  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
 mod_010_laden_reinigen verwendet in:
+  └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
+mod_020_csv_analyzer verwendet in:
   └── e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_000_pipeline.py
 main verwendet in:
   └── e:\dev\projekt_python_venv\airscout-analytics\tests\test_00_main.py
@@ -107,7 +106,7 @@ main verwendet in:
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_053_korrel_und_TOP_10.py
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_080_text_generieren.py
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\mod_100_gui.py
-❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py
+❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\projekt_analyse.py
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_analyzer_04.py
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py
 ❌ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\logging_config.py
@@ -292,20 +291,6 @@ e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\csv_a
   - custom_fmt()
 e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\gps2street.py:
   - reverse_geocode_gpsdatei()
-e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse.py:
-  - finde_python_dateien()
-  - print_verwendete_module()
-  - schreibe_python_dateien_baum_alle()
-  - schreibe_python_dateien_baum()
-  - extrahiere_imports()
-  - schreibe_kompletten_verzeichnisbaum()
-  - analysiere_imports()
-  - flake8_pruefen()
-  - hauptfunktion()
-  - schreibe_baum()
-  - schreibe_baum()
-  - schreibe_baum()
-  - print_baum()
 e:\dev\projekt_python_venv\airscout-analytics\src\airScout_analytics\utils\projekt_analyse_optimiert.py:
   - sammle_python_dateien()
   - extrahiere_alle_imports()

@@ -31,13 +31,13 @@ def main() -> None:
     :raises ValueError: Wenn context.filename_ohne_ext nicht gesetzt ist.
     :raises FileNotFoundError: Wenn keine passende CSV-Datei gefunden wird.
     """
-    # Immer die erste CSV aus 'data/bearbeitet3' verwenden
-    bearbeitet3_ordner = os.path.join("data", "bearbeitet3")
-    suchmuster = os.path.join(bearbeitet3_ordner, "*.csv")
+    # Immer die erste CSV aus 'data/bearbeitet2' verwenden
+    bearbeitet2_ordner = os.path.join("data", "bearbeitet2")
+    suchmuster = os.path.join(bearbeitet2_ordner, "*.csv")
     treffer = glob.glob(suchmuster)
     if not treffer:
         raise FileNotFoundError(
-            f"Keine CSV-Datei gefunden im Ordner: {bearbeitet3_ordner}")
+            f"Keine CSV-Datei gefunden im Ordner: {bearbeitet2_ordner}")
     pfad = treffer[0]
     # Ordnername und Plots werden aus context.filename_ohne_ext gebildet
     df = pd.read_csv(pfad)

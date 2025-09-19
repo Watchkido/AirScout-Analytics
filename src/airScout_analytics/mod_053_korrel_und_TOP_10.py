@@ -17,8 +17,8 @@ warnings.filterwarnings("ignore", category=Warning)
 from context import filename_ohne_ext
 
 def main():
-    # === Automatische Auswahl der ersten CSV aus bearbeitet3 ===
-    datenordner = os.path.join("data", "bearbeitet3")
+    # === Automatische Auswahl der ersten CSV aus bearbeitet2 ===
+    datenordner = os.path.join("data", "bearbeitet2")
     csv_dateien = glob.glob(os.path.join(datenordner, "*.csv"))
     if not csv_dateien:
         print(f"Keine CSV-Dateien in {datenordner} gefunden.")
