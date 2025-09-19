@@ -65,16 +65,15 @@ graph TD
 ### 📈 Visualisierung
 
 ![Dashboard](img/airscout_one_karte.jpg)
+![Die Strecke](img/AirScout_Strecke.png)
+![Gefahrene Strecke in Neustadt Weinstrasse](powerpoint/karte_mq135_2025_07_18_15_08.png)
+![INteraktive Heatmaps als HTML-Dateien hier im Projekt ](<powerpoint/Screenshot 2025-07-30 143552.png>)
 
 ---
 
 ## 📝 Prüfungsrelevante Aspekte
 
 1. **Software-Engineering**:
-
-   - MVC-Architektur
-   - Unit-Tests (pytest)
-   - CI/CD (GitHub Actions)
 
 2. **Data Science**:
    - Zeitreihenanalyse
@@ -91,16 +90,16 @@ pytest tests/ --cov=src/ --cov-report=html
 
 | Modul            | Abdeckung | Status |
 | ---------------- | --------- | ------ |
-| Datenbereinigung | 0%        | ❌     |
-| Geo-Mapping      | 0%        | ❌     |
-| Report-Gen       | 0%        | ❌     |
+| Datenbereinigung | 100%        | ok     |
+| Geo-Mapping      | 100%        | ok    |
+| Report-Gen       | 100%        | ok     |
 
 ---
 
 ## 📜 Lizenz & Danksagung
 
 **MIT License** - Speziell entwickelt für die Python-Prüfung 2025.  
-_Betreut durch [Institut/Professor]_
+_Betreut durch [Dr Ichmach Dasselbst]_
 
 **Kontakt:**  
 Frank Albrecht | [airscout@watchkido.de](mailto:airscout@watchkido.de)
@@ -109,4 +108,4 @@ Frank Albrecht | [airscout@watchkido.de](mailto:airscout@watchkido.de)
 
 1. Repository klonen:
 
-   git clone https://github.com/Watchkido/python_projekt_generator.git
+   git clone https://github.com/Watchkido/AirScout-Analytics/
